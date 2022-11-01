@@ -1,6 +1,8 @@
 const btn = document.querySelector('#btn')
 const colorName = document.querySelector('#colorName')
 const bodyStyle = document.body.style
+    // const typeOfGeneration = document.querySelector('input[name="typeGeneration"]:checked').value;
+
 
 const randomArrayElem = arrayName => arrayName[Math.floor(Math.random() * arrayName.length)]
 
@@ -20,9 +22,34 @@ const randomNameColor = () => randomArrayElem(colorsNames)
 
 
 btn.addEventListener('click', () => {
-    const randomColors = [randomNameColor(), randomHexValues(), randomColorRgba()];
-    const randomColor = randomArrayElem(randomColors)
+    let randomColor = ''
+
+    if (!document.querySelector('input[name="typeGeneration"]:checked')) {
+        const randomColors = [randomNameColor(), randomHexValues(), randomColorRgba()];
+        randomColor = randomArrayElem(randomColors)
+    } else {
+        const typeOfGeneration = document.querySelector('input[name="typeGeneration"]:checked').value;
+
+        if (typeOfGeneration === 'Random') {
+            const randomColors = [randomNameColor(), randomHexValues(), randomColorRgba()];
+            randomColor = randomArrayElem(randomColors)
+        }
+
+        if (typeOfGeneration === 'Hex') {
+            randomColor = randomHexValues()
+        }
+        if (typeOfGeneration === 'Rgba') {
+            randomColor = randomColorRgba()
+        }
+        if (typeOfGeneration === 'Names') {
+            randomColor = randomNameColor()
+        }
+    }
+
     bodyStyle.backgroundColor = randomColor
     colorName.textContent = randomColor
+    colorName.style.color = randomColor
+
+
 
 })
