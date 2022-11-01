@@ -1,0 +1,31 @@
+@import reset.sass
+
+@mixin design-btn-p
+  padding: 10px 20px
+  border-radius: 5px
+  color: white
+  background-color: #1d1d1d
+  border: none
+  letter-spacing: 0.4rem
+  
+body
+  width: 100vw
+  height: 100vh
+  display: flex
+  flex-direction: column
+  align-items: center
+  justify-content: center
+  gap: 20px
+
+
+p
+  @include design-btn-p
+  font-size: 30px
+  font-weight: 700
+ 
+
+button
+  @include design-btn-p
+  text-transform: uppercase
+  
+
