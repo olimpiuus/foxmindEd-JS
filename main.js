@@ -1,55 +1,62 @@
-const btn = document.querySelector('#btn')
-const colorName = document.querySelector('#colorName')
-const bodyStyle = document.body.style
-    // const typeOfGeneration = document.querySelector('input[name="typeGeneration"]:checked').value;
+const categoriesBtnsContainer = document.querySelector('.categories-list')
+const menuContainer = document.querySelector('.dishes-list')
 
 
-const randomArrayElem = arrayName => arrayName[Math.floor(Math.random() * arrayName.length)]
+const renderCategorieBtn = (name) => {
+    const li = document.createElement('li')
+    const btn = document.createElement('button')
 
-// RGBA
-const randomValue0to255 = () => Math.round(Math.random() * 255)
-const randomDecimal0to1 = () => Math.round(Math.random() * 10) / 10
-const randomColorRgba = () => `rgba(${randomValue0to255()},${randomValue0to255()},${randomValue0to255()},${randomDecimal0to1()})`
+    li.classList.add('categorie-item')
+    categoriesBtnsContainer.append(li)
 
-// HEX
+    btn.textContent = name
+    btn.classList.add('catogorie-btn')
+    btn.dataset.categorie = name
 
-const randomHexValues = () => '#' + Math.floor(Math.random() * (0xffffff + 1)).toString(16).padStart(6, '0')
+    li.append(btn)
+    console.log(`name:${name}`)
+}
 
-// NAMES
+const renderDish = ({ name, price, description, img }) => {
+    const li = document.createElement('li')
+    li.innerHTML = `
+      <div class="dish__image-wrapper"><img class="dish__img" src="${img}" alt="${name}"></div>
+      <div class="dish__info">
+          <div class="dish__title-and-price">
+              <h3 class="dish__title">${name}</h3>
+              <div class="dish__price">${price}</div>
+          </div>
+          <p class="dish__description">${description}</p>
+      </div>`
+    li.classList.add('dish')
+    menuContainer.append(li)
+}
 
-const colorsNames = ["IndianRed", "LightCoral", "Salmon", "DarkSalmon", "LightSalmon", "Crimson", "Red", "FireBrick", "DarkRed", "Pink", "LightPink", "HotPink", "DeepPink", "MediumVioletRed", "PaleVioletRed", "LightSalmon", "Coral", "Tomato", "OrangeRed", "DarkOrange", "Orange", "Gold", "Yellow", "LightYellow", "LemonChiffon", "LightGoldenrodYellow", "PapayaWhip", "Moccasin", "PeachPuff", "PaleGoldenrod", "Khaki", "DarkKhaki", "Lavender", "Thistle", "Plum", "Violet", "Orchid", "Fuchsia", "Magenta", "MediumOrchid", "MediumPurple", "RebeccaPurple", "BlueViolet", "DarkViolet", "DarkOrchid", "DarkMagenta", "Purple", "Indigo", "SlateBlue", "DarkSlateBlue", "MediumSlateBlue", "GreenYellow", "Chartreuse", "LawnGreen", "Lime", "LimeGreen", "PaleGreen", "LightGreen", "MediumSpringGreen", "SpringGreen", "MediumSeaGreen", "SeaGreen", "ForestGreen", "Green", "DarkGreen", "YellowGreen", "OliveDrab", "Olive", "DarkOliveGreen", "MediumAquamarine", "DarkSeaGreen", "LightSeaGreen", "DarkCyan", "Teal", "Aqua", "Cyan", "LightCyan", "PaleTurquoise", "Aquamarine", "Turquoise", "MediumTurquoise", "DarkTurquoise", "CadetBlue", "SteelBlue", "LightSteelBlue", "PowderBlue", "LightBlue", "SkyBlue", "LightSkyBlue", "DeepSkyBlue", "DodgerBlue", "CornflowerBlue", "MediumSlateBlue", "RoyalBlue", "Blue", "MediumBlue", "DarkBlue", "Navy", "MidnightBlue", "Cornsilk", "BlanchedAlmond", "Bisque", "NavajoWhite", "Wheat", "BurlyWood", "Tan", "RosyBrown", "SandyBrown", "Goldenrod", "DarkGoldenrod", "Peru", "Chocolate", "SaddleBrown", "Sienna", "Brown", "Maroon", "White", "Snow", "HoneyDew", "MintCream", "Azure", "AliceBlue", "GhostWhite", "WhiteSmoke", "SeaShell", "Beige", "OldLace", "FloralWhite", "Ivory", "AntiqueWhite", "Linen", "LavenderBlush", "MistyRose", "Gainsboro", "LightGray", "Silver", "DarkGray", "Gray", "DimGray", "LightSlateGray", "SlateGray", "DarkSlateGray", "Black"];
-const randomNameColor = () => randomArrayElem(colorsNames)
+const clearMenu = () => {
+    menuContainer.innerHTML = ''
+}
 
+fetch('./menu.json')
+    .then(response => response.json())
+    .then(data => {
+        const categories = Object.keys(data)
+        categories.forEach((categorie) => renderCategorieBtn(categorie))
 
-btn.addEventListener('click', () => {
-    let randomColor = ''
-
-    if (!document.querySelector('input[name="typeGeneration"]:checked')) {
-        const randomColors = [randomNameColor(), randomHexValues(), randomColorRgba()];
-        randomColor = randomArrayElem(randomColors)
-    } else {
-        const typeOfGeneration = document.querySelector('input[name="typeGeneration"]:checked').value;
-
-        if (typeOfGeneration === 'Random') {
-            const randomColors = [randomNameColor(), randomHexValues(), randomColorRgba()];
-            randomColor = randomArrayElem(randomColors)
+        const menu = Object.values(data)
+        const renderWholeMenu = () => {
+            menu.forEach(categorieDishes => {
+                categorieDishes.forEach((dish) => {
+                    renderDish(dish)
+                })
+            })
         }
+        renderWholeMenu()
 
-        if (typeOfGeneration === 'Hex') {
-            randomColor = randomHexValues()
-        }
-        if (typeOfGeneration === 'Rgba') {
-            randomColor = randomColorRgba()
-        }
-        if (typeOfGeneration === 'Names') {
-            randomColor = randomNameColor()
-        }
-    }
-
-    bodyStyle.backgroundColor = randomColor
-    colorName.textContent = randomColor
-    colorName.style.color = randomColor
-
-
-
-})
+        categoriesBtnsContainer.addEventListener('click', (e) => {
+            const pickedCategorie = event.target.dataset.categorie
+            if (!pickedCategorie) { return }
+            clearMenu()
+            if (pickedCategorie === 'All') { renderWholeMenu() }
+            data[pickedCategorie].forEach(dish => renderDish(dish))
+        })
+    })
