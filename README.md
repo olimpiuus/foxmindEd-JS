@@ -1,12 +1,9 @@
 # JS
 
-Task 2.1
+Task 2.2
 
-You can use typescript in this course and other additional packages, contact the mentor on the use.
- 
-Use JS and CSS when you click on the button for the random change of the background color of the page as in the example
+Create a restaurant menu page. Some of the content can be modified such as the restaurant type and the food list as in the example
 
 Example
-
-Library link- https://github.com/lukehoban/es6features
+https://drive.google.com/file/d/1mF_rDBDtN9CzFWM1pY3s3H-4ozUQnC-B/view
 
