@@ -1,9 +1,15 @@
 # JS
 
-Task 2.2
+Task 2.3
 
-Create a restaurant menu page. Some of the content can be modified such as the restaurant type and the food list as in the example
+Sort an array in different ways. Determine the  fastest and the most optimal working way -
+ 
+Bubble Sort
+Sort by choice
+Insertion Sort
+Quicksort
+Merge Sort
 
-Example
-https://drive.google.com/file/d/1mF_rDBDtN9CzFWM1pY3s3H-4ozUQnC-B/view
+Library link- https://github.com/trekhleb/javascript-algorithms/blob/master/README.ru-RU.md
+
 
