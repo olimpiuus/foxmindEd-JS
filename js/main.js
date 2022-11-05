@@ -14,7 +14,6 @@ const renderCategorieBtn = (name) => {
     btn.dataset.categorie = name
 
     li.append(btn)
-    console.log(`name:${name}`)
 }
 
 const renderDish = ({ name, price, description, img }) => {
@@ -36,13 +35,23 @@ const clearMenu = () => {
     menuContainer.innerHTML = ''
 }
 
-fetch('./menu.json')
+fetch('./data/menu.json')
     .then(response => response.json())
     .then(data => {
-        const categories = Object.keys(data)
+        // const [categories, menu] = Object.entries(data)
+        // const menu = Object.values(data)
+        // const categories = Object.keys(data)
+
+        const categories = []
+        const menu = []
+
+        Object.entries(data).forEach((elem) => {
+            categories.push(elem[0])
+            menu.push(elem[1])
+        })
         categories.forEach((categorie) => renderCategorieBtn(categorie))
 
-        const menu = Object.values(data)
+
         const renderWholeMenu = () => {
             menu.forEach(categorieDishes => {
                 categorieDishes.forEach((dish) => {
