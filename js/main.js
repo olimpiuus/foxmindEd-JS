@@ -1,17 +1,25 @@
-const unsortedArray = [2, 8, 1, 3, 6, 7, 5, 4, 10, 11, 14]
+// const unsortedArray = [2, 8, 1, 3, 6, 7, 5, 4, 10, 11, 14, 2, 8, 1, 3, 6, 7, 5, 4, 10, 11, 14, 2, 8, 1, 3, 6, 7, 5, 4, 10, 11, 14, 2, 8, 1, 3, 6, 7, 5, 4, 10, 11, 14, 2, 8, 1, 3, 6, 7, 5, 4, 10, 11, 14]
 
+const getRandomArray = (length) => {
+    let arr = []
+    for (let i = 0; i <= length; i++) {
+        arr.push(Math.round(Math.random() * length))
+    }
+    return arr
+}
+const unsortedArray = getRandomArray(1000)
 
 // Buble sort
 
 const bubleSort = (originalArray) => {
+    const start = Date.now();
+
     const array = [...originalArray]
     let changes = 0
-    let iteration = 0
 
     const sort = () => {
         let countBefore = changes
         array.forEach((elem, index, array) => {
-            iteration++
             const nextElem = array[index + 1]
             if (elem < nextElem) {
                 array.splice(index, 2, nextElem, elem)
@@ -22,7 +30,9 @@ const bubleSort = (originalArray) => {
         if (countBefore !== changes) { sort() }
     }
     sort()
-    return { array, iteration }
+    const end = Date.now();
+    console.log(`Execution time 'bubleSort ': ${end - start} ms`);
+    return array
 }
 console.log(bubleSort(unsortedArray));
 
@@ -30,6 +40,7 @@ console.log(bubleSort(unsortedArray));
 // Sort by choice (selection sort)
 
 const choiceSort = (originalArray) => {
+    const start = Date.now();
 
     const replaceTwoArrayElemsByIndex = (arr, index1, index2) => {
         let buffer = arr[index1]
@@ -38,25 +49,26 @@ const choiceSort = (originalArray) => {
     }
 
     const array = [...originalArray]
-    let iteration = 0
 
     for (let i = array.length - 1; i >= 0; i--) {
         for (let j = i - 1; j >= 0; j--) {
-            iteration++
             if (array[i] > array[j]) {
                 replaceTwoArrayElemsByIndex(array, i, j)
             }
         }
     }
-    return { array, iteration }
+    const end = Date.now();
+    console.log(`Execution time 'choiceSort ': ${end - start} ms`);
+    return array
 }
 
 console.log(choiceSort(unsortedArray));
 
 // Insertion Sort
 
-
 const insertionSort = (originalArray) => {
+    const start = Date.now();
+
     const array = [...originalArray]
 
     for (let i = 1; i < array.length; i++) {
@@ -69,6 +81,8 @@ const insertionSort = (originalArray) => {
             }
         }
     }
+    const end = Date.now();
+    console.log(`Execution time 'insertionSort ': ${end - start} ms`);
     return array
 }
 
@@ -78,19 +92,27 @@ console.log(insertionSort(unsortedArray))
 
 const quickSort = (originalArray) => {
     const array = [...originalArray]
-    if (array.length <= 1) { return array }
+    const start = Date.now();
+    const sort = (array) => {
 
-    const leftArray = []
-    const rightArray = []
+        if (array.length <= 1) { return array }
 
-    const pivot = parseInt(array.splice([Math.floor(array.length / 2)], 1).toString())
+        const leftArray = []
+        const rightArray = []
 
-    array.forEach(elem => elem <= pivot ? leftArray.push(elem) : rightArray.push(elem))
+        const pivot = parseInt(array.splice([Math.floor(array.length / 2)], 1).toString())
 
-    const sortedLeft = quickSort(leftArray)
-    const sortedRight = quickSort(rightArray)
+        array.forEach(elem => elem <= pivot ? leftArray.push(elem) : rightArray.push(elem))
 
-    return sortedLeft.concat(pivot, sortedRight);
+        const sortedLeft = sort(leftArray)
+        const sortedRight = sort(rightArray)
+
+        return sortedLeft.concat(pivot, sortedRight);
+    }
+    const result = sort(array)
+    const end = Date.now();
+    console.log(`Execution time 'quickSort ': ${end - start} ms`);
+    return result
 }
 
 console.log(quickSort(unsortedArray))
@@ -98,6 +120,7 @@ console.log(quickSort(unsortedArray))
 // Merge Sort
 
 const mergeSort = (originalArray) => {
+    const start = Date.now();
 
     const array = [...originalArray]
 
@@ -124,7 +147,10 @@ const mergeSort = (originalArray) => {
         const left = array.splice(0, middleIndex)
         return sort(merge(left), merge(array))
     }
-    return merge(array)
+    const result = merge(array)
+    const end = Date.now();
+    console.log(`Execution time 'mergeSort ': ${end - start} ms`);
+    return result
 
 }
 console.log(mergeSort(unsortedArray))
