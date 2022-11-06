@@ -1,11 +1,4 @@
 const unsortedArray = [2, 8, 1, 3, 6, 7, 5, 4, 10, 11, 14]
-const unsortedArray1 = [2, 8, 1, 3, 6, 7, 5, 4, 10, 11, 14]
-
-const replaceTwoArrayElemsByIndex = (arr, index1, index2) => {
-    let buffer = arr[index1]
-    arr[index1] = arr[index2]
-    arr[index2] = buffer
-}
 
 
 // Buble sort
@@ -37,6 +30,13 @@ console.log(bubleSort(unsortedArray));
 // Sort by choice (selection sort)
 
 const choiceSort = (originalArray) => {
+
+    const replaceTwoArrayElemsByIndex = (arr, index1, index2) => {
+        let buffer = arr[index1]
+        arr[index1] = arr[index2]
+        arr[index2] = buffer
+    }
+
     const array = [...originalArray]
     let iteration = 0
 
@@ -51,7 +51,7 @@ const choiceSort = (originalArray) => {
     return { array, iteration }
 }
 
-// console.log(choiceSort(unsortedArray1));
+console.log(choiceSort(unsortedArray));
 
 // Insertion Sort
 
@@ -72,7 +72,7 @@ const insertionSort = (originalArray) => {
     return array
 }
 
-console.log(insertionSort(unsortedArray1))
+console.log(insertionSort(unsortedArray))
 
 // Quicksort
 
@@ -91,6 +91,40 @@ const quickSort = (originalArray) => {
     const sortedRight = quickSort(rightArray)
 
     return sortedLeft.concat(pivot, sortedRight);
+}
+
+console.log(quickSort(unsortedArray))
+
+// Merge Sort
+
+const mergeSort = (originalArray) => {
+
+    const array = [...originalArray]
+
+    const sort = (left, right) => {
+        let arr = []
+
+        while (left.length && right.length) {
+
+            if (left[0] < right[0]) {
+                arr.push(left.shift())
+            } else {
+                arr.push(right.shift())
+            }
+        }
+        return [...arr, ...left, ...right]
+    }
+
+    const merge = (array) => {
+        const middleIndex = Math.floor(array.length / 2)
+
+        if (array.length < 2) {
+            return array
+        }
+        const left = array.splice(0, middleIndex)
+        return sort(merge(left), merge(array))
+    }
+    return merge(array)
 
 }
-console.log(quickSort(unsortedArray1))
+console.log(mergeSort(unsortedArray))
