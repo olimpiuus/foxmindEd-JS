@@ -1,5 +1,3 @@
-// const unsortedArray = [2, 8, 1, 3, 6, 7, 5, 4, 10, 11, 14, 2, 8, 1, 3, 6, 7, 5, 4, 10, 11, 14, 2, 8, 1, 3, 6, 7, 5, 4, 10, 11, 14, 2, 8, 1, 3, 6, 7, 5, 4, 10, 11, 14, 2, 8, 1, 3, 6, 7, 5, 4, 10, 11, 14]
-
 const getRandomArray = (length) => {
     let arr = []
     for (let i = 0; i <= length; i++) {
@@ -34,7 +32,9 @@ const bubleSort = (originalArray) => {
     console.log(`Execution time 'bubleSort ': ${end - start} ms`);
     return array
 }
+console.time()
 console.log(bubleSort(unsortedArray));
+console.timeEnd()
 
 
 // Sort by choice (selection sort)
@@ -61,8 +61,9 @@ const choiceSort = (originalArray) => {
     console.log(`Execution time 'choiceSort ': ${end - start} ms`);
     return array
 }
-
+console.time()
 console.log(choiceSort(unsortedArray));
+console.timeEnd()
 
 // Insertion Sort
 
@@ -85,14 +86,16 @@ const insertionSort = (originalArray) => {
     console.log(`Execution time 'insertionSort ': ${end - start} ms`);
     return array
 }
-
+console.time()
 console.log(insertionSort(unsortedArray))
+console.timeEnd()
 
 // Quicksort
 
 const quickSort = (originalArray) => {
     const array = [...originalArray]
     const start = Date.now();
+
     const sort = (array) => {
 
         if (array.length <= 1) { return array }
@@ -114,8 +117,9 @@ const quickSort = (originalArray) => {
     console.log(`Execution time 'quickSort ': ${end - start} ms`);
     return result
 }
-
+console.time()
 console.log(quickSort(unsortedArray))
+console.timeEnd()
 
 // Merge Sort
 
@@ -153,4 +157,6 @@ const mergeSort = (originalArray) => {
     return result
 
 }
+console.time()
 console.log(mergeSort(unsortedArray))
+console.timeEnd()
