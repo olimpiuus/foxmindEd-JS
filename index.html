@@ -11,7 +11,104 @@
 </head>
 
 <body>
-
+    <div class="container">
+        <form action="https://www.hashemian.com/tools/form-post-tester.php/asdfg" class="form" method="post">
+            <section class="form__header">
+                <h1 class="form__title">Create Account</h1>
+            </section>
+            <ul class="form__inputs-list">
+                <li class="form__list-item">
+                    <label class="form__label">First name <span class="asterics">*</span>
+                        <input type="text" class="form__input" name="First-name" required placeholder="enter your first name">
+                    </label>
+                </li>
+                <li class="form__list-item">
+                    <label class="form__label">Last name
+                        <input type="text" class="form__input" name="Last-name" placeholder="enter your last name">
+                    </label>
+                </li>
+                <li class="form__list-item email">
+                    <label class="form__label">Email <span class="asterics">*</span>
+                        <input type="email" class="form__input" name="Email" required placeholder="enter your email">
+                    </label>
+                </li>
+                <li class="form__list-item">
+                    <label class="form__label">Password <span class="asterics">*</span>
+                        <input type="password" class="form__input" 
+                        pattern="(?=^.{6,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" 
+                        required name="Password" placeholder="enter your password" 
+                        title="min 6 symbols + 1 Upper Case letter + 1 lower case letter + special character">
+                    </label>
+                </li>
+                <li class="form__list-item">
+                    <label class="form__label">Confirm Password <span class="asterics">*</span>
+                        <input type="password" class="form__input" 
+                        pattern="(?=^.{6,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" 
+                        title="min 6 symbols + 1 Upper Case letter + 1 lower case letter + special character"
+                        required name="Confirm Password" placeholder="enter your password again">
+                    </label>
+                </li>
+                <li class="form__list-item">
+                    <fieldset class="form__fieldset">
+                        <legend class="form__label">Gender:</legend>
+                        <label class="form__label_radio"><input type="radio" class="form__input_radio" name="gender" value="Male"> Male</label>
+                        <label class="form__label_radio"><input type="radio" class="form__input_radio" name="gender" value="Male"> Female</label>
+                    </fieldset>
+                </li>
+                <li class="form__list-item">
+                    <fieldset class="form__fieldset">
+                        <legend class="form__label">Hobbies</legend>
+                        <label class="form__label_checkbox">
+                            <input type="checkbox" class="form__input_checkbox" name="hobbies" value="Music">
+                            Music
+                        </label>
+                        <label class="form__label_checkbox">
+                            <input type="checkbox" class="form__input_checkbox" name="hobbies" value="Sports">
+                            Sports
+                        </label>
+                        <label class="form__label_checkbox">
+                            <input type="checkbox" class="form__input_checkbox" name="hobbies" value="Travel">
+                            Travel
+                        </label>
+                        <label class="form__label_checkbox">
+                            <input type="checkbox" class="form__input_checkbox" name="hobbies" value="Movies">
+                            Movies
+                        </label>
+                    </fieldset>
+                </li>
+                <li class="form__list-item">
+                    <label class="form__label">Source of Income
+                        <select class="form__input" name="source-of-income" id="source-of-income">
+                            <option value="Employed">Employed</option>
+                            <option value="Self-employed">Self-employed</option>
+                            <option value="Unemployment">Unemployment</option>
+                        </select>
+                    </label>
+                </li>
+                <li class="form__list-item form__income">
+                    <label class="form__label" for="range">Income</label>
+                    <input id="range" type="range" class="form__input_range" name="income">
+                    <div class="form__income-block">20K</div>
+                </li>
+                <li class="form__list-item">
+                    <label class="form__label">Upload Profile Picture
+                        <input type="file" class="form__input_file" name="Upload Profile Picture">
+                    </label>
+                </li>
+                <li class="form__list-item">
+                    <label class="form__label">Age
+                        <input type="number" class="form__input" name="Age" value="18">
+                    </label>
+                </li>
+                <li class="form__list-item textarea">
+                    <label class="form__label">Bio
+                        <textarea type="text" class="form__input_textarea form__input" name="Bio" ></textarea>
+                    </label>
+                </li>
+            </ul>
+            <section class="form__footer"><button class="form__footer-btn" type="submit">Create</button></section>
+        </form>
+    </div>
 </body>
 
 </html>

@@ -1,15 +1,9 @@
 # JS
 
-Task 2.3
+Task 2.4
 
-Sort an array in different ways. Determine the  fastest and the most optimal working way -
- 
-Bubble Sort
-Sort by choice
-Insertion Sort
-Quicksort
-Merge Sort
+OOP challenge - implements the Validator class for validating strings. For example, the isEmail method takes a string as a parameter and checks whether an email is valid or not. If it is, it returns true, otherwise it returns false. In addition, the class will have the following method: the isDate method for checking the date, IsRequired.
+Pull the functional form from the 1st course and add the error output
 
-Library link- https://github.com/trekhleb/javascript-algorithms/blob/master/README.ru-RU.md
-
+Library  link- https://refactoring.guru/uk/design-patterns
 
