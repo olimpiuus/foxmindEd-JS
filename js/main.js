@@ -4,32 +4,34 @@ const inputEmail = document.querySelector('[type="email"]')
 class Validator {
     isEmail = (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
     isDate = (value) => !isNaN(Date.parse(value))
-    IsRequired = (htmlElem) => htmlElem.required = true
+    IsRequired = (htmlElem) => htmlElem.value
 }
 
-class StateOfValidation {
-    constructor(element, value ) {
-        this.value = value
+class StateOfValidation extends Validator {
+    
+    constructor(element, state = false) {
+        super()
         this.element = element
+        this.state = state
     }
 
-    checkState = () => {
-        this.value === true ? this.#addCheckedStatus() : this.#addFailedStatus()
+    #changeStateOfElement = (newState)=>this.state = newState
+    #addClassFailOrSucsess = () => this.state ? this.#addSuccessStatus() : this.#addFailedStatus()
+    #addSuccessStatus = () => this.element.classList.add('success')
+    #addFailedStatus = () => this.element.classList.add('failed')
+
+    addEmailValidation = ()=>{
+        this.element.addEventListener('keydown',()=> {
+            this.#changeStateOfElement(this.isEmail(this.element.value))
+            this.#addClassFailOrSucsess()
+        })
     }
 
-    #addCheckedStatus = () => {
-        this.element.classList.add('checked')
-        console.log('checked');
-    }
-    #addFailedStatus = () => {
-        this.element.classList.add('failed')
-        console.log('failed');
-    }
 
-    // this.element.addEventListener('')
+    
 }
 
 const validator = new Validator
-const stateSetterEmail = new StateOfValidation(inputEmail, validator.isEmail(inputEmail))
-
-console.log(stateSetterEmail.checkState());
+const validationEmail = new StateOfValidation(inputEmail)
+validationEmail.addEmailValidation()
+// inputEmail.addEventListener('click', console.log('aa'))
