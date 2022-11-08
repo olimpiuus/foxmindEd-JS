@@ -19,24 +19,24 @@
             <ul class="form__inputs-list">
                 <li class="form__list-item">
                     <label class="form__label">First name <span class="asterics">*</span>
-                        <input type="text" class="form__input" name="First-name" required placeholder="enter your first name">
+                        <input type="text" class="form__input" name="First-name"  placeholder="enter your first name" data-validation-type="isRequired">
                     </label>
                 </li>
                 <li class="form__list-item">
                     <label class="form__label">Last name
-                        <input type="text" class="form__input" name="Last-name" placeholder="enter your last name">
+                        <input type="text" class="form__input" name="Last-name" placeholder="enter your last name" data-validation-type="isRequired">
                     </label>
                 </li>
                 <li class="form__list-item email">
                     <label class="form__label">Email <span class="asterics">*</span>
-                        <input type="email" class="form__input" name="Email" required placeholder="enter your email">
+                        <input type="email" class="form__input" name="Email"  placeholder="enter your email" data-validation-type="isEmail">
                     </label>
                 </li>
                 <li class="form__list-item">
                     <label class="form__label">Password <span class="asterics">*</span>
                         <input type="password" class="form__input" 
                         pattern="(?=^.{6,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" 
-                        required name="Password" placeholder="enter your password" 
+                         name="Password" placeholder="enter your password" 
                         title="min 6 symbols + 1 Upper Case letter + 1 lower case letter + special character">
                     </label>
                 </li>
@@ -45,7 +45,7 @@
                         <input type="password" class="form__input" 
                         pattern="(?=^.{6,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" 
                         title="min 6 symbols + 1 Upper Case letter + 1 lower case letter + special character"
-                        required name="Confirm Password" placeholder="enter your password again">
+                         name="Confirm Password" placeholder="enter your password again">
                     </label>
                 </li>
                 <li class="form__list-item">
