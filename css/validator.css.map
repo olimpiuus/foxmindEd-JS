@@ -1,1 +1,1 @@
-{"version":3,"sources":["../sass/validator.sass","validator.css"],"names":[],"mappings":"AAAA;EACE,sBAAA;ACCF;;ADCA;EACE,wBAAA;ACEF","file":"validator.css"}
+{"version":3,"sources":["../sass/validator.sass","validator.css"],"names":[],"mappings":"AAAA;EACE,sBAAA;EACA,kBAAA;ACCF;ADAE;EACI,kBAAA;EACA,cAAA;EACA,WAAA;EACA,WAAA;EACA,YAAA;EACA,MAAA;EACA,QAAA;EACA,UAAA;EACA,qBAAA;ACEN;ADMA;EACE,wBAAA;ACJF","file":"validator.css"}
