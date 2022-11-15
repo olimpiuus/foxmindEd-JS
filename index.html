@@ -11,8 +11,37 @@
 </head>
 
 <body>
-    <div class="container">
-       
+    <div class="weather__container">
+       <section class="weather__search">
+            <input class="weather__search-input" type="search" placeholder="Search city" name="city" >
+            <p class="weather__selected-city">Selected: <b id="selectedCity"> selectedCity</b></p>
+        </section>
+        <section class="weather__days">
+            <div class="weather__now">
+                <div class="now__temperature">
+                    <span class="now__temperature_real">-5°C</span>
+                    <p class="now__temperature_feels">Feels like <span id="feelsLikeTemp">-8°C</span></p>
+                </div>
+                <div class="now__weather">
+                    <div class="now__text-weather">Clouds</div>
+                    <div class="now__location">Location</div>
+                </div>
+                <img class="now__img" src="./img/weather/clouds.svg" alt="">
+            </div>
+            <ul class="weather__list">
+                <li class="weather__next-day">
+                    <span class="next-day__text"></span>
+                    <figure class="next-day__weather">
+                        <img class="weather__img" src="./img/weather/clouds.svg" alt="" >
+                        <figcaption class="weather__text">broken clouds</figcaption>
+                    </figure>
+                    <div class="next-day__temp-block">
+                        <span class="next-day__temp-max">-3°C</span>
+                        <span class="next-day__temp-min">-8°C</span>
+                    </div>
+                </li>
+            </ul>
+        </section>
     </div>
 </body>
 
