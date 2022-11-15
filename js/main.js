@@ -1,7 +1,7 @@
 
 const form = document.querySelector('.form')
 
-class validationFunc {
+class ValidationFunc {
     constructor (name, func, warningText) {
         this.name = name
         this.check = func 
@@ -82,7 +82,7 @@ class StateOfValidation  {
     }
 }
 
-class formValidation  {
+class FormValidation  {
     constructor(form) {
         this.form = form
     }
@@ -109,15 +109,15 @@ class formValidation  {
     
 }
 
-const isEmail = new validationFunc ('isEmail', (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value), 'Wrong e-mail address')
-const isDate = new validationFunc('isDate',(value) => !isNaN(Date.parse(value)), 'Not a date')
-const isRequired = new validationFunc('isRequired', (value) => value, 'Field must be filled')
-const isSamePasswords = new validationFunc('isSamePasswords', (value1, value2) => value1==value2, 'Passwords are not match')
-const isPassword = new validationFunc('isPassword', (value) => /(?=^.{6,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/.test(value), 'Wrong password format min 6 symbols + 1 Upper Case letter + 1 lower case letter + special character ')
+const isEmail = new ValidationFunc ('isEmail', (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value), 'Wrong e-mail address')
+const isDate = new ValidationFunc('isDate',(value) => !isNaN(Date.parse(value)), 'Not a date')
+const isRequired = new ValidationFunc('isRequired', (value) => value, 'Field must be filled')
+const isSamePasswords = new ValidationFunc('isSamePasswords', (value1, value2) => value1==value2, 'Passwords are not match')
+const isPassword = new ValidationFunc('isPassword', (value) => /(?=^.{6,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/.test(value), 'Wrong password format min 6 symbols + 1 Upper Case letter + 1 lower case letter + special character ')
 
 const validator = new Validator([isEmail,isDate,isRequired,isSamePasswords,isPassword])
 
-const formValid = new formValidation(form)
+const formValid = new FormValidation(form)
 
 formValid.addValidationToForm()
 
