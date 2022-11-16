@@ -16,8 +16,8 @@
             <input class="weather__search-input" type="search" placeholder="Search city" name="city" >
             <p class="weather__selected-city">Selected: <b id="selectedCity"> selectedCity</b></p>
         </section>
-        <section class="weather__days">
-            <div class="weather__now">
+        <section class="weather__display">
+            <div class="weather__now now">
                 <div class="now__temperature">
                     <span class="now__temperature_real">-5°C</span>
                     <p class="now__temperature_feels">Feels like <span id="feelsLikeTemp">-8°C</span></p>
@@ -28,18 +28,20 @@
                 </div>
                 <img class="now__img" src="./img/weather/clouds.svg" alt="">
             </div>
-            <ul class="weather__list">
-                <li class="weather__next-day">
-                    <span class="next-day__text"></span>
-                    <figure class="next-day__weather">
-                        <img class="weather__img" src="./img/weather/clouds.svg" alt="" >
-                        <figcaption class="weather__text">broken clouds</figcaption>
+            <ul class="weather__days-list">
+
+                <li class="weather__next-day next-day">
+                    <span class="next-day__text">THU</span>
+                    <figure class="next-day__weather-description">
+                        <img class="weather-description__img" src="./img/weather/clouds.svg" alt="" >
+                        <figcaption class="weather-description__text">broken clouds</figcaption>
                     </figure>
                     <div class="next-day__temp-block">
                         <span class="next-day__temp-max">-3°C</span>
                         <span class="next-day__temp-min">-8°C</span>
                     </div>
                 </li>
+
             </ul>
         </section>
     </div>

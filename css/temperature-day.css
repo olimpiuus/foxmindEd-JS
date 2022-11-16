@@ -1,0 +1,10 @@
+.now {
+  display: grid;
+  grid-auto-flow: column;
+  align-items: center;
+  gap: 10px;
+}
+.now__temperature_real {
+  font-size: 3rem;
+  font-weight: 500;
+}/*# sourceMappingURL=temperature-day.css.map */

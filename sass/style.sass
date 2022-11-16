@@ -7,12 +7,11 @@ body
   flex-direction: column
   justify-content: center
   color: white
-
+  background-color: #5f9cd1
 
 .search
   width: 100%
   &__selected
-
 
 #selectedCity
   font-weight: 700
@@ -25,74 +24,34 @@ body
   &__search-input
     width: 100%
     padding: 5px
+
   &__search
     width: 100%
+
   &__selected-city
+    color: black
     margin-top: 10px
 
-  &__days
+  &__display
     margin-top: 50px
-    
-    border-radius: 5px
 
-    display: grid
-    grid-column: 1fr
+    border-radius: 5px
+    overflow: hidden
     background-color: #222346
 
   &__now
-    padding: 10px
-
-    display: grid
-    grid-auto-flow: column
-    align-items: center
-    gap: 10px
+    padding: 30px 20px 20px
     
   &__next-day
 
-  &__img
-
-  &__list
+  &__days-list
     background-color: #363640
-    padding: 10px
-  &__text
+    padding: 50px 20px 20px
+
+    display: grid
+    gap: 30px
+    
 
 
-.now 
-
-  &__temperature
-    // justify-self: end
-    // text-align: end
-    &_real
-      font-size: 3rem
-      font-weight: 500
-
-    &_feels
-
-  &__weather
-
-
-  &__text-weather
-
-
-  &__location
-
-  &__img
-    fill: white
-
-
-.next 
-  &-day__text
-
-
-  &-day__weather
-
-
-  &-day__temp
-
-    &-block
-
-    &-max
-
-    &-min
-
-
+@import ./weather-now.sass
+@import ./future-day.sass
