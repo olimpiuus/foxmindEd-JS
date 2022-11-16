@@ -8,14 +8,25 @@
     <title>Weather</title>
     <link rel="stylesheet" href="./css/style.css">
     <script defer src="./js/main.js"></script>
+    <script defer src="./js/weatherAPI.js"></script>
 </head>
 
 <body>
     <div class="weather__container">
        <section class="weather__search">
-            <input class="weather__search-input" type="search" placeholder="Search city" name="city" >
+            <input class="weather__search-input" type="search" placeholder="Search city" name="city" id="searchLocation" list="cities-list">
+            <datalist id="cities-list">
+                <option value="Chocolate">
+                <option value="Coconut">
+                <option value="Mint">
+                <option value="Strawberry">
+                <option value="Vanilla">
+            </datalist>
+            
             <p class="weather__selected-city">Selected: <b id="selectedCity"> selectedCity</b></p>
+
         </section>
+
         <section class="weather__display">
             <div class="weather__now now">
                 <div class="now__temperature">
