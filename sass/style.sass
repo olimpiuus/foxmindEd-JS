@@ -11,7 +11,20 @@ body
 
 .search
   width: 100%
+  position: relative
   &__selected
+  &__options
+    display: none
+    width: 100%
+    position: absolute
+    background-color: white
+    color: #aaaaaa
+  &__option
+    border: 1px solid #aaaaaa
+    padding: 5px
+    font-size: 0.9rem
+    &:hover
+      color: black
 
 #selectedCity
   font-weight: 700

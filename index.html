@@ -13,15 +13,11 @@
 
 <body>
     <div class="weather__container">
-       <section class="weather__search">
-            <input class="weather__search-input" type="search" placeholder="Search city" name="city" id="searchLocation" list="cities-list">
-            <datalist id="cities-list">
-                <option value="Chocolate">
-                <option value="Coconut">
-                <option value="Mint">
-                <option value="Strawberry">
-                <option value="Vanilla">
-            </datalist>
+       <section class="weather__search search">
+            <input class="weather__search-input" type="search" placeholder="Search city" name="city" id="searchLocation">
+            <ul class="search__options">
+                <!-- <li class="search__option">Asd</li> -->
+            </ul>
             
             <p class="weather__selected-city">Selected: <b id="selectedCity"> selectedCity</b></p>
 

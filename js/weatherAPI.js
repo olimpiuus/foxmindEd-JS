@@ -5,55 +5,110 @@ const weatherApi = (()=>{
   const apiCallLocationSearch = 'http://api.openweathermap.org/geo/1.0/direct?q={city name},{state code},{country code}&limit={limit}&appid={API key}'
   const apiCallCurrentWeather = 'https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}'
 
-  
+  const search = document.querySelector('#searchLocation')
+  const searchOptions = document.querySelector('.search__options')
+  const selectedCity = document.querySelector('#selectedCity')
 
-  const searchFn = (()=>{
-    const search = document.querySelector('#searchLocation')
-    const datalist = document.querySelector('#cities-list')
-    let delay
-    let searchValue 
 
-    const getCity = async (city)=>{
+  class Search {
+    // constructor () {}
+
+    #getCity = async (city)=>{
       const response = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=c5f264c664d81a1e7be32d965a4fa209`)
       const answer = await response.json()
       return answer
     }
 
-    const addDataListToSearch = (cities)=>{
-      datalist.innerHTML=''
-      cities.forEach((city)=>{
-        datalist.insertAdjacentHTML("beforeend", `
-        <option value="${city.name+', '+ city.state + ', ' +city.country}"></option>
-      `)
-      })
+    #addDataListToSearch = (cities)=>{
+
+      class CityChoice {
+        constructor (name, state, country, lon, lat) {
+          this.name = name
+          this.state= state
+          this.country= country
+          this.lon=lon
+          this.lat=lat
+        }
+        addToHtml = ()=>{
+          const choice = document.createElement('li')
+          choice.classList.add('search__option')
+          choice.textContent = this.name+', '+ this.state + ', ' +this.country
+          searchOptions.append(choice)
+          choice.dataset.city=choice.textContent
+          choice.dataset.lon = this.lon
+          choice.dataset.lat = this.lat
+
+        }
+      }
+
+      const fillChoices = ()=>{
+        cities.forEach((city)=>{
+          const cityChoice =  new CityChoice(city.name, city.state, city.country, city.lon, city.lat)
+          cityChoice.addToHtml()
+        })
+      }
+
+      this.#clearSearch
+      searchOptions.style.display = 'block'
+      fillChoices()
     }
 
-    // continue
-    search.addEventListener('change', (e)=>{
-      console.log('continue)))');
-      console.log(e)
-    })
-    
+    #clearSearch = ()=>{
+      searchOptions.innerHTML=''
+    }
+    #hideSearch = ()=>{
+      searchOptions.style.display = 'none'
+    }
 
-    
-    search.addEventListener('keyup', (e)=>{
+    clearAndHideSearch = ()=>{
+      this.#clearSearch()
+      this.#hideSearch()
+    }
+
+    startSearchFn = ()=> {
+      let delay
+      let searchValue
+      search.addEventListener('keyup', ()=>{
       if (delay) {clearTimeout(delay)}
+      
       delay = setTimeout(async ()=>{
         searchValue = search.value
-        const cities = await getCity(searchValue)
+        const cities = await this.#getCity(searchValue)
         console.log(cities);
-        addDataListToSearch(cities)
-        cities.forEach(city => {
-          console.log(city.name+city.state+city.country);
-        })
-        
-      }
-        ,2000)
-    })
+        this.#addDataListToSearch(cities)
+        }
+          ,2000)
+      })
+    }
+  }
 
-  })()
-  
+  const searchFn = new Search
+  searchFn.startSearchFn()
+
+  // const renderWeather = ()=>{
+   
+  //   const getChosenCity = ()=>{
+  //     searchOptions.addEventListener('click',  (e)=> {
+  //       if (!e.target) {return}
+  //       const element = e.target
+  //       search.value=element.textContent
+  //       selectedCity.textContent=element.textContent
+  //       const lon = element.dataset.lon
+  //       const lat = element.dataset.lat
+  //       console.log({lon,lat});
+  //       searchFn.clearAndHideSearch()
+  //     })
+  //   }
+
+  //   getChosenCity()
+
+  // }
+  // renderWeather()
+
+
 
 })()
+
+
 
 

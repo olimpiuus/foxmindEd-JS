@@ -84,7 +84,24 @@ body {
 
 .search {
   width: 100%;
+  position: relative;
 }
+.search__options {
+  display: none;
+  width: 100%;
+  position: absolute;
+  background-color: white;
+  color: #aaaaaa;
+}
+.search__option {
+  border: 1px solid #aaaaaa;
+  padding: 5px;
+  font-size: 0.9rem;
+}
+.search__option:hover {
+  color: black;
+}
+
 #selectedCity {
   font-weight: 700;
 }
