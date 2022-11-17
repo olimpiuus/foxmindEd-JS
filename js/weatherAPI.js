@@ -85,25 +85,35 @@ const weatherApi = (()=>{
   const searchFn = new Search
   searchFn.startSearchFn()
 
-  // const renderWeather = ()=>{
+  const renderWeather = ()=>{
    
-  //   const getChosenCity = ()=>{
-  //     searchOptions.addEventListener('click',  (e)=> {
-  //       if (!e.target) {return}
-  //       const element = e.target
-  //       search.value=element.textContent
-  //       selectedCity.textContent=element.textContent
-  //       const lon = element.dataset.lon
-  //       const lat = element.dataset.lat
-  //       console.log({lon,lat});
-  //       searchFn.clearAndHideSearch()
-  //     })
-  //   }
 
-  //   getChosenCity()
+    const getWeatherNow = async (location) => {
+      const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${location.lat}&lon=${location.lon}&appid=c5f264c664d81a1e7be32d965a4fa209`)
+      const answer = await response.json()
+      return answer
+    }
 
-  // }
-  // renderWeather()
+    const getChosenCity = ()=>{
+      searchOptions.addEventListener('click',  async (e)=> {
+        if (!e.target) {return}
+        const element = e.target
+        search.value=element.textContent
+        selectedCity.textContent=element.textContent
+        const lon = element.dataset.lon
+        const lat = element.dataset.lat
+        const location = {lon,lat}
+        const weatherNow = await getWeatherNow(location)
+        console.log(weatherNow);
+        searchFn.clearAndHideSearch()
+      })
+    }
+
+
+    getChosenCity()
+
+  }
+  renderWeather()
 
 
 
