@@ -142,11 +142,19 @@ body {
   grid-auto-flow: column;
   align-items: center;
   gap: 10px;
+  text-align: center;
 }
 .now__temperature_real {
   font-size: 3rem;
   font-weight: 500;
 }
+.now__location {
+  margin-top: 5px;
+}
+.now__img {
+  flex-shrink: 1;
+}
+
 .next-day {
   display: flex;
   justify-content: space-between;
