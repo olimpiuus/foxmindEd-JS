@@ -79,7 +79,7 @@ const weatherApi = (()=>{
         this.#addDataListToSearch(cities)
         this.cities = cities
         }
-          ,2000)
+          ,1000)
       })
     }
   }
@@ -116,10 +116,80 @@ const weatherApi = (()=>{
       return answer
     }
 
-    const getWeatherFuture = async (location, days)=>{
+    const getWeatherFuture = async (location)=>{
       const response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${location.lat}&lon=${location.lon}&appid=c5f264c664d81a1e7be32d965a4fa209`)
       const answer = await response.json()
-      return answer.list
+
+      class ForecastDays {
+        constructor() {this.list = []}
+
+          #getDayOfDate = (dateText)=>{
+            const date = new Date(dateText)
+            const day = date.getDate()
+            return day
+          }
+
+          #checkForSameDate = (date)=>{
+            let state = false
+            this.list.forEach(elem=>{
+              if (elem.date===date) {state = true}
+            })
+            return state
+          }
+
+          #addNewDay = (obj)=>{
+            class ForecastDay {
+              constructor(obj, date) {
+                this.date = date
+                this.minTemps =[obj.main.temp_min]
+                this.maxTemps = [obj.main.temp_max]
+                this.icons= [obj.weather[0].icon]
+                this.description = [obj.weather[0].main]
+              }
+              addInfo = (extra)=>{
+                this.minTemps.push([extra.main.temp_min])
+                this.maxTemps.push( [extra.main.temp_max])
+                this.icons.push([extra.weather[0].icon])
+                this.description.push([extra.weather[0].main])
+              }
+            }
+            const forecastDay = new ForecastDay(obj, this.#getDayOfDate(obj.dt_txt))
+            this.list.push(forecastDay)
+          }
+
+          #addToExistingDay= (date, obj)=>{
+            if (this.list.length===1) {
+              console.log('next');
+              this.list[0].addInfo(obj)
+            } else {
+              const dayIndex = this.list.reduce((accumulator, elem, index)=>{
+                if (elem.date===date) {
+                  return index
+                }
+              })
+              this.list[dayIndex].addInfo(obj)
+            }
+          }
+
+          addForecatsDay = (obj)=>{
+            const objDate = this.#getDayOfDate(obj.dt_txt)
+            if (this.#checkForSameDate(objDate)) {
+              this.#addToExistingDay(objDate, obj)
+            } else {
+              this.#addNewDay(obj)
+            }
+          }
+      }
+
+      const forecast = new ForecastDays
+
+      answer.list.forEach(element => {
+        forecast.addForecatsDay(element)
+      })
+
+      console.log(forecast.list);
+      
+      return  forecast.list
     }
 
     const getWeekday = (index) => {
@@ -149,9 +219,9 @@ const weatherApi = (()=>{
     const renderFutureWeather = (weatherFutureArr)=>{
       weatherFuture.innerHTML=''
       weatherFutureArr.forEach((day)=>{
-        const imgId = weatherFutureArr.weather[0].icon
+        const imgId = day.weather[0].icon
         const imgURL = "http://openweathermap.org/img/w/" + imgId + ".png"
-        const descriptionWeather = weatherFutureArr.weather[0].description
+        const descriptionWeather = day.weather[0].description
         weatherFuture.insertAdjacentHTML('beforeend', `
         <li class="weather__next-day next-day">
           <span class="next-day__text">${getWeekday(index)}</span>
@@ -160,8 +230,8 @@ const weatherApi = (()=>{
               <figcaption class="weather-description__text">${descriptionWeather}</figcaption>
           </figure>
           <div class="next-day__temp-block">
-              <span class="next-day__temp-max">${transfomTemp(weatherFutureArr.temp.max)}°C</span>
-              <span class="next-day__temp-min">${transfomTemp(weatherFutureArr.temp.min)}°C</span>
+              <span class="next-day__temp-max">${transfomTemp(day.temp.max)}°C</span>
+              <span class="next-day__temp-min">${transfomTemp(day.temp.min)}°C</span>
           </div>
         </li>
         `)
@@ -184,8 +254,8 @@ const weatherApi = (()=>{
         const weatherNow = await getWeatherNow(selectedCity.getLocation())
         search.clearAndHideSearch()
         renderWeatherNow(weatherNow,selectedCity.shortName)
-        const futureWeather = await getWeatherFuture(selectedCity.getLocation(), 10)
-        console.log(futureWeather);
+        const futureWeather = await getWeatherFuture(selectedCity.getLocation())
+        // renderFutureWeather(futureWeather)
 
 
 
