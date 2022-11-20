@@ -5,8 +5,6 @@ const weatherApi = (()=>{
   const apiCallLocationSearch = 'http://api.openweathermap.org/geo/1.0/direct?q={city name},{state code},{country code}&limit={limit}&appid={API key}'
   const apiCallCurrentWeather = 'https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}'
 
-  // const search = document.querySelector('#searchLocation')
-  // const searchOptions = document.querySelector('.search__options')
   const selectedLocation = document.querySelector('#selectedCity')
 
 
@@ -75,11 +73,10 @@ const weatherApi = (()=>{
       delay = setTimeout(async ()=>{
         searchValue = this.input.value
         const cities = await this.#getCity(searchValue)
-        console.log(cities);
         this.#addDataListToSearch(cities)
         this.cities = cities
         }
-          ,1000)
+          ,500)
       })
     }
   }
@@ -119,7 +116,6 @@ const weatherApi = (()=>{
     const getWeatherFuture = async (location)=>{
       const response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${location.lat}&lon=${location.lon}&appid=c5f264c664d81a1e7be32d965a4fa209`)
       const answer = await response.json()
-
       class ForecastDays {
         constructor() {this.list = []}
 
@@ -138,19 +134,38 @@ const weatherApi = (()=>{
           }
 
           #addNewDay = (obj)=>{
+
             class ForecastDay {
               constructor(obj, date) {
                 this.date = date
                 this.minTemps =[obj.main.temp_min]
                 this.maxTemps = [obj.main.temp_max]
                 this.icons= [obj.weather[0].icon]
-                this.description = [obj.weather[0].main]
+                this.descriptions = [obj.weather[0].main]
               }
               addInfo = (extra)=>{
-                this.minTemps.push([extra.main.temp_min])
-                this.maxTemps.push( [extra.main.temp_max])
-                this.icons.push([extra.weather[0].icon])
-                this.description.push([extra.weather[0].main])
+                this.minTemps.push(extra.main.temp_min)
+                this.maxTemps.push(extra.main.temp_max)
+                this.icons.push(extra.weather[0].icon)
+                this.descriptions.push(extra.weather[0].main)
+              }
+              #mostFrequentValue =(arr)=>{
+                return arr.sort((a,b) =>
+                      arr.filter(v => v===a).length
+                    - arr.filter(v => v===b).length
+                ).pop();
+              }
+              getRenderValues = ()=>{
+                const icon = this.#mostFrequentValue(this.icons)
+                const description = this.#mostFrequentValue(this.descriptions)
+                const minTemp = transfomTemp(Math.min(...this.minTemps))
+                const maxTemp = transfomTemp(Math.max(...this.maxTemps))
+                return {
+                 icon,
+                 description,
+                 minTemp,
+                 maxTemp
+                }
               }
             }
             const forecastDay = new ForecastDay(obj, this.#getDayOfDate(obj.dt_txt))
@@ -159,7 +174,6 @@ const weatherApi = (()=>{
 
           #addToExistingDay= (date, obj)=>{
             if (this.list.length===1) {
-              console.log('next');
               this.list[0].addInfo(obj)
             } else {
               const dayIndex = this.list.reduce((accumulator, elem, index)=>{
@@ -173,12 +187,15 @@ const weatherApi = (()=>{
 
           addForecatsDay = (obj)=>{
             const objDate = this.#getDayOfDate(obj.dt_txt)
+            const today = new Date().getDate()
+            if (objDate===today) {return}
             if (this.#checkForSameDate(objDate)) {
               this.#addToExistingDay(objDate, obj)
             } else {
               this.#addNewDay(obj)
             }
           }
+
       }
 
       const forecast = new ForecastDays
@@ -186,9 +203,6 @@ const weatherApi = (()=>{
       answer.list.forEach(element => {
         forecast.addForecatsDay(element)
       })
-
-      console.log(forecast.list);
-      
       return  forecast.list
     }
 
@@ -200,7 +214,7 @@ const weatherApi = (()=>{
 
     const renderWeatherNow = (weatherNowObj, locationName) =>{
       const imgId = weatherNowObj.weather[0].icon
-      const descriptionWeather = weatherNowObj.weather[0].description
+      const descriptionWeather = weatherNowObj.weather[0].main
       const imgURL = "http://openweathermap.org/img/w/" + imgId + ".png"
       weatherNow.innerHTML=''
       weatherNow.insertAdjacentHTML("afterbegin", `
@@ -218,10 +232,11 @@ const weatherApi = (()=>{
 
     const renderFutureWeather = (weatherFutureArr)=>{
       weatherFuture.innerHTML=''
-      weatherFutureArr.forEach((day)=>{
-        const imgId = day.weather[0].icon
+      weatherFutureArr.forEach((day,index)=>{
+        const values = day.getRenderValues()
+        const imgId = values.icon
         const imgURL = "http://openweathermap.org/img/w/" + imgId + ".png"
-        const descriptionWeather = day.weather[0].description
+        const descriptionWeather = values.description
         weatherFuture.insertAdjacentHTML('beforeend', `
         <li class="weather__next-day next-day">
           <span class="next-day__text">${getWeekday(index)}</span>
@@ -230,8 +245,8 @@ const weatherApi = (()=>{
               <figcaption class="weather-description__text">${descriptionWeather}</figcaption>
           </figure>
           <div class="next-day__temp-block">
-              <span class="next-day__temp-max">${transfomTemp(day.temp.max)}°C</span>
-              <span class="next-day__temp-min">${transfomTemp(day.temp.min)}°C</span>
+              <span class="next-day__temp-max">${(values.maxTemp)}°C</span>
+              <span class="next-day__temp-min">${(values.minTemp)}°C</span>
           </div>
         </li>
         `)
@@ -255,10 +270,7 @@ const weatherApi = (()=>{
         search.clearAndHideSearch()
         renderWeatherNow(weatherNow,selectedCity.shortName)
         const futureWeather = await getWeatherFuture(selectedCity.getLocation())
-        // renderFutureWeather(futureWeather)
-
-
-
+        renderFutureWeather(futureWeather)
       })
     }
 
