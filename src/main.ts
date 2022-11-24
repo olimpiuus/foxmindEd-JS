@@ -145,7 +145,7 @@ class ForecastDay {
 }
 
 class ForecastDays {
-  // list: Array<ForecastDay> problem occurs at string #177
+  // list: Array<ForecastDay> //problem occurs at string #176
   list: Array<any>
   constructor() {this.list = []}
 
