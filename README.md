@@ -1,15 +1,14 @@
 # JS
 
-Task 2.3
+Task 2.5
 
-Sort an array in different ways. Determine the  fastest and the most optimal working way -
- 
-Bubble Sort
-Sort by choice
-Insertion Sort
-Quicksort
-Merge Sort
+Create a searchable weather widget
 
-Library link- https://github.com/trekhleb/javascript-algorithms/blob/master/README.ru-RU.md
+Resource
+https://openweathermap.org/api
 
+https://learn.javascript.ru/fetch
 
+https://developer.mozilla.org/ru/docs/Web/API/Fetch_API/Using_Fetch
+
+https://learn.javascript.ru/try-catch
