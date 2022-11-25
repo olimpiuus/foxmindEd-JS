@@ -1,11 +1,18 @@
+interface IWeatherAnswer {
+  name:string,
+  lat: number,
+  lon: number,
+  country: string,
+  state: string,
+}
 
 class CityChoice {
   _id:number
   fullLocationName: string
   searchOptions:  Element 
-  constructor (obj:any, searchOptions:Element, id:number) {
-    this.fullLocationName = obj.name+', '+ obj.state + ', ' +obj.country
-    if (!obj.state) {this.fullLocationName = obj.name+', ' +obj.country}
+  constructor ({name,state,country}:IWeatherAnswer, searchOptions:Element, id:number) {
+    this.fullLocationName = name+', '+ state + ', ' +country
+    if (!state) {this.fullLocationName = name+', ' +country}
     this.searchOptions= searchOptions
     this._id = id
   }
@@ -20,11 +27,11 @@ class CityChoice {
 }
 
 class SelectedCity {
-  obj: any
+  obj: IWeatherAnswer
   fullName:string
   shortName:string
 
-  constructor(obj:any){
+  constructor(obj:IWeatherAnswer){
     this.obj=obj
     this.fullName = obj.name+', '+ obj.state + ', ' +obj.country
     this.shortName = obj.name+', ' +obj.country
@@ -42,7 +49,7 @@ class Search {
 
   input: HTMLInputElement  
   options: HTMLElement
-  cities: object[]
+  cities: IWeatherAnswer[]
   
   constructor () {
     this.input  = document.querySelector('#searchLocation')!
@@ -56,7 +63,7 @@ class Search {
     return answer
   }
 
-  private _addDataListToSearch = (cities:object[])=>{
+  private _addDataListToSearch = (cities:IWeatherAnswer[])=>{
 
     const fillChoices = ()=>{
       this.options.innerHTML=''

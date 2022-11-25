@@ -15,7 +15,7 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
 };
 var _ForecastDays_getDayOfDate, _ForecastDays_checkForSameDate, _ForecastDays_addNewDay, _ForecastDays_addToExistingDay;
 class CityChoice {
-    constructor(obj, searchOptions, id) {
+    constructor({ name, state, country }, searchOptions, id) {
         this.addToHtml = () => {
             const choice = document.createElement('li');
             choice.classList.add('search__option');
@@ -23,9 +23,9 @@ class CityChoice {
             this.searchOptions.append(choice);
             choice.dataset.id = this._id.toString();
         };
-        this.fullLocationName = obj.name + ', ' + obj.state + ', ' + obj.country;
-        if (!obj.state) {
-            this.fullLocationName = obj.name + ', ' + obj.country;
+        this.fullLocationName = name + ', ' + state + ', ' + country;
+        if (!state) {
+            this.fullLocationName = name + ', ' + country;
         }
         this.searchOptions = searchOptions;
         this._id = id;
