@@ -96,7 +96,7 @@ class Search {
     }
 }
 class ForecastDay {
-    constructor(obj, date) {
+    constructor({ main: { temp_min, temp_max }, weather: [{ main: description, icon }] }, date) {
         this.addInfo = (extra) => {
             this.minTemps.push(extra.main.temp_min);
             this.maxTemps.push(extra.main.temp_max);
@@ -120,10 +120,10 @@ class ForecastDay {
             };
         };
         this.date = date;
-        this.minTemps = [obj.main.temp_min];
-        this.maxTemps = [obj.main.temp_max];
-        this.icons = [obj.weather[0].icon];
-        this.descriptions = [obj.weather[0].main];
+        this.minTemps = [temp_min];
+        this.maxTemps = [temp_max];
+        this.icons = [icon];
+        this.descriptions = [description];
     }
 }
 class ForecastDays {
@@ -151,12 +151,7 @@ class ForecastDays {
                 this.list[0].addInfo(obj);
             }
             else {
-                let dayIndex;
-                dayIndex = this.list.reduce((_accumulator, elem, index) => {
-                    if (elem.date === date) {
-                        return index;
-                    }
-                });
+                let dayIndex = this.list.findIndex(elem => elem.date == date);
                 this.list[dayIndex].addInfo(obj);
             }
         });

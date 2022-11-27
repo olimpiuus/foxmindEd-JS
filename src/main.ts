@@ -1,4 +1,4 @@
-interface IWeatherAnswer {
+interface ICitySearchAnswer {
   name:string,
   lat: number,
   lon: number,
@@ -6,11 +6,41 @@ interface IWeatherAnswer {
   state: string,
 }
 
+interface IWeatherNowAnswer {
+  weather: [
+    {
+      main: string
+      icon: string
+    }
+  ],
+  main: {
+    temp: 298.48,
+    feels_like: 298.74,
+  },
+}
+
+interface IWeatherForecastDay {
+    dt_txt : string,
+    main: {
+
+      temp_min:number
+      temp_max:number
+
+    },
+    weather: [
+      {
+        main: string
+        icon: string
+      }
+    ]
+  }
+
+
 class CityChoice {
   _id:number
   fullLocationName: string
   searchOptions:  Element 
-  constructor ({name,state,country}:IWeatherAnswer, searchOptions:Element, id:number) {
+  constructor ({name,state,country}:ICitySearchAnswer, searchOptions:Element, id:number) {
     this.fullLocationName = name+', '+ state + ', ' +country
     if (!state) {this.fullLocationName = name+', ' +country}
     this.searchOptions= searchOptions
@@ -27,11 +57,11 @@ class CityChoice {
 }
 
 class SelectedCity {
-  obj: IWeatherAnswer
+  obj: ICitySearchAnswer
   fullName:string
   shortName:string
 
-  constructor(obj:IWeatherAnswer){
+  constructor(obj:ICitySearchAnswer){
     this.obj=obj
     this.fullName = obj.name+', '+ obj.state + ', ' +obj.country
     this.shortName = obj.name+', ' +obj.country
@@ -49,7 +79,7 @@ class Search {
 
   input: HTMLInputElement  
   options: HTMLElement
-  cities: IWeatherAnswer[]
+  cities: ICitySearchAnswer[]
   
   constructor () {
     this.input  = document.querySelector('#searchLocation')!
@@ -63,7 +93,7 @@ class Search {
     return answer
   }
 
-  private _addDataListToSearch = (cities:IWeatherAnswer[])=>{
+  private _addDataListToSearch = (cities:ICitySearchAnswer[])=>{
 
     const fillChoices = ()=>{
       this.options.innerHTML=''
@@ -92,7 +122,7 @@ class Search {
 
   startSearchFn = ()=> {
     
-    let delay:any
+    let delay:number
     let searchValue
     this.input.addEventListener('keyup', ()=>{
     if (delay) {clearTimeout(delay)}
@@ -115,15 +145,15 @@ class ForecastDay {
   icons: string[]
   descriptions: string[]
 
-  constructor(obj:any, date:number) {
+  constructor({main:{temp_min, temp_max},weather:[{main:description,icon}]}:IWeatherForecastDay, date:number) {
     
     this.date = date
-    this.minTemps =[obj.main.temp_min]
-    this.maxTemps = [obj.main.temp_max]
-    this.icons= [obj.weather[0].icon]
-    this.descriptions = [obj.weather[0].main]
+    this.minTemps =[temp_min]
+    this.maxTemps = [temp_max]
+    this.icons= [icon]
+    this.descriptions = [description]
   }
-  addInfo = (extra:any)=>{
+  addInfo = (extra:IWeatherForecastDay)=>{
     this.minTemps.push(extra.main.temp_min)
     this.maxTemps.push(extra.main.temp_max)
     this.icons.push(extra.weather[0].icon)
@@ -152,8 +182,7 @@ class ForecastDay {
 }
 
 class ForecastDays {
-  // list: Array<ForecastDay> //problem occurs at string #176
-  list: Array<any>
+  list: Array<ForecastDay> 
   constructor() {this.list = []}
 
     #getDayOfDate = (dateText:string)=>{
@@ -170,26 +199,22 @@ class ForecastDays {
       return state
     }
 
-    #addNewDay = (obj:any)=>{
+    #addNewDay = (obj:IWeatherForecastDay)=>{
       const forecastDay = new ForecastDay(obj, this.#getDayOfDate(obj.dt_txt))
       this.list.push(forecastDay)
     }
 
-    #addToExistingDay= (date:number, obj:any)=>{
+    #addToExistingDay= (date:number, obj:IWeatherForecastDay)=>{
       if (this.list.length===1) {
         this.list[0].addInfo(obj)
       } else {
-        let dayIndex:number
-        dayIndex = this.list.reduce((_accumulator, elem, index)=>{
-          if (elem.date===date) {
-            return index
-          }
-        })
+
+        let dayIndex: number = this.list.findIndex(elem=>elem.date==date)
         this.list[dayIndex].addInfo(obj)
       }
     }
 
-    addForecastDay = (obj:any)=>{
+    addForecastDay = (obj:IWeatherForecastDay)=>{
       const objDate = this.#getDayOfDate(obj.dt_txt)
       const today = new Date().getDate()
       if (objDate===today) {return}
@@ -204,7 +229,7 @@ class ForecastDays {
 
 class GetWeatherObjts {
 
-  weatherNow = async (location:{lat:number,lon:number}) => {
+  weatherNow = async (location:{lat:number,lon:number}):Promise<IWeatherNowAnswer> => {
     const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${location.lat}&lon=${location.lon}&appid=c5f264c664d81a1e7be32d965a4fa209`)
     const answer = await response.json()
     return answer
@@ -216,7 +241,7 @@ class GetWeatherObjts {
     
     const forecast = new ForecastDays
 
-    answer.list.forEach((element:ForecastDays) => {
+    answer.list.forEach((element:IWeatherForecastDay) => {
       forecast.addForecastDay(element)
     })
     return  forecast.list
@@ -242,7 +267,7 @@ class RenderWeather {
     return nameWeekDays[futureWeekDay]
   }
 
-  renderWeatherNow = (weatherNowObj:any, locationName:string) =>{
+  renderWeatherNow = (weatherNowObj:IWeatherNowAnswer, locationName:string) =>{
     const imgId = weatherNowObj.weather[0].icon
     const descriptionWeather = weatherNowObj.weather[0].main
     const imgURL = "http://openweathermap.org/img/w/" + imgId + ".png"
