@@ -5,13 +5,41 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather</title>
+    <title>ToDo</title>
     <link rel="stylesheet" href="./css/style.css">
     <script defer src="./js/main.js"></script>
 </head>
 
 <body>
-    
+    <div class="todo__container">
+        <ul class="todo__list">
+            <li class="todo__item item">
+                <h2 class="item__title">Title</h2>
+                <div class="item__input-block">
+                    <input type="text" class="item__input" placeholder="e.g. eggs">
+                    <button class="item__btn-add-note">Add</button>
+                </div>
+                <ul class="item__tasks-list">
+                    <li class="item__task task">
+                        <p class="task__text">Test</p>
+                        <div class="task__btn-group">
+                            <button class="task__btn_edit"></button>
+                            <button class="task__btn_delete"></button>
+                        </div>
+                    </li>
+                    <li class="item__task task">
+                        <p class="task__text">List</p>
+                        <div class="task__btn-group">
+                            <button class="task__btn_edit"></button>
+                            <button class="task__btn_delete"></button>
+                        </div>
+                    </li>
+                </ul>
+                <button class="item__clear-list">Clear items</button>
+            </li>
+            <li class="todo__item_add-new"></li>
+        </ul>
+    </div>
 </body>
 
 </html>
