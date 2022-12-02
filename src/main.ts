@@ -3,51 +3,75 @@ class ClickHandler {
   }
   windowClick = ()=>{
     document.addEventListener('click',(e)=>{
-      e.target
+      
+      const target = e.target!
+      if (!(target instanceof HTMLElement)) {return}
+      
+      if (target.classList.contains('task__btn_edit')) {
+        const id = parseInt(target.parentElement?.parentElement?.dataset.id!) 
+        group.tasks[id].changingTextField()
+      }
     })
   }
-
 }
 
 class FormForEditing {
-  formHTML:HTMLElement
   value:string
-  constructor(text:string){
-    this.formHTML = this.form()
+  type: 'edit'|'add'
+  htmlElement: HTMLFormElement
+  input:HTMLInputElement
+  parentBlock:HTMLElement
+
+  constructor(parentBlock:HTMLElement, text:string='',  type:'edit'|'add'='add'){
+    this.type = type
     this.value = text
+    this.parentBlock = parentBlock
+    this.htmlElement = this._htmlElem()
+    this.input = this.htmlElement.querySelector('input')!
+    if (this.type==='edit') {this._addAlerts()}
   }
 
-  form = ()=>{
+  private _htmlElem = () => { 
     const form = document.createElement('form')
     form.classList.add('item__input-block')
-
-    form.innerHTML=`
-      <input type="text" class="item__input" value="${this.value}">
-      <button type="submit" class="item__btn-add-note">Ok</button>
-    `
-    const input = form.querySelector('input')
-
-    document.addEventListener('click', ()=>{
-      alert('Finish editing element')
-      input?.focus()
-    })
     
-    form?.addEventListener('click', (e)=>{
-      e.stopPropagation()
-    })
-  //  continue
-    form?.addEventListener('submit', (e)=>{
-      e.preventDefault()
-      this.taskText = input!.value
-      this.task = this.renderElement()
-
-      taskParent?.removeChild(form)
-      
-      taskParent?.append(this.task)
-    })
+    form.innerHTML= this.type==='edit' ? `
+    <input type="text" class="item__input" value="${this.value}">
+    <button type="submit" class="item__btn-add-note">Ok</button>
+    ` : `
+    <input type="text" class="item__input" placeholder="e.g. eggs">
+    <button type="submit" class="item__btn-add-note">Add</button>
+    `
+    this.parentBlock.append(form)
     return form
   }
 
+  private _addAlerts = ()=>{
+
+    const focusInputWithAlert = ()=>{
+      alert('Finish editing element')
+      this.input.focus()
+    }
+
+    const stopPropagation = (e:Event)=>{
+      e.stopPropagation()
+    }
+
+    document.addEventListener('click', focusInputWithAlert)
+
+    this.htmlElement.addEventListener('click', stopPropagation)
+
+  } 
+
+  getValue = ()=>{
+    this.value = this.input.value
+    return this.value
+  }
+
+  removeFromDOM = ()=> {
+    this.parentBlock.removeChild(this.htmlElement)
+    // document.removeEventListener('click', asdf())
+  }
 }
 
 class TaskItem {
@@ -58,9 +82,9 @@ class TaskItem {
   constructor(text:string, id:number){
     this.taskText = text
     this.id = id
-    this.task = this.renderElement()
+    this.task = this._renderElement()
   }
-  renderElement = ()=>{
+  private _renderElement = ()=>{
     const task= document.createElement('li')
     task.classList.add('item__task')
     task.classList.add('task')
@@ -75,54 +99,67 @@ class TaskItem {
     return task
   }
 
-  changeValue = (newValue:string)=>{
-    this.taskText = newValue
-  }
-
   changingTextField = ()=>{
-    const taskParent = this.task.parentElement
+    const taskParent = this.task.parentElement!
+    taskParent.removeChild(this.task)
 
-    taskParent?.removeChild(this.task)
-
-    const form = document.createElement('form')
-    taskParent?.append(form)
-
-    form.classList.add('item__input-block')
-
-    form.innerHTML=`
-      <input type="text" class="item__input" value="${this.taskText}">
-      <button type="submit" class="item__btn-add-note">Ok</button>
-    `
-    const input = form.querySelector('input')
-
-    document.addEventListener('click', ()=>{
-      alert('Finish editing element')
-      input?.focus()
-    })
-    
-    form?.addEventListener('click', (e)=>{
-      e.stopPropagation()
-    })
-
-    form?.addEventListener('submit', (e)=>{
+    const editForm = new FormForEditing(taskParent, this.taskText, 'edit')
+    editForm.htmlElement.addEventListener('submit', (e:Event)=>{
       e.preventDefault()
-      this.taskText = input!.value
-      this.task = this.renderElement()
-
-      taskParent?.removeChild(form)
-      
-      taskParent?.append(this.task)
+      this.taskText = editForm.getValue()
+      editForm.removeFromDOM()
+      this.task = this._renderElement()
+      taskParent.append(this.task)
     })
-
-
   }
 }
-const list = document.querySelector('.item__tasks-list')
-const newT = new TaskItem('test',1)
-list?.append(newT.task)
-// newT.changeValue('asdfasdf')
-// console.log(newT.taskText);
 
-newT.changingTextField()
+class TaskGroup {
+  tasks:TaskItem[]
+  html:HTMLElement
+  inputForNewTask:FormForEditing
+  taskList:HTMLUListElement
 
+  constructor(){
+    this.html = this._html()
+    this.tasks = []
+    this.inputForNewTask = new FormForEditing (this.html,'','add')
+    this.taskList = this.html.querySelector('.item__tasks-list')!
+    this._addListener()
+  }
+
+  private _html = ()=>{
+    const group = document.createElement('li')
+    group.innerHTML=`
+      <h2 class="item__title">Title</h2>
+      <div class="item__input-block"></div>
+      <ul class="item__tasks-list"></ul>
+      <button class="item__clear-list">Clear items</button>
+    `
+    group.classList.add('todo__item')
+    group.classList.add('item')
+    return group
+  }
+
+  private _addListener = ()=>{
+    this.inputForNewTask.htmlElement.addEventListener('submit', (e:Event)=>{
+      e.preventDefault()
+      if (this.inputForNewTask.input.value==='') { return alert('Cant add empty task') }
+      const newTask = new TaskItem(this.inputForNewTask.input.value,this.tasks.length)
+      this.inputForNewTask.input.value = ''
+      this.tasks.push(newTask)
+      this.taskList.append(newTask.task)
+    })
+  }
+
+}
+const list = document.querySelector('.todo__list')
+// const newT = new TaskItem('test',1)
+
+
+const clickHandler = new ClickHandler
+clickHandler.windowClick()
+
+const group = new TaskGroup()
+list?.append(group.html)
 
