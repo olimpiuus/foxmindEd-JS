@@ -79,16 +79,18 @@ button {
   src: url("../fonts/roboto-v30-latin-900.woff") format("woff");
 }
 body {
-  background-color: white;
+  background-color: #d0dbe2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
 }
 
 .todo__container {
   margin: 0 auto;
   width: 100%;
   height: 100%;
-  background-color: #d0dbe2;
 }
 .todo__list {
   padding: 10px;
@@ -104,6 +106,18 @@ body {
   border-radius: 5px;
   box-shadow: 2px 2px 5px 2px #b9b9b9;
 }
+.todo__item_add-new {
+  min-height: 300px;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px 2px #b9b9b9;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 50px 20px 30px;
+}
+
 .item {
   display: flex;
   flex-direction: column;
