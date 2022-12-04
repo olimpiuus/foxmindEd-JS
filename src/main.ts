@@ -21,6 +21,8 @@ class FormForEditing {
   htmlElement: HTMLFormElement
   input:HTMLInputElement
   parentBlock:HTMLElement
+  alertsFN:any
+  
 
   constructor(parentBlock:HTMLElement, text:string='',  type:'edit'|'add'='add'){
     this.type = type
@@ -28,6 +30,13 @@ class FormForEditing {
     this.parentBlock = parentBlock
     this.htmlElement = this._htmlElem()
     this.input = this.htmlElement.querySelector('input')!
+    this.alertsFN = {
+      stopPropagation : function(e:Event) {e.stopPropagation()} ,
+      focusInputWithAlert: ()=> {
+            alert('Finish editing element')
+            this.input.focus()
+          }
+    }
     if (this.type==='edit') {this._addAlerts()}
   }
 
@@ -47,20 +56,8 @@ class FormForEditing {
   }
 
   private _addAlerts = ()=>{
-
-    const focusInputWithAlert = ()=>{
-      alert('Finish editing element')
-      this.input.focus()
-    }
-
-    const stopPropagation = (e:Event)=>{
-      e.stopPropagation()
-    }
-
-    document.addEventListener('click', focusInputWithAlert)
-
-    this.htmlElement.addEventListener('click', stopPropagation)
-
+    document.addEventListener('click', this.alertsFN.focusInputWithAlert)
+    this.htmlElement.addEventListener('click', this.alertsFN.stopPropagation)
   } 
 
   getValue = ()=>{
@@ -69,8 +66,9 @@ class FormForEditing {
   }
 
   removeFromDOM = ()=> {
+    document.removeEventListener('click', this.alertsFN.focusInputWithAlert)
+    this.htmlElement.removeEventListener('click', this.alertsFN.stopPropagation)
     this.parentBlock.removeChild(this.htmlElement)
-    // document.removeEventListener('click', asdf())
   }
 }
 
@@ -123,7 +121,7 @@ class TaskGroup {
   constructor(){
     this.html = this._html()
     this.tasks = []
-    this.inputForNewTask = new FormForEditing (this.html,'','add')
+    this.inputForNewTask = new FormForEditing (this.html.querySelector('.item__input-block')!,'','add')
     this.taskList = this.html.querySelector('.item__tasks-list')!
     this._addListener()
   }
@@ -161,5 +159,5 @@ const clickHandler = new ClickHandler
 clickHandler.windowClick()
 
 const group = new TaskGroup()
-list?.append(group.html)
+list?.insertAdjacentElement("afterbegin",group.html)
 

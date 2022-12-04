@@ -32,29 +32,30 @@ class FormForEditing {
             return form;
         };
         this._addAlerts = () => {
-            const focusInputWithAlert = () => {
-                alert('Finish editing element');
-                this.input.focus();
-            };
-            const stopPropagation = (e) => {
-                e.stopPropagation();
-            };
-            document.addEventListener('click', focusInputWithAlert);
-            this.htmlElement.addEventListener('click', stopPropagation);
+            document.addEventListener('click', this.alertsFN.focusInputWithAlert);
+            this.htmlElement.addEventListener('click', this.alertsFN.stopPropagation);
         };
         this.getValue = () => {
             this.value = this.input.value;
             return this.value;
         };
         this.removeFromDOM = () => {
+            document.removeEventListener('click', this.alertsFN.focusInputWithAlert);
+            this.htmlElement.removeEventListener('click', this.alertsFN.stopPropagation);
             this.parentBlock.removeChild(this.htmlElement);
-            // document.removeEventListener('click', asdf())
         };
         this.type = type;
         this.value = text;
         this.parentBlock = parentBlock;
         this.htmlElement = this._htmlElem();
         this.input = this.htmlElement.querySelector('input');
+        this.alertsFN = {
+            stopPropagation: function (e) { e.stopPropagation(); },
+            focusInputWithAlert: () => {
+                alert('Finish editing element');
+                this.input.focus();
+            }
+        };
         if (this.type === 'edit') {
             this._addAlerts();
         }
@@ -121,7 +122,7 @@ class TaskGroup {
         };
         this.html = this._html();
         this.tasks = [];
-        this.inputForNewTask = new FormForEditing(this.html, '', 'add');
+        this.inputForNewTask = new FormForEditing(this.html.querySelector('.item__input-block'), '', 'add');
         this.taskList = this.html.querySelector('.item__tasks-list');
         this._addListener();
     }
@@ -131,4 +132,4 @@ const list = document.querySelector('.todo__list');
 const clickHandler = new ClickHandler;
 clickHandler.windowClick();
 const group = new TaskGroup();
-list === null || list === void 0 ? void 0 : list.append(group.html);
+list === null || list === void 0 ? void 0 : list.insertAdjacentElement("afterbegin", group.html);
