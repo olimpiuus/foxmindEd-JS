@@ -3,6 +3,9 @@ const removeElemFromArrayByIndex = (arr:any[], index:number)=>{
   return arr
 }
 
+const getIndexListById = (id:number)=>toDo.plans.findIndex(element => element.id === id)
+
+
 class ClickHandler {
   constructor(){
     this.submitNewTaskList()
@@ -14,26 +17,40 @@ class ClickHandler {
       if (!(target instanceof HTMLElement)) {return}
       const classesOfTarget = target.classList
       
-      // Edit Task
-      if (classesOfTarget.contains('task__btn_edit')) {
+      // Edit Task and Delete Task
+      if (classesOfTarget.contains('task__btn_edit')||classesOfTarget.contains('task__btn_delete')) {
         const id = target.parentElement?.parentElement?.dataset.id!
         const [listNumber, taskNumber] = id.split('_')
-        const list = toDo.plans[parseInt(listNumber)]
-        const task = list.tasks[parseInt(taskNumber)]
-        task.changingTextField()
+        const listIndex = toDo.getIndexListById(parseInt(listNumber))
+        const list = toDo.plans[listIndex]
+        const taskIndex = list.getIndexTaskByID(id)
+        const task = list.tasks[taskIndex]
+        
+        if (classesOfTarget.contains('task__btn_edit')) {
+          task.changingTextField()
+        } else {
+          if (confirm(`Delete task?`)) {
+            task.delete()
+            removeElemFromArrayByIndex(list.tasks, taskIndex)
+          } else {return}
+        }
       }
 
       // clear List
       if (classesOfTarget.contains('item__clear-list')) {
         const id = parseInt(target.parentElement?.dataset.id!)
-        toDo.plans[id].clearList()
+        const listIndex = toDo.getIndexListById(id)
+        toDo.plans[listIndex].clearList()
       }
+
       // delete List 
       if (classesOfTarget.contains('item__delete-list')) {
         const id = parseInt(target.parentElement?.dataset.id!)
-        if (confirm(`Delete list with title:"${toDo.plans[id].title}"`)) {
-          toDo.plans[id].delete()
-          removeElemFromArrayByIndex(toDo.plans,id)
+        const listIndex = toDo.getIndexListById(id)
+
+        if (confirm(`Delete list with title:"${toDo.plans[listIndex].title}"`)) {
+          toDo.plans[listIndex].delete()
+          removeElemFromArrayByIndex(toDo.plans,listIndex)
         } else {return}
         
       }
@@ -111,12 +128,10 @@ class FormForEditing {
 
 class TaskItem {
   taskText:string
-  id:string
-  taskHtml:HTMLElement
+  taskHtml:Element
 
-  constructor(text:string, id:string){
+  constructor(text:string, public id:string){
     this.taskText = text
-    this.id = id
     this.taskHtml = this._renderElement()
   }
   private _renderElement = ()=>{
@@ -134,18 +149,29 @@ class TaskItem {
     return task
   }
 
+  public delete = ()=>{
+    const taskParent = this.taskHtml.parentElement!
+    taskParent.removeChild(this.taskHtml)
+  }
+
   changingTextField = ()=>{
     const taskParent = this.taskHtml.parentElement!
     taskParent.removeChild(this.taskHtml)
-
     const editForm = new FormForEditing(taskParent, this.taskText, 'edit')
+    editForm.input.focus()
     editForm.htmlElement.addEventListener('submit', (e:Event)=>{
       e.preventDefault()
-      this.taskText = editForm.getValue()
-      editForm.removeFromDOM()
+      const newValue = editForm.getValue()
+      this.taskText = newValue
       this.taskHtml = this._renderElement()
+      editForm.removeFromDOM()
       taskParent.append(this.taskHtml)
-    })
+      
+      // delete if empty
+      if (newValue==='') {
+        this.taskHtml.querySelector('.task__btn_delete')!.click()
+      }
+     })
   }
 }
 
@@ -201,6 +227,7 @@ class TaskGroup {
   public delete() {
     this._parent.removeChild(this.html)
   }
+  public getIndexTaskByID = (id:string) => this.tasks.findIndex(elem => elem.id===id)
 
 }
 
@@ -231,17 +258,16 @@ class ToDo {
   public addTask = (title:string)=>{
     this.plans.push(new TaskGroup(this.listHtml, title,this.plans.length))
   }
+
+  public getIndexListById = (id:number)=>this.plans.findIndex(element => element.id === id)
 }
 const container = document.querySelector('.todo__container')!
 const toDo = new ToDo(container)
 const clickHandler = new ClickHandler
 
 toDo.addTask('title')
-toDo.addTask('title')
-toDo.addTask('title')
 
-console.log(toDo.plans);
-
+console.log(toDo);
 
 
 

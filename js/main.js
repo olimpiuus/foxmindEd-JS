@@ -3,6 +3,7 @@ const removeElemFromArrayByIndex = (arr, index) => {
     arr.splice(index, 1);
     return arr;
 };
+const getIndexListById = (id) => toDo.plans.findIndex(element => element.id === id);
 class ClickHandler {
     constructor() {
         this.windowClick = () => {
@@ -13,25 +14,40 @@ class ClickHandler {
                     return;
                 }
                 const classesOfTarget = target.classList;
-                // Edit Task
-                if (classesOfTarget.contains('task__btn_edit')) {
+                // Edit Task and Delete Task
+                if (classesOfTarget.contains('task__btn_edit') || classesOfTarget.contains('task__btn_delete')) {
                     const id = (_b = (_a = target.parentElement) === null || _a === void 0 ? void 0 : _a.parentElement) === null || _b === void 0 ? void 0 : _b.dataset.id;
                     const [listNumber, taskNumber] = id.split('_');
-                    const list = toDo.plans[parseInt(listNumber)];
-                    const task = list.tasks[parseInt(taskNumber)];
-                    task.changingTextField();
+                    const listIndex = toDo.getIndexListById(parseInt(listNumber));
+                    const list = toDo.plans[listIndex];
+                    const taskIndex = list.getIndexTaskByID(id);
+                    const task = list.tasks[taskIndex];
+                    if (classesOfTarget.contains('task__btn_edit')) {
+                        task.changingTextField();
+                    }
+                    else {
+                        if (confirm(`Delete task?`)) {
+                            task.delete();
+                            removeElemFromArrayByIndex(list.tasks, taskIndex);
+                        }
+                        else {
+                            return;
+                        }
+                    }
                 }
                 // clear List
                 if (classesOfTarget.contains('item__clear-list')) {
                     const id = parseInt((_c = target.parentElement) === null || _c === void 0 ? void 0 : _c.dataset.id);
-                    toDo.plans[id].clearList();
+                    const listIndex = toDo.getIndexListById(id);
+                    toDo.plans[listIndex].clearList();
                 }
                 // delete List 
                 if (classesOfTarget.contains('item__delete-list')) {
                     const id = parseInt((_d = target.parentElement) === null || _d === void 0 ? void 0 : _d.dataset.id);
-                    if (confirm(`Delete list with title:"${toDo.plans[id].title}"`)) {
-                        toDo.plans[id].delete();
-                        removeElemFromArrayByIndex(toDo.plans, id);
+                    const listIndex = toDo.getIndexListById(id);
+                    if (confirm(`Delete list with title:"${toDo.plans[listIndex].title}"`)) {
+                        toDo.plans[listIndex].delete();
+                        removeElemFromArrayByIndex(toDo.plans, listIndex);
                     }
                     else {
                         return;
@@ -108,6 +124,7 @@ class FormForEditing {
 }
 class TaskItem {
     constructor(text, id) {
+        this.id = id;
         this._renderElement = () => {
             const task = document.createElement('li');
             task.classList.add('item__task');
@@ -122,20 +139,29 @@ class TaskItem {
     `;
             return task;
         };
+        this.delete = () => {
+            const taskParent = this.taskHtml.parentElement;
+            taskParent.removeChild(this.taskHtml);
+        };
         this.changingTextField = () => {
             const taskParent = this.taskHtml.parentElement;
             taskParent.removeChild(this.taskHtml);
             const editForm = new FormForEditing(taskParent, this.taskText, 'edit');
+            editForm.input.focus();
             editForm.htmlElement.addEventListener('submit', (e) => {
                 e.preventDefault();
-                this.taskText = editForm.getValue();
-                editForm.removeFromDOM();
+                const newValue = editForm.getValue();
+                this.taskText = newValue;
                 this.taskHtml = this._renderElement();
+                editForm.removeFromDOM();
                 taskParent.append(this.taskHtml);
+                // delete if empty
+                if (newValue === '') {
+                    this.taskHtml.querySelector('.task__btn_delete').click();
+                }
             });
         };
         this.taskText = text;
-        this.id = id;
         this.taskHtml = this._renderElement();
     }
 }
@@ -169,6 +195,7 @@ class TaskGroup {
                 this.taskList.append(newTask.taskHtml);
             });
         };
+        this.getIndexTaskByID = (id) => this.tasks.findIndex(elem => elem.id === id);
         this._parent = parent;
         this.html = this._html();
         this.tasks = [];
@@ -204,6 +231,7 @@ class ToDo {
         this.addTask = (title) => {
             this.plans.push(new TaskGroup(this.listHtml, title, this.plans.length));
         };
+        this.getIndexListById = (id) => this.plans.findIndex(element => element.id === id);
         this.plans = [];
         this.parent = container;
         this.listHtml = this._createHtml();
@@ -213,6 +241,4 @@ const container = document.querySelector('.todo__container');
 const toDo = new ToDo(container);
 const clickHandler = new ClickHandler;
 toDo.addTask('title');
-toDo.addTask('title');
-toDo.addTask('title');
-console.log(toDo.plans);
+console.log(toDo);
