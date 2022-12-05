@@ -180,6 +180,9 @@ body {
   justify-content: space-between;
   align-items: center;
 }
+.task__btn-group {
+  min-width: 44px;
+}
 .task__btn_edit {
   width: 20px;
   height: 20px;
