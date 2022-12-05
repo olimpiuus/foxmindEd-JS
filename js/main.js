@@ -284,9 +284,9 @@ class ToDo {
         this.plans = [];
         this.parent = container;
         this.listHtml = this._createHtml();
+        this.restoreToDo();
     }
 }
 const container = document.querySelector('.todo__container');
 const toDo = new ToDo(container);
 const clickHandler = new ClickHandler;
-toDo.restoreToDo();

@@ -257,7 +257,7 @@ class ToDo {
     this.plans = []
     this.parent = container
     this.listHtml = this._createHtml()
-
+    this.restoreToDo()
   }
   private _createHtml = ()=>{
     const ul = document.createElement('ul')
@@ -338,7 +338,7 @@ class ToDo {
 const container = document.querySelector('.todo__container')!
 const toDo = new ToDo(container)
 const clickHandler = new ClickHandler
-toDo.restoreToDo()
+
 
 
 
