@@ -1,9 +1,13 @@
 "use strict";
+const removeElemFromArrayByIndex = (arr, index) => {
+    arr.splice(index, 1);
+    return arr;
+};
 class ClickHandler {
     constructor() {
         this.windowClick = () => {
             document.addEventListener('click', (e) => {
-                var _a, _b, _c;
+                var _a, _b, _c, _d;
                 const target = e.target;
                 if (!(target instanceof HTMLElement)) {
                     return;
@@ -21,6 +25,17 @@ class ClickHandler {
                 if (classesOfTarget.contains('item__clear-list')) {
                     const id = parseInt((_c = target.parentElement) === null || _c === void 0 ? void 0 : _c.dataset.id);
                     toDo.plans[id].clearList();
+                }
+                // delete List 
+                if (classesOfTarget.contains('item__delete-list')) {
+                    const id = parseInt((_d = target.parentElement) === null || _d === void 0 ? void 0 : _d.dataset.id);
+                    if (confirm(`Delete list with title:"${toDo.plans[id].title}"`)) {
+                        toDo.plans[id].delete();
+                        removeElemFromArrayByIndex(toDo.plans, id);
+                    }
+                    else {
+                        return;
+                    }
                 }
             });
         };
@@ -126,14 +141,17 @@ class TaskItem {
 }
 class TaskGroup {
     constructor(parent, title, id) {
+        this.title = title;
+        this.id = id;
         this._html = () => {
             const group = document.createElement('li');
             group.dataset.id = this.id.toString();
             group.innerHTML = `
-      <h2 class="item__title">${this._title}</h2>
+      <h2 class="item__title">${this.title}</h2>
       <div class="item__input-block"></div>
       <ul class="item__tasks-list"></ul>
       <button class="item__clear-list">Clear items</button>
+      <button class="item__delete-list">x</button>
     `;
             group.classList.add('todo__item');
             group.classList.add('item');
@@ -151,19 +169,20 @@ class TaskGroup {
                 this.taskList.append(newTask.taskHtml);
             });
         };
-        this.id = id;
         this._parent = parent;
-        this._title = title;
         this.html = this._html();
         this.tasks = [];
         this._inputForNewTask = new FormForEditing(this.html.querySelector('.item__input-block'), '', 'add');
         this.taskList = this.html.querySelector('.item__tasks-list');
-        this._addListener();
         this._parent.prepend(this.html);
+        this._addListener();
     }
     clearList() {
         this.tasks = [];
         this.taskList.innerHTML = '';
+    }
+    delete() {
+        this._parent.removeChild(this.html);
     }
 }
 class ToDo {
@@ -196,3 +215,4 @@ const clickHandler = new ClickHandler;
 toDo.addTask('title');
 toDo.addTask('title');
 toDo.addTask('title');
+console.log(toDo.plans);

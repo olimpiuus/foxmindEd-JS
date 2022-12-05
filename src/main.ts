@@ -1,3 +1,8 @@
+const removeElemFromArrayByIndex = (arr:any[], index:number)=>{
+  arr.splice(index,1)
+  return arr
+}
+
 class ClickHandler {
   constructor(){
     this.submitNewTaskList()
@@ -22,6 +27,15 @@ class ClickHandler {
       if (classesOfTarget.contains('item__clear-list')) {
         const id = parseInt(target.parentElement?.dataset.id!)
         toDo.plans[id].clearList()
+      }
+      // delete List 
+      if (classesOfTarget.contains('item__delete-list')) {
+        const id = parseInt(target.parentElement?.dataset.id!)
+        if (confirm(`Delete list with title:"${toDo.plans[id].title}"`)) {
+          toDo.plans[id].delete()
+          removeElemFromArrayByIndex(toDo.plans,id)
+        } else {return}
+        
       }
     })
   }
@@ -136,24 +150,21 @@ class TaskItem {
 }
 
 class TaskGroup {
-  id:number
   tasks:TaskItem[]
   html:HTMLElement
   private _inputForNewTask:FormForEditing
   taskList:HTMLUListElement
   private _parent:Element
-  private _title:string
 
-  constructor(parent:Element, title:string, id:number){
-    this.id = id 
+
+  constructor(parent:Element, public title:string, public id:number){
     this._parent = parent
-    this._title = title
     this.html = this._html()
     this.tasks = []
     this._inputForNewTask = new FormForEditing (this.html.querySelector('.item__input-block')!,'','add')
     this.taskList = this.html.querySelector('.item__tasks-list')!
-    this._addListener()
     this._parent.prepend(this.html)
+    this._addListener()
   }
 
   private _html = ()=>{
@@ -161,10 +172,11 @@ class TaskGroup {
     
     group.dataset.id = this.id.toString()
     group.innerHTML=`
-      <h2 class="item__title">${this._title}</h2>
+      <h2 class="item__title">${this.title}</h2>
       <div class="item__input-block"></div>
       <ul class="item__tasks-list"></ul>
       <button class="item__clear-list">Clear items</button>
+      <button class="item__delete-list">x</button>
     `
     group.classList.add('todo__item')
     group.classList.add('item')
@@ -185,6 +197,9 @@ class TaskGroup {
   public clearList() {
     this.tasks = []
     this.taskList.innerHTML = ''
+  }
+  public delete() {
+    this._parent.removeChild(this.html)
   }
 
 }
@@ -224,5 +239,9 @@ const clickHandler = new ClickHandler
 toDo.addTask('title')
 toDo.addTask('title')
 toDo.addTask('title')
+
+console.log(toDo.plans);
+
+
 
 

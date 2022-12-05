@@ -119,6 +119,7 @@ body {
 }
 
 .item {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -154,6 +155,16 @@ body {
 .item__tasks-list {
   display: grid;
   gap: 10px;
+}
+.item__delete-list {
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 5px 10px;
+  opacity: 0.5;
+}
+.item__delete-list:hover {
+  background-color: #bed5e6;
 }
 .item__clear-list {
   color: red;
