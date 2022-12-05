@@ -5,6 +5,12 @@ const removeElemFromArrayByIndex = (arr:any[], index:number)=>{
 
 const getIndexListById = (id:number)=>toDo.plans.findIndex(element => element.id === id)
 
+interface IRedusedTasksList {
+  id : number
+  tasks : TaskItem[]
+  title : string
+}
+
 class ClickHandler {
   constructor(){
     this.submitNewTaskList()
@@ -277,8 +283,8 @@ class ToDo {
     document.cookie = "toDoList=; expires=-1"
 
     const toDoRedused = ()=> {
-      const redused:any = []
-      this.plans.forEach(({title,id , tasks}):any=>{
+      const redused:IRedusedTasksList[] = []
+      this.plans.forEach(({title,id , tasks})=>{
         redused.push({title, id, tasks})
       })
       return redused
@@ -315,22 +321,26 @@ class ToDo {
     return matches ? decodeURIComponent(matches[1]) : undefined;
   }
 
-  public getObjFromCookie = ()=>JSON.parse(this._getCookie()!)
+  private _getObjFromCookie = ()=>JSON.parse(this._getCookie()!)
+
+  public restoreToDo = ()=>{
+    const toDoData= this._getObjFromCookie()
+
+    toDoData.forEach((ele:IRedusedTasksList) => {
+      this.addTask(ele.title, ele.id)
+      ele.tasks.forEach((task:TaskItem)=>{
+        this.plans[this.plans.length-1].addNewTask(task.taskText,task.id)
+      })
+    });
+  }
 
 }
 const container = document.querySelector('.todo__container')!
 const toDo = new ToDo(container)
 const clickHandler = new ClickHandler
+toDo.restoreToDo()
 
-const toDoData= toDo.getObjFromCookie()
 
-
-toDoData.forEach((ele:any) => {
-  toDo.addTask(ele.title, ele.id)
-  ele.tasks.forEach((task:any)=>{
-    toDo.plans[toDo.plans.length-1].addNewTask(task.taskText,task.id)
-  })
-});
 
 
 

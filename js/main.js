@@ -271,7 +271,16 @@ class ToDo {
             let matches = document.cookie.match(new RegExp("(?:^|; )" + 'toDoList'.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"));
             return matches ? decodeURIComponent(matches[1]) : undefined;
         };
-        this.getObjFromCookie = () => JSON.parse(this._getCookie());
+        this._getObjFromCookie = () => JSON.parse(this._getCookie());
+        this.restoreToDo = () => {
+            const toDoData = this._getObjFromCookie();
+            toDoData.forEach((ele) => {
+                this.addTask(ele.title, ele.id);
+                ele.tasks.forEach((task) => {
+                    this.plans[this.plans.length - 1].addNewTask(task.taskText, task.id);
+                });
+            });
+        };
         this.plans = [];
         this.parent = container;
         this.listHtml = this._createHtml();
@@ -280,10 +289,4 @@ class ToDo {
 const container = document.querySelector('.todo__container');
 const toDo = new ToDo(container);
 const clickHandler = new ClickHandler;
-const toDoData = toDo.getObjFromCookie();
-toDoData.forEach((ele) => {
-    toDo.addTask(ele.title, ele.id);
-    ele.tasks.forEach((task) => {
-        toDo.plans[toDo.plans.length - 1].addNewTask(task.taskText, task.id);
-    });
-});
+toDo.restoreToDo();
