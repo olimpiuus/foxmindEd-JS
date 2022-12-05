@@ -22,6 +22,7 @@ class ClickHandler {
                     const list = toDo.plans[listIndex];
                     const taskIndex = list.getIndexTaskByID(id);
                     const task = list.tasks[taskIndex];
+                    toDo.saveToCookie();
                     if (classesOfTarget.contains('task__btn_edit')) {
                         task.changingTextField();
                     }
@@ -29,6 +30,7 @@ class ClickHandler {
                         if (confirm(`Delete task?`)) {
                             task.delete();
                             removeElemFromArrayByIndex(list.tasks, taskIndex);
+                            toDo.saveToCookie();
                         }
                         else {
                             return;
@@ -40,6 +42,7 @@ class ClickHandler {
                     const id = parseInt((_c = target.parentElement) === null || _c === void 0 ? void 0 : _c.dataset.id);
                     const listIndex = toDo.getIndexListById(id);
                     toDo.plans[listIndex].clearList();
+                    toDo.saveToCookie();
                 }
                 // delete List 
                 if (classesOfTarget.contains('item__delete-list')) {
@@ -48,6 +51,7 @@ class ClickHandler {
                     if (confirm(`Delete list with title:"${toDo.plans[listIndex].title}"`)) {
                         toDo.plans[listIndex].delete();
                         removeElemFromArrayByIndex(toDo.plans, listIndex);
+                        toDo.saveToCookie();
                     }
                     else {
                         return;
@@ -71,6 +75,7 @@ class ClickHandler {
                 }
                 toDo.addTask(value);
                 input.value = '';
+                toDo.saveToCookie();
             });
         };
         this.submitNewTaskList();
@@ -169,6 +174,11 @@ class TaskGroup {
     constructor(parent, title, id) {
         this.title = title;
         this.id = id;
+        this.addNewTask = (value, id) => {
+            const newTask = new TaskItem(value, id);
+            this.tasks.push(newTask);
+            this.taskList.append(newTask.taskHtml);
+        };
         this._html = () => {
             const group = document.createElement('li');
             group.dataset.id = this.id.toString();
@@ -189,10 +199,9 @@ class TaskGroup {
                 if (this._inputForNewTask.input.value === '') {
                     return alert('Cant add empty task');
                 }
-                const newTask = new TaskItem(this._inputForNewTask.input.value, this.id.toString() + '_' + this.tasks.length);
+                this.addNewTask(this._inputForNewTask.input.value, this.id.toString() + '_' + this.tasks.length);
                 this._inputForNewTask.input.value = '';
-                this.tasks.push(newTask);
-                this.taskList.append(newTask.taskHtml);
+                toDo.saveToCookie();
             });
         };
         this.getIndexTaskByID = (id) => this.tasks.findIndex(elem => elem.id === id);
@@ -207,9 +216,11 @@ class TaskGroup {
     clearList() {
         this.tasks = [];
         this.taskList.innerHTML = '';
+        toDo.saveToCookie();
     }
     delete() {
         this._parent.removeChild(this.html);
+        toDo.saveToCookie();
     }
 }
 class ToDo {
@@ -228,10 +239,39 @@ class ToDo {
             this.parent.append(ul);
             return ul;
         };
-        this.addTask = (title) => {
-            this.plans.push(new TaskGroup(this.listHtml, title, this.plans.length));
+        this.addTask = (title, id = this.plans.length) => {
+            this.plans.push(new TaskGroup(this.listHtml, title, id));
         };
         this.getIndexListById = (id) => this.plans.findIndex(element => element.id === id);
+        this.saveToCookie = (options = {}) => {
+            document.cookie = "toDoList=; expires=-1";
+            const toDoRedused = () => {
+                const redused = [];
+                this.plans.forEach(({ title, id, tasks }) => {
+                    redused.push({ title, id, tasks });
+                });
+                return redused;
+            };
+            const value = JSON.stringify(toDoRedused());
+            options = Object.assign({ path: '/', 'max-age': 86400 }, options);
+            if (options.expires instanceof Date) {
+                options.expires = options.expires.toUTCString();
+            }
+            let updatedCookie = encodeURIComponent('toDoList') + "=" + encodeURIComponent(value);
+            for (let optionKey in options) {
+                updatedCookie += "; " + optionKey;
+                let optionValue = options[optionKey];
+                if (optionValue !== true) {
+                    updatedCookie += "=" + optionValue;
+                }
+            }
+            document.cookie = updatedCookie;
+        };
+        this._getCookie = () => {
+            let matches = document.cookie.match(new RegExp("(?:^|; )" + 'toDoList'.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"));
+            return matches ? decodeURIComponent(matches[1]) : undefined;
+        };
+        this.getObjFromCookie = () => JSON.parse(this._getCookie());
         this.plans = [];
         this.parent = container;
         this.listHtml = this._createHtml();
@@ -240,5 +280,10 @@ class ToDo {
 const container = document.querySelector('.todo__container');
 const toDo = new ToDo(container);
 const clickHandler = new ClickHandler;
-toDo.addTask('title');
-console.log(toDo);
+const toDoData = toDo.getObjFromCookie();
+toDoData.forEach((ele) => {
+    toDo.addTask(ele.title, ele.id);
+    ele.tasks.forEach((task) => {
+        toDo.plans[toDo.plans.length - 1].addNewTask(task.taskText, task.id);
+    });
+});

@@ -5,7 +5,6 @@ const removeElemFromArrayByIndex = (arr:any[], index:number)=>{
 
 const getIndexListById = (id:number)=>toDo.plans.findIndex(element => element.id === id)
 
-
 class ClickHandler {
   constructor(){
     this.submitNewTaskList()
@@ -25,6 +24,7 @@ class ClickHandler {
         const list = toDo.plans[listIndex]
         const taskIndex = list.getIndexTaskByID(id)
         const task = list.tasks[taskIndex]
+        toDo.saveToCookie()
         
         if (classesOfTarget.contains('task__btn_edit')) {
           task.changingTextField()
@@ -32,6 +32,7 @@ class ClickHandler {
           if (confirm(`Delete task?`)) {
             task.delete()
             removeElemFromArrayByIndex(list.tasks, taskIndex)
+            toDo.saveToCookie()
           } else {return}
         }
       }
@@ -41,6 +42,7 @@ class ClickHandler {
         const id = parseInt(target.parentElement?.dataset.id!)
         const listIndex = toDo.getIndexListById(id)
         toDo.plans[listIndex].clearList()
+        toDo.saveToCookie()
       }
 
       // delete List 
@@ -51,6 +53,7 @@ class ClickHandler {
         if (confirm(`Delete list with title:"${toDo.plans[listIndex].title}"`)) {
           toDo.plans[listIndex].delete()
           removeElemFromArrayByIndex(toDo.plans,listIndex)
+          toDo.saveToCookie()
         } else {return}
         
       }
@@ -65,6 +68,7 @@ class ClickHandler {
       if (value==='') {if (confirm('Create task with title : "TITLE"')) {value='title'}else {return }}
       toDo.addTask(value)
       input.value = ''
+      toDo.saveToCookie()
     })
   }
 }
@@ -166,7 +170,7 @@ class TaskItem {
       this.taskHtml = this._renderElement()
       editForm.removeFromDOM()
       taskParent.append(this.taskHtml)
-      
+
       // delete if empty
       if (newValue==='') {
         this.taskHtml.querySelector('.task__btn_delete')!.click()
@@ -193,6 +197,12 @@ class TaskGroup {
     this._addListener()
   }
 
+  public addNewTask = (value:string, id:string)=>{
+    const newTask = new TaskItem(value,id)
+    this.tasks.push(newTask)
+    this.taskList.append(newTask.taskHtml)
+  }
+
   private _html = ()=>{
     const group = document.createElement('li')
     
@@ -213,19 +223,21 @@ class TaskGroup {
     this._inputForNewTask.htmlElement.addEventListener('submit', (e:Event)=>{
       e.preventDefault()
       if (this._inputForNewTask.input.value==='') { return alert('Cant add empty task') }
-      const newTask = new TaskItem(this._inputForNewTask.input.value,this.id.toString()+'_'+this.tasks.length)
+      this.addNewTask(this._inputForNewTask.input.value,this.id.toString()+'_'+this.tasks.length)
       this._inputForNewTask.input.value = ''
-      this.tasks.push(newTask)
-      this.taskList.append(newTask.taskHtml)
+
+      toDo.saveToCookie()
     })
   }
 
   public clearList() {
     this.tasks = []
     this.taskList.innerHTML = ''
+    toDo.saveToCookie()
   }
   public delete() {
     this._parent.removeChild(this.html)
+    toDo.saveToCookie()
   }
   public getIndexTaskByID = (id:string) => this.tasks.findIndex(elem => elem.id===id)
 
@@ -255,19 +267,75 @@ class ToDo {
     this.parent.append(ul)
     return ul
   }
-  public addTask = (title:string)=>{
-    this.plans.push(new TaskGroup(this.listHtml, title,this.plans.length))
+  public addTask = (title:string, id:number=this.plans.length)=>{
+    this.plans.push(new TaskGroup(this.listHtml, title, id))
   }
 
   public getIndexListById = (id:number)=>this.plans.findIndex(element => element.id === id)
+
+  public saveToCookie = (options:any = {}) => {
+    document.cookie = "toDoList=; expires=-1"
+
+    const toDoRedused = ()=> {
+      const redused:any = []
+      this.plans.forEach(({title,id , tasks}):any=>{
+        redused.push({title, id, tasks})
+      })
+      return redused
+    }
+    
+    const value = JSON.stringify(toDoRedused())
+    options = {
+      path: '/',
+      'max-age' : 86400,
+      ...options
+    };
+  
+    if (options.expires instanceof Date) {
+      options.expires = options.expires.toUTCString();
+    }
+  
+    let updatedCookie = encodeURIComponent('toDoList') + "=" + encodeURIComponent(value);
+  
+    for (let optionKey in options) {
+      updatedCookie += "; " + optionKey;
+      let optionValue = options[optionKey];
+      if (optionValue !== true) {
+        updatedCookie += "=" + optionValue;
+      }
+    }
+    
+    document.cookie = updatedCookie;
+
+  }
+  private _getCookie =() => {
+    let matches = document.cookie.match(new RegExp(
+      "(?:^|; )" + 'toDoList'.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+    ));
+    return matches ? decodeURIComponent(matches[1]) : undefined;
+  }
+
+  public getObjFromCookie = ()=>JSON.parse(this._getCookie()!)
+
 }
 const container = document.querySelector('.todo__container')!
 const toDo = new ToDo(container)
 const clickHandler = new ClickHandler
 
-toDo.addTask('title')
+const toDoData= toDo.getObjFromCookie()
 
-console.log(toDo);
+
+toDoData.forEach((ele:any) => {
+  toDo.addTask(ele.title, ele.id)
+  ele.tasks.forEach((task:any)=>{
+    toDo.plans[toDo.plans.length-1].addNewTask(task.taskText,task.id)
+  })
+});
+
+
+
+
+
 
 
 
