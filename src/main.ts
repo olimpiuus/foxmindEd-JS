@@ -14,7 +14,7 @@ interface IRedusedTasksList {
 class ClickHandler {
   constructor(){
     this.submitNewTaskList()
-    this.windowClick()
+    this.windowClick()    
   }
   windowClick = ()=>{
     document.addEventListener('click',(e)=>{
@@ -324,6 +324,7 @@ class ToDo {
   private _getObjFromCookie = ()=>JSON.parse(this._getCookie()!)
 
   public restoreToDo = ()=>{
+    if (!this._getCookie()) {return}
     const toDoData= this._getObjFromCookie()
 
     toDoData.forEach((ele:IRedusedTasksList) => {

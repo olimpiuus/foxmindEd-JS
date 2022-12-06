@@ -273,6 +273,9 @@ class ToDo {
         };
         this._getObjFromCookie = () => JSON.parse(this._getCookie());
         this.restoreToDo = () => {
+            if (!this._getCookie()) {
+                return;
+            }
             const toDoData = this._getObjFromCookie();
             toDoData.forEach((ele) => {
                 this.addTask(ele.title, ele.id);
