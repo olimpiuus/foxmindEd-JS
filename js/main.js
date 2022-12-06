@@ -83,7 +83,7 @@ class ClickHandler {
     }
 }
 class FormForEditing {
-    constructor(parentBlock, text = '', type = 'add') {
+    constructor(text = '', type = 'add') {
         this._htmlElem = () => {
             const form = document.createElement('form');
             form.classList.add('item__input-block');
@@ -94,7 +94,7 @@ class FormForEditing {
     <input type="text" class="item__input" placeholder="e.g. eggs">
     <button type="submit" class="item__btn-add-note">Add</button>
     `;
-            this._parentBlock.append(form);
+            // this._parentBlock.append(form)
             return form;
         };
         this._addAlerts = () => {
@@ -108,11 +108,13 @@ class FormForEditing {
         this.removeFromDOM = () => {
             document.removeEventListener('click', this._alertsFN.focusInputWithAlert);
             this.htmlElement.removeEventListener('click', this._alertsFN.stopPropagation);
-            this._parentBlock.removeChild(this.htmlElement);
+            // this._parentBlock.removeChild(this.htmlElement)
+        };
+        this.assignToBlock = (block) => {
+            block.append(this.htmlElement);
         };
         this._type = type;
         this.value = text;
-        this._parentBlock = parentBlock;
         this.htmlElement = this._htmlElem();
         this.input = this.htmlElement.querySelector('input');
         this._alertsFN = {
@@ -149,9 +151,8 @@ class TaskItem {
             taskParent.removeChild(this.taskHtml);
         };
         this.changingTextField = () => {
-            const taskParent = this.taskHtml.parentElement;
-            taskParent.removeChild(this.taskHtml);
-            const editForm = new FormForEditing(taskParent, this.taskText, 'edit');
+            const editForm = new FormForEditing(this.taskText, 'edit');
+            this.taskHtml.replaceWith(editForm.htmlElement);
             editForm.input.focus();
             editForm.htmlElement.addEventListener('submit', (e) => {
                 e.preventDefault();
@@ -159,7 +160,7 @@ class TaskItem {
                 this.taskText = newValue;
                 this.taskHtml = this._renderElement();
                 editForm.removeFromDOM();
-                taskParent.append(this.taskHtml);
+                editForm.htmlElement.replaceWith(this.taskHtml);
                 // delete if empty
                 if (newValue === '') {
                     this.taskHtml.querySelector('.task__btn_delete').click();
@@ -208,7 +209,8 @@ class TaskGroup {
         this._parent = parent;
         this.html = this._html();
         this.tasks = [];
-        this._inputForNewTask = new FormForEditing(this.html.querySelector('.item__input-block'), '', 'add');
+        this._inputForNewTask = new FormForEditing('', 'add');
+        this._inputForNewTask.assignToBlock(this.html.querySelector('.item__input-block'));
         this.taskList = this.html.querySelector('.item__tasks-list');
         this._parent.prepend(this.html);
         this._addListener();
