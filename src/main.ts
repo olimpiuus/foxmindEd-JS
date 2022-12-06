@@ -24,7 +24,7 @@ class ClickHandler {
       
       // Edit Task and Delete Task
       if (classesOfTarget.contains('task__btn_edit')||classesOfTarget.contains('task__btn_delete')) {
-        const id = target.parentElement?.parentElement?.dataset.id!
+        const id = target.closest('.item__task')!.dataset.id!
         const [listNumber, taskNumber] = id.split('_')
         const listIndex = toDo.getIndexListById(parseInt(listNumber))
         const list = toDo.plans[listIndex]

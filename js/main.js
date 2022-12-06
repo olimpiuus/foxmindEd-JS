@@ -8,7 +8,7 @@ class ClickHandler {
     constructor() {
         this.windowClick = () => {
             document.addEventListener('click', (e) => {
-                var _a, _b, _c, _d;
+                var _a, _b;
                 const target = e.target;
                 if (!(target instanceof HTMLElement)) {
                     return;
@@ -16,7 +16,7 @@ class ClickHandler {
                 const classesOfTarget = target.classList;
                 // Edit Task and Delete Task
                 if (classesOfTarget.contains('task__btn_edit') || classesOfTarget.contains('task__btn_delete')) {
-                    const id = (_b = (_a = target.parentElement) === null || _a === void 0 ? void 0 : _a.parentElement) === null || _b === void 0 ? void 0 : _b.dataset.id;
+                    const id = target.closest('.item__task').dataset.id;
                     const [listNumber, taskNumber] = id.split('_');
                     const listIndex = toDo.getIndexListById(parseInt(listNumber));
                     const list = toDo.plans[listIndex];
@@ -39,14 +39,14 @@ class ClickHandler {
                 }
                 // clear List
                 if (classesOfTarget.contains('item__clear-list')) {
-                    const id = parseInt((_c = target.parentElement) === null || _c === void 0 ? void 0 : _c.dataset.id);
+                    const id = parseInt((_a = target.parentElement) === null || _a === void 0 ? void 0 : _a.dataset.id);
                     const listIndex = toDo.getIndexListById(id);
                     toDo.plans[listIndex].clearList();
                     toDo.saveToCookie();
                 }
                 // delete List 
                 if (classesOfTarget.contains('item__delete-list')) {
-                    const id = parseInt((_d = target.parentElement) === null || _d === void 0 ? void 0 : _d.dataset.id);
+                    const id = parseInt((_b = target.parentElement) === null || _b === void 0 ? void 0 : _b.dataset.id);
                     const listIndex = toDo.getIndexListById(id);
                     if (confirm(`Delete list with title:"${toDo.plans[listIndex].title}"`)) {
                         toDo.plans[listIndex].delete();
