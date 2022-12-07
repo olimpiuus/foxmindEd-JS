@@ -1,9 +1,12 @@
-const removeElemFromArrayByIndex = (arr:any[], index:number)=>{
-  arr.splice(index,1)
-  return arr
+const removeElemFromArrayByIndex = <Arr> (arr:Arr[], index:number)=>{
+  const arrayCopy = arr
+  arrayCopy.splice(index,1)
+  return arrayCopy
 }
 
 const getIndexListById = (id:number)=>toDo.plans.findIndex(element => element.id === id)
+
+
 
 interface IRedusedTasksList {
   id : number
@@ -78,15 +81,16 @@ class ClickHandler {
     })
   }
 }
-
+type EditOrAddLiteral = 'add'|'edit'
 class FormForEditing {
+  
   value:string
-  private _type: 'edit'|'add'
+  private _type: EditOrAddLiteral
   htmlElement: HTMLFormElement
   input:HTMLInputElement
   private _alertsFN:any
   
-  constructor(text:string='',  type:'edit'|'add'='add'){
+  constructor(text:string='',  type:EditOrAddLiteral='add'){
     this._type = type
     this.value = text
     this.htmlElement = this._htmlElem()
@@ -178,7 +182,7 @@ class TaskItem {
       editForm.htmlElement.replaceWith(this.taskHtml)
 
       // delete if empty
-      if (newValue==='') {
+      if (!newValue) {
         this.taskHtml.querySelector('.task__btn_delete')!.click()
       }
      })
