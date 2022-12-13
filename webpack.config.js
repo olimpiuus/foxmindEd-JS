@@ -6,8 +6,14 @@ module.exports = {
   devtool: 'inline-source-map',
   devServer: {
     static: './dist',
+    client: {
+      overlay: {
+        errors: true,
+        warnings: false,
+      }
+    },
   },
-  mode: 'production',
+  mode: 'development',
   module: {
     rules: [
       {
@@ -26,19 +32,21 @@ module.exports = {
         generator: {
           filename: "css/style.css",
         },
-        use: ["sass-loader"],
+        use: [
+        "sass-loader"]
       },
-      {
-        test: /\.(svg|png|jpg|gif)$/,
-        use: {
-          loader: "file-loader",
-          options: {
-            esModule: false,
-            name: "[name].[hash].[ext]",
-            outputPath: "imgs"
-          }
-        }
-      },
+
+      // {
+      //   test: /\.(svg|png|jpg|gif)$/,
+      //   use: {
+      //     loader: "file-loader",
+      //     options: {
+      //       esModule: false,
+      //       name: "[name].[hash].[ext]",
+      //       outputPath: "imgs"
+      //     }
+      //   }
+      // },
     ],
   },
   stats: {
@@ -48,7 +56,6 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: './src/index.html',
-      inject: 'body',
     }),
   ],
   resolve: {
