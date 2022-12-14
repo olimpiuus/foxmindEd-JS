@@ -1,6 +1,6 @@
 import "./component/multiselect-dropdown"
-import "./component/country"
-import "./component/getData"
+import GetData from "./component/getData"
 
 console.log('hi')
 
+console.log(GetData);
