@@ -36,9 +36,18 @@ class GetData {
     return new Country(name,population,region,capital,img)
   }
 
+  getCountriesFromRequest = (data:ICountryAnswer[]) => {
+    return data.map((countryObj)=>this.getCountryObjFromAnswer(countryObj))
+  }
+  
   getCountry = async (nameCountry:string) => {
     const data = await this.requestByName(nameCountry)
-    return this.getCountryObjFromAnswer(data[0])
+    return this.getCountriesFromRequest(data)[0]
+  }
+
+  getCountiesFromRegionsRequest = async (region:string)=>{
+    const data = await this.requestByRegion(region)
+    return this.getCountriesFromRequest(data)
   }
 
   getSearchResults = async (nameCountry:string) => {
@@ -46,14 +55,10 @@ class GetData {
     const searchList = data.map(elem=>elem.name.official)
     return searchList
   }
-
-  getDataByRegions =async (region:string) => {
-    const data = await this.requestByRegion(region)
-    const new1 = data.map((countryObj)=>this.getCountryObjFromAnswer(countryObj))
-  }
 }
 
-new GetData().getDataByRegions('Europe')
+
+
 
   
   
