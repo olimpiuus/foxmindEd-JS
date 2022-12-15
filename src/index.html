@@ -22,7 +22,8 @@
 
         <form action="" class="countries__search-form search">
             <input type="search" class="search__input" id="country-search" placeholder="Search for a country...">
-            <select multiple multiselect-select-all="true" class="search__select-region" name="regions" id="sel1">
+            <select class="search__select-region" name="regions" id="sel1">
+                <option value="All">All</option>
                 <option value="Africa">Africa</option>
                 <option value="Americas">Americas</option>
                 <option value="Asia">Asia</option>
@@ -30,7 +31,7 @@
                 <option value="Oceania">Oceania</option>
             </select>
         </form>
-
+        
         <ul class="countries__list">
             <li class="countries__country-item country">
                 <!-- <img src="" alt="" class="country__flag"> -->

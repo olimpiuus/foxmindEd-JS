@@ -1,8 +1,6 @@
-import "./component/multiselect-dropdown"
+import "../index.html"
 import GetData from "./component/getData"
 import RenderList from "./component/renderList"
-
-// console.log('hi')
 
 
 
