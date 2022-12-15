@@ -21,6 +21,7 @@ export default class RenderList {
     </li>`)
   }
   addArrayCountries = (arr:Country[])=>{
+    this.clearList()
     arr.forEach(el=>this.addCountry(el))
   }
 }

@@ -62,7 +62,7 @@ button {
 
 :root {
   --color-header-card-search: #fff;
-  --color-body:#efefef;
+  --color-body:#ededed;
 }
 
 .header {
@@ -89,6 +89,7 @@ button {
 .countries__container {
   margin: 0 auto;
   padding: 0 20px;
+  background-color: var(--color-body);
   padding-top: 30px;
 }
 .countries__search-form {
@@ -120,7 +121,7 @@ button {
   overflow: hidden;
   background-color: var(--color-header-card-search);
   padding: 10px;
-  width: 150px;
+  width: 200px;
 }
 
 .country {

@@ -2,7 +2,7 @@
 
 :root
   --color-header-card-search: #fff
-  --color-body:#efefef
+  --color-body:#ededed
 
 @mixin color-body
  background-color: var(--color-body)
@@ -48,7 +48,7 @@
   
   &__container
     @include container
-    @mixin color-body
+    @include color-body
     padding-top: 30px
 
   &__search-form
@@ -68,7 +68,7 @@
   &__select-region
     @include shadow-box
     padding: 10px
-    width: 150px
+    width: 200px
 
 .country
   @include shadow-box
