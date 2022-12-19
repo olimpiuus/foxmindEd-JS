@@ -2,17 +2,23 @@
 import Country from "./country"
 import { ICountryAnswer } from "./country";
 
-export default class GetData {
+class GetData {
   constructor() {}
 
   private _requestByName = async (nameCountry:string) => {
-    const answer = await fetch(`https://restcountries.com/v3.1/name/${nameCountry}`)
-    const data:ICountryAnswer[] = await answer.json()
-    return data
+      const answer = await fetch(`https://restcountries.com/v3.1/name/${nameCountry}`)
+      const data:ICountryAnswer[] = await answer.json()
+      return data
   }
 
   private _requestByRegion =async (region:string) => {
     const answer = await fetch(`https://restcountries.com/v3.1/region/${region}`)
+    const data:ICountryAnswer[] = await answer.json()
+    return data
+  }
+
+  private _requestAll =async () => {
+    const answer = await fetch(`https://restcountries.com/v3.1/all`)
     const data:ICountryAnswer[] = await answer.json()
     return data
   }
@@ -41,8 +47,14 @@ export default class GetData {
     const searchList = data.map(elem=>elem.name.official)
     return searchList
   }
-}
+  getAllCountries =async () => {
+    const data = await this._requestAll()
+    return this._getCountriesFromRequest(data)
+  }
 
+}
+const request = new GetData()
+export default request
 
 
 
