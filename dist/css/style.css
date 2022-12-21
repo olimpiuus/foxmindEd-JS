@@ -65,6 +65,22 @@ button {
   --color-body:#ededed;
 }
 
+html[data-theme=light] {
+  --color-header-card-search: #fff;
+  --color-body:#ededed;
+  --color-text:black;
+}
+
+html[data-theme=dark] {
+  --color-header-card-search: #000000;
+  --color-body:#818181;
+  --color-text:white;
+}
+
+body {
+  color: var(--color-text);
+}
+
 .header {
   margin: 0 auto;
   padding: 0 20px;
@@ -86,11 +102,17 @@ button {
 .header__btn-img {
   height: auto;
 }
+.header__btn-mode {
+  color: inherit;
+}
+
 .countries__container {
   margin: 0 auto;
   padding: 0 20px;
   background-color: var(--color-body);
   padding-top: 30px;
+  display: flex;
+  flex-direction: column;
 }
 .countries__search-form {
   height: 100px;
@@ -102,6 +124,9 @@ button {
   display: grid;
   gap: 15px;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+.countries__list-wrapper {
+  position: relative;
 }
 .search {
   position: relative;
@@ -147,6 +172,7 @@ button {
   box-shadow: 1px 1px 1px 1px #e2e2e2;
   overflow: hidden;
   background-color: var(--color-header-card-search);
+  color: inherit;
   padding: 10px;
   width: 200px;
 }
@@ -164,4 +190,44 @@ button {
   width: 100%;
   height: 50%;
   object-fit: cover;
+}
+.spinner {
+  width: 80px;
+  height: 80px;
+  border: 2px solid #f3f3f3;
+  border-top: 3px solid #f25a41;
+  border-radius: 100%;
+  position: absolute;
+  top: 40%;
+  left: 40%;
+  animation: spin 1s infinite linear;
+}
+
+.spinner-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 80vh;
+  background-color: var(--color-header-card-search);
+}
+
+.spinner-active {
+  visibility: inherit;
+}
+
+.spinner-deactivated {
+  visibility: hidden;
+}
+
+@keyframes spin {
+  from {
+    transform: translate(-40%, -40%);
+    transform: rotate(0deg);
+  }
+  to {
+    transform: translate(-40%, -40%);
+    transform: rotate(360deg);
+  }
 }

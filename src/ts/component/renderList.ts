@@ -1,4 +1,5 @@
 import Country from "./country"
+import spinner from "./spinner";
 
 export default class RenderList {
   list:HTMLElement
@@ -21,7 +22,12 @@ export default class RenderList {
     </li>`)
   }
   addArrayCountries = (arr:Country[])=>{
+    spinner.activate()
     this.clearList()
     arr.forEach(el=>this.addCountry(el))
+    setTimeout(() => {
+      spinner.deactivate()
+    }, 500);
+    
   }
 }

@@ -4,6 +4,18 @@
   --color-header-card-search: #fff
   --color-body:#ededed
 
+html[data-theme='light'] 
+  --color-header-card-search: #fff
+  --color-body:#ededed
+  --color-text:black
+
+
+html[data-theme='dark'] 
+  --color-header-card-search: #000000
+  --color-body:#818181
+  --color-text:white
+
+
 @mixin color-body
  background-color: var(--color-body)
 
@@ -26,6 +38,8 @@
   overflow: hidden
   @include color-header-other
 
+body
+  color: var(--color-text)
 .header 
   @include container
   @include color-header-other
@@ -40,16 +54,19 @@
       flex-shrink: 1
       display: flex
       height: 25px
+      
     &-img
       height: auto
     &-mode
-
+      color: inherit
 .countries 
   
   &__container
     @include container
     @include color-body
     padding-top: 30px
+    display: flex
+    flex-direction: column
 
   &__search-form
     height: 100px
@@ -58,6 +75,8 @@
     display: grid
     gap: 15px
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr))
+    &-wrapper
+      position: relative
   &__country-item
 
 .search 
@@ -86,6 +105,7 @@
 
   &__select-region
     @include shadow-box
+    color: inherit
     padding: 10px
     width: 200px
 
@@ -106,4 +126,4 @@
 
   &__info
 
-
+@import "./addition/spinner"

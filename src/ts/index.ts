@@ -3,8 +3,7 @@ import "../index.html"
 import Country from "./component/country"
 import request from "./component/getData"
 import RenderList from "./component/renderList"
-// import "./component/listenerSelect";
-
+import "./component/theme";
 
 const renderFn = new RenderList()
 
@@ -103,7 +102,13 @@ class ClickHandler {
           search.clearOptions()
           search.element.value=country.name
         }
+        if (target.closest('.header__btn-mode-block')) {
+          // Change dark/light mode
+          console.log('cc');
+          
+        }
       })
+
     }
   }
 }
