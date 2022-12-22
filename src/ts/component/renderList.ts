@@ -15,7 +15,7 @@ export default class RenderList {
         <img src="${img}" alt="" class="country__flag">
         <div class="country__description">
             <h3 class="country__title">${name}</h3>
-            <p class="country__info"><b>Population:</b>${population}</p>
+            <p class="country__info"><b>Population: </b>${population}</p>
             <p class="country__info"><b>Region:</b> ${region}</p>
             <p class="country__info"><b>Capital:</b> ${capital}</p>
         </div>

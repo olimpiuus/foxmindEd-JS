@@ -60,21 +60,18 @@ class App {
   }
 
   clearOptions = ()=>this.options.innerHTML=''
-
+  
   private _updateDom = async ()=>{
     let delay: NodeJS.Timeout
     this.element.addEventListener('keyup', ()=>{
 
       if (delay) {clearTimeout(delay)}
       delay = setTimeout(async ()=>{
-        
         this.clearOptions()
-        
         try {          
           const searchValues = await this._getValue()
           searchValues.forEach(el=>this._addOption(el))
           }
-
         catch(error){
           this.clearOptions()
           this._addOption('Country not found')
@@ -102,13 +99,7 @@ class ClickHandler {
           search.clearOptions()
           search.element.value=country.name
         }
-        if (target.closest('.header__btn-mode-block')) {
-          // Change dark/light mode
-          console.log('cc');
-          
-        }
       })
-
     }
   }
 }

@@ -14,7 +14,7 @@ module.exports = {
       }
     },
   },
-  mode: 'development',
+  mode: 'production',
   module: {
     rules: [
       {
@@ -36,18 +36,17 @@ module.exports = {
         use: [
         "sass-loader"]
       },
-
-      // {
-      //   test: /\.(svg|png|jpg|gif)$/,
-      //   use: {
-      //     loader: "file-loader",
-      //     options: {
-      //       esModule: false,
-      //       name: "[name].[hash].[ext]",
-      //       outputPath: "imgs"
-      //     }
-      //   }
-      // },
+      {
+        test: /\.(svg|png|jpg|gif)$/,
+        use: {
+          loader: "file-loader",
+          options: {
+            esModule: false,
+            name: "[name].[hash].[ext]",
+            outputPath: "imgs"
+          }
+        }
+      },
     ],
   },
   stats: {
