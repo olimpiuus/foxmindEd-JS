@@ -1,7 +1,7 @@
 import Country from "./country"
 import spinner from "./spinner";
 
-export default class RenderList {
+ class RenderList {
   list:HTMLElement
   constructor (){
     this.list = document.querySelector('.countries__list')!
@@ -31,3 +31,5 @@ export default class RenderList {
     
   }
 }
+const renderFn = new RenderList()
+export default renderFn
