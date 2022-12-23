@@ -1,42 +1,22 @@
-import Country from "./country"
 import request from "./getData"
-import renderFn from "./renderList"
+import select from "./select"
 
-
-class App {
+class Search {
   element:HTMLInputElement
   options:HTMLUListElement
-  select:HTMLSelectElement
-  private _selectChoice: string|null
-  private _selectRegion: Country[]
+  
   constructor(){
     this.element = document.querySelector('.search__input')!
     this.options = document.querySelector('.search__options')!
-    this.select = document.querySelector('.search__select-region')!
-    this._selectChoice = null
-    this._selectRegion=[]
     this._updateDom()
-    this._selectListener()
-  }
-
-  private _selectListener = ()=>{
-    this.select.addEventListener('change', async ()=>{
-      this._selectChoice = this.select.value
-      if (this._selectChoice==="All") {
-        this._selectRegion = await request.getAllCountries()
-      } else {
-        this._selectRegion = await request.getCountiesFromRegionsRequest(this._selectChoice)
-      }
-      renderFn.addArrayCountries(this._selectRegion)
-    })
   }
 
   private _getValue = ()=>{
-    if (this.select.value==='All'||this.select.value==='Initial') {
+    if (select.element.value==='All'||select.element.value==='Initial') {
       return request.getSearchResults(this.element.value)
     } else {
       const searchLetters = this.element.value.split('')
-      const countries = this._selectRegion.filter(country=>{
+      const countries = select.getSelectedCountries.filter(country=>{
         let check = true
         const name = country.name.split('')
         searchLetters.forEach(letter=>{
@@ -72,13 +52,13 @@ class App {
           this.clearOptions()
           this._addOption('Country not found')
           }
-          if (this.element.value==='') { this.clearOptions()}
+        if (this.element.value==='') { this.clearOptions()}
         }
           ,500)
       })
   }
 }
 
-const search = new App()
+const search = new Search()
 
 export default  search

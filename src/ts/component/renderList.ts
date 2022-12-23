@@ -24,10 +24,12 @@ import spinner from "./spinner";
   addArrayCountries = (arr:Country[])=>{
     spinner.activate()
     this.clearList()
+    this.list.style.display='none'
     arr.forEach(el=>this.addCountry(el))
     setTimeout(() => {
       spinner.deactivate()
     }, 500);
+    this.list.style.display='grid'
     
   }
 }
