@@ -1,16 +1,18 @@
-import Country from "./country"
+import Country from "./country";
 import spinner from "./spinner";
 
- class RenderList {
-  list:HTMLElement
-  constructor (){
-    this.list = document.querySelector('.countries__list')!
+class RenderList {
+  list: HTMLElement;
+  constructor() {
+    this.list = document.querySelector(".countries__list")!;
   }
-  clearList = ()=>{
-    this.list.innerHTML = ''
-  }
-  addCountry = ({name, population,region,capital,img}:Country)=>{
-    this.list.insertAdjacentHTML('beforeend', `
+  clearList = () => {
+    this.list.innerHTML = "";
+  };
+  addCountry = ({ name, population, region, capital, img }: Country) => {
+    this.list.insertAdjacentHTML(
+      "beforeend",
+      `
     <li class="countries__country-item country">
         <img src="${img}" alt="" class="country__flag">
         <div class="country__description">
@@ -19,19 +21,19 @@ import spinner from "./spinner";
             <p class="country__info"><b>Region:</b> ${region}</p>
             <p class="country__info"><b>Capital:</b> ${capital}</p>
         </div>
-    </li>`)
-  }
-  addArrayCountries = (arr:Country[])=>{
-    spinner.activate()
-    this.clearList()
-    this.list.style.display='none'
-    arr.forEach(el=>this.addCountry(el))
+    </li>`
+    );
+  };
+  addArrayCountries = (arr: Country[]) => {
+    spinner.activate();
+    this.clearList();
+    this.list.style.display = "none";
+    arr.forEach((el) => this.addCountry(el));
     setTimeout(() => {
-      spinner.deactivate()
+      spinner.deactivate();
     }, 500);
-    this.list.style.display='grid'
-    
-  }
+    this.list.style.display = "grid";
+  };
 }
-const renderFn = new RenderList()
-export default renderFn
+const renderFn = new RenderList();
+export default renderFn;

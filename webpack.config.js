@@ -1,25 +1,24 @@
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
-  entry: './src/ts/index.ts',
-  devtool: 'inline-source-map',
+  entry: "./src/ts/index.ts",
+  devtool: "inline-source-map",
   devServer: {
-    static: './dist',
+    static: "./dist",
     client: {
       overlay: {
         errors: true,
         warnings: false,
-      }
+      },
     },
   },
-  mode: 'production',
+  mode: "production",
   module: {
     rules: [
       {
         test: /\.tsx?$/,
-        use: 'ts-loader',
+        use: "ts-loader",
         exclude: /node_modules/,
       },
       {
@@ -33,8 +32,7 @@ module.exports = {
         generator: {
           filename: "css/style.css",
         },
-        use: [
-        "sass-loader"]
+        use: ["sass-loader"],
       },
       {
         test: /\.(svg|png|jpg|gif)$/,
@@ -43,9 +41,9 @@ module.exports = {
           options: {
             esModule: false,
             name: "[name].[hash].[ext]",
-            outputPath: "imgs"
-          }
-        }
+            outputPath: "imgs",
+          },
+        },
       },
     ],
   },
@@ -55,17 +53,15 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './src/index.html',
-    })
+      template: "./src/index.html",
+    }),
   ],
   resolve: {
-    extensions: ['.tsx', '.ts', '.js'],
+    extensions: [".tsx", ".ts", ".js"],
   },
   output: {
-    filename: 'main.js',
-    path: path.resolve(__dirname, 'dist'),
+    filename: "main.js",
+    path: path.resolve(__dirname, "dist"),
     clean: true,
   },
-
-  
 };
