@@ -1,2 +1,2 @@
-import "../index.html";
-import "./component/clickHandler";
+import "../index.html"
+
