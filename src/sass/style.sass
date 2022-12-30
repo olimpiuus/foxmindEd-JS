@@ -1,1 +1,85 @@
 @import ./addition/reset.sass
+@import ./addition/fonts.sass
+
+
+@mixin container
+  max-width: 1170px
+  padding: 0 15px
+  flex-grow: 1
+  margin: 0 auto
+
+@mixin flex-row-center-spbtw-g20
+  display: flex
+  align-items: center
+  justify-content: space-between
+  gap: 20px
+  
+@mixin background-hero-header     
+  background-color: #d3d3d3
+
+body
+  display: flex
+  flex-direction: column
+  justify-content: center
+  height: 100vh
+  font-family: 'Kaushan Script'
+  &>*
+    flex-grow: 1
+    
+
+.header
+  @include background-hero-header
+  &__container
+    @include container
+  &_nav
+    @include flex-row-center-spbtw-g20
+  &__nav-links-list
+    @include flex-row-center-spbtw-g20
+
+  &__nav-link-item
+
+
+  &__nav-link
+
+
+  &__logo-wrapper
+
+
+  &__logo
+    width: 20px
+    height: 20px
+
+  &__btn-cart
+
+
+  &__img-cart
+
+
+
+.hero 
+  @include background-hero-header
+  &__container
+    @include container
+
+  &__title
+
+
+  &__text
+
+
+  &__btn-link
+
+
+
+.footer 
+  &__container
+    @include container
+
+  &__title
+
+
+  &__featured-list
+
+  &__featured-item
+
+

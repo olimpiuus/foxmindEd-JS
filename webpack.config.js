@@ -1,5 +1,6 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   entry: "./src/ts/index.ts",
@@ -13,9 +14,16 @@ module.exports = {
       },
     },
   },
-  mode: "production",
+  mode: "development",
   module: {
     rules: [
+      {
+        test: /\.(svg|png|jpg|gif)$/,
+        type: 'asset/resource',
+        generator: {
+          filename: 'imgs/[hash][ext][query]'
+        }
+      },
       {
         test: /\.tsx?$/,
         use: "ts-loader",
@@ -23,28 +31,25 @@ module.exports = {
       },
       {
         test: /\.html$/i,
-        loader: "html-loader",
+        loader: 'html-loader',
       },
       {
         test: /\.sass$/,
-        exclude: /node_modules/,
-        type: "asset/resource",
-        generator: {
-          filename: "css/style.css",
-        },
-        use: ["sass-loader"],
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+          },
+          "css-loader",
+          "sass-loader",
+        ],
       },
       {
-        test: /\.(svg|png|jpg|gif)$/,
-        use: {
-          loader: "file-loader",
-          options: {
-            esModule: false,
-            name: "[name].[hash].[ext]",
-            outputPath: "imgs",
-          },
-        },
-      },
+        test: /\.(woff|woff2|eot|ttf|otf)$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: 'fonts/[hash][ext][query]'
+        }
+    }
     ],
   },
   stats: {
@@ -55,6 +60,11 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: "./src/index.html",
     }),
+    new MiniCssExtractPlugin({
+      filename: 'css/[name].css',
+      chunkFilename: '[id].css',
+      ignoreOrder: false, // Enable to remove warnings about conflicting order
+    }),
   ],
   resolve: {
     extensions: [".tsx", ".ts", ".js"],
@@ -64,4 +74,10 @@ module.exports = {
     path: path.resolve(__dirname, "dist"),
     clean: true,
   },
+  ignoreWarnings: [
+    {
+      module: /style.sass/,
+      message: /null/,
+    },
+  ],
 };
