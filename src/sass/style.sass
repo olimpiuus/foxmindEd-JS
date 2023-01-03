@@ -1,6 +1,13 @@
 @import ./addition/reset.sass
 @import ./addition/fonts.sass
 
+:root
+  --color-header: black
+  --header-background: white
+
+html[title='Shop'] 
+  --color-header: white
+  --header-background: #868686
 
 @mixin container
   max-width: 1170px
@@ -14,8 +21,8 @@
   gap: 20px
   
 @mixin background-hero-header     
-  background-color: #868686
-  color: white
+  background-color: var(--header-background)
+  color: var(--color-header)
 @mixin body-sections
   width: 100%
 
@@ -27,4 +34,5 @@ body
 @import ./footer
 @import ./shoping-item
 @import ./shoping-cart
+@import ./site-location
 
