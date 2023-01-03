@@ -1,0 +1,38 @@
+//================= Header======================================
+.header
+  @include body-sections
+  padding-top: 20px
+  position: absolute
+  top: 0
+  z-index: 5
+  @include background-hero-header
+  background-color: transparent
+  &__container
+    @include container
+  &_nav
+    @include flex-row-center-spbtw-g20
+  &__nav-links-list
+    @include flex-row-center-spbtw-g20
+
+  &__nav-link-item
+
+  &__nav-link
+    letter-spacing: 0.05rem  
+  &__logo
+    font-size: 1.5rem
+    font-family: 'Kaushan Script'
+  &__btn-cart
+
+  .btn-cart
+    position: relative
+    &__img
+      width: 20px
+      height: auto
+    &__quantity
+      position: absolute
+      background-color: #f87d54
+      color: white
+      top: -7px
+      right: 0
+      border-radius: 50%
+      width: 50%
