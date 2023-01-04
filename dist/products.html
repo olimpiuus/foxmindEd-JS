@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Products</title>
-<script defer src="main.js"></script><link href="css/main.css" rel="stylesheet"></head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Products</title>
+  <script defer src="main.js"></script><link href="css/main.css" rel="stylesheet"></head>
+  <body>
     <header class="header">
       <div class="header__container">
         <nav class="header_nav">
@@ -18,17 +18,23 @@
               <a href="./products.html" class="header__nav-link">Products</a>
             </li>
             <li class="header__nav-link-item">
-              <a href="./About.html" class="header__nav-link">About</a>
+              <a href="" class="header__nav-link">About</a>
             </li>
           </ul>
           <span class="header__logo">comfy</span>
           <button class="header__btn-cart btn-cart">
-            <svg class="btn-cart__img" style="width:24px;height:24px" viewBox="0 0 24 24"><path fill="currentColor" d="M17,18C15.89,18 15,18.89 15,20A2,2 0 0,0 17,22A2,2 0 0,0 19,20C19,18.89 18.1,18 17,18M1,2V4H3L6.6,11.59L5.24,14.04C5.09,14.32 5,14.65 5,15A2,2 0 0,0 7,17H19V15H7.42A0.25,0.25 0 0,1 7.17,14.75C7.17,14.7 7.18,14.66 7.2,14.63L8.1,13H15.55C16.3,13 16.96,12.58 17.3,11.97L20.88,5.5C20.95,5.34 21,5.17 21,5A1,1 0 0,0 20,4H5.21L4.27,2M7,18C5.89,18 5,18.89 5,20A2,2 0 0,0 7,22A2,2 0 0,0 9,20C9,18.89 8.1,18 7,18Z" /></svg>
-           <div class="btn-cart__quantity">2</div>
-         </button>
-       </nav>
+            <svg class="btn-cart__img" style="width: 24px; height: 24px" viewBox="0 0 24 24">
+              <path
+                fill="currentColor"
+                d="M17,18C15.89,18 15,18.89 15,20A2,2 0 0,0 17,22A2,2 0 0,0 19,20C19,18.89 18.1,18 17,18M1,2V4H3L6.6,11.59L5.24,14.04C5.09,14.32 5,14.65 5,15A2,2 0 0,0 7,17H19V15H7.42A0.25,0.25 0 0,1 7.17,14.75C7.17,14.7 7.18,14.66 7.2,14.63L8.1,13H15.55C16.3,13 16.96,12.58 17.3,11.97L20.88,5.5C20.95,5.34 21,5.17 21,5A1,1 0 0,0 20,4H5.21L4.27,2M7,18C5.89,18 5,18.89 5,20A2,2 0 0,0 7,22A2,2 0 0,0 9,20C9,18.89 8.1,18 7,18Z"
+              />
+            </svg>
+            <div class="btn-cart__quantity">2</div>
+          </button>
+        </nav>
       </div>
     </header>
+
     <section class="site-location">
       <div class="site-location__container">
         <a class="site-location__link" href="./index.html">Home </a> /
@@ -37,48 +43,26 @@
     </section>
     <main class="main">
       <div class="main__container">
-
         <aside class="sidebar">
-          <input class="sidebar__search" type="text" name="search" placeholder="Search...">
+          <input class="sidebar__search" type="text" name="search" placeholder="Search..." />
           <h3 class="sidebar__title">Company</h3>
           <ul class="sidebar__filter-list">
             <li class="sidebar__filter-item">All</li>
             <li class="sidebar__filter-item">Ikea</li>
           </ul>
+          <h3 class="sidebar__title">Categories</h3>
+          <ul class="sidebar__filter-list" id="categoriesList">
+            <li class="sidebar__filter-item">All</li>
+            <li class="sidebar__filter-item">Ikea</li>
+          </ul>
           <h3 class="sidebar__title">Price</h3>
-          <input class="sidebar__price-range" type="range" name="price-range">
+          <input class="sidebar__price-range" type="range" name="price-range" />
           <data class="sidebar__filter-max-price">Value : $80</data>
         </aside>
 
         <ul class="products">
-          <li class="products__item shopping-item">
-            <img src="https://www.ikea.com/ca/en/images/products/lidas-chair-white-sefast-chrome-plated__1106347_pe868688_s5.jpg?f=xl" alt="" class="shopping-item__img">
-            <h3 class="shopping-item__name">Hugh-Back Bench</h3>
-            <data class="shopping-item__price-value" value="9.99">$9.99</data>
-          </li>
-          <li class="products__item shopping-item">
-            <img src="https://www.ikea.com/ca/en/images/products/lidas-chair-white-sefast-chrome-plated__1106347_pe868688_s5.jpg?f=xl" alt="" class="shopping-item__img">
-            <h3 class="shopping-item__name">Hugh-Back Bench</h3>
-            <data class="shopping-item__price-value" value="9.99">$9.99</data>
-          </li>
-          <li class="products__item shopping-item">
-            <img src="https://www.ikea.com/ca/en/images/products/lidas-chair-white-sefast-chrome-plated__1106347_pe868688_s5.jpg?f=xl" alt="" class="shopping-item__img">
-            <h3 class="shopping-item__name">Hugh-Back Bench</h3>
-            <data class="shopping-item__price-value" value="9.99">$9.99</data>
-          </li>
-          <li class="products__item shopping-item">
-            <img src="https://www.ikea.com/ca/en/images/products/lidas-chair-white-sefast-chrome-plated__1106347_pe868688_s5.jpg?f=xl" alt="" class="shopping-item__img">
-            <h3 class="shopping-item__name">Hugh-Back Bench</h3>
-            <data class="shopping-item__price-value" value="9.99">$9.99</data>
-          </li>
-          <li class="products__item shopping-item">
-            <img src="https://www.ikea.com/ca/en/images/products/lidas-chair-white-sefast-chrome-plated__1106347_pe868688_s5.jpg?f=xl" alt="" class="shopping-item__img">
-            <h3 class="shopping-item__name">Hugh-Back Bench</h3>
-            <data class="shopping-item__price-value" value="9.99">$9.99</data>
-          </li>
         </ul>
-        
       </div>
     </main>
-</body>
+  </body>
 </html>

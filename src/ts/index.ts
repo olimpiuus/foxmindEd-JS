@@ -1,8 +1,9 @@
-import "../index.html"
-import "../products.html";
-import "../sass/style.sass"
+import '../index.html';
+import '../products.html';
+import '../sass/style.sass';
 
-document.addEventListener('DOMContentLoaded',(e)=>{
-  document.documentElement.setAttribute('title', document.title )
-  
-})
+import './component/app';
+
+document.addEventListener('DOMContentLoaded', (e) => {
+  document.documentElement.setAttribute('title', document.title);
+});
