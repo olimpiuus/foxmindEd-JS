@@ -1,0 +1,37 @@
+.sidebar
+  @mixin gap-sidebar
+    margin-top: 5px
+  color: var(--color-path)
+  &__search
+    padding: 5px
+    background-color: var(--background-path)
+    border: none
+    border-radius: 3px
+
+  &__title
+    font-weight: bold
+    padding: 10px 0
+    @include gap-sidebar
+
+  &__filter-list
+    
+    height: 150px
+    overflow: scroll
+  &__filter-item
+    font-size: 0.8rem
+
+    @include gap-sidebar
+  &__price-range
+    @include gap-sidebar
+
+  &__filter-max-price
+    @include gap-sidebar
+    display: block
+
+  &__elem-counter
+    display: inline-block
+    text-align: center
+    margin-left: 5px
+    border-radius: 100%
+    width: 1rem
+    background-color: #7f7f7f73
