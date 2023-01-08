@@ -34,29 +34,47 @@ export const getDataArr = async () => {
 };
 
 export class ShopData {
+
   filters: {
-    categories: ICollectionWithCount;
-    brands: ICollectionWithCount;
+    category: ICollectionWithCount;
+    brand: ICollectionWithCount;
+    
   };
   priceRange!: IMinMaxObj;
-  filteredList: IProduct[] 
+
+  filteredList: IProduct[]|undefined
+
+  private _activeFilters: string[] = [];
+
+  public get activeFilters(): string[] {
+    return this._activeFilters;
+  }
+
+  public set activeFilters(value: string[]) {
+    this._activeFilters = value;
+  }
+
+  public addActiveFilter(value:string) {
+    this._activeFilters.push(value)
+  }
+  public removeElementFromActiveFilter(elem:string) {
+    const arr = this._activeFilters
+    arr.splice(arr.findIndex(filter=>filter===elem),1)
+    this._activeFilters = arr
+    
+  }
 
   constructor(public list: IProduct[] | undefined) {
     this.filters = {
-      categories: {},
-      brands: {},
+      category: {},
+      brand: {},
     };
     this.filteredList = this.list!
-    
+
     if (list) {
-      this.filters.brands = this._getBrands();
-      this.filters.categories = this._getCategories();
+      this.filters.brand = this._getBrands();
+      this.filters.category = this._getCategories();
       this.priceRange = this._getPriceRange()!;
-      (()=>{
-        console.log(new Set(this.list?.map((product) => product.brand)).values());
-        
-      })()
-      
     }
   }
 
@@ -73,8 +91,26 @@ export class ShopData {
       };
     }
   };
+
+  public filterList = ()=> {
+
+    this.filteredList = []
+    this.activeFilters.forEach(filter=>{
+      const filterStr = filter.split('_')
+      const [filterType, filterValue] = filterStr!
+
+      if ((filterType==='brand' || filterType==='category')) {
+        const filtered = this.list?.filter(elem=>elem[filterType]===filterValue)
+        if (filtered) {
+          this.filteredList = this.filteredList!.concat(filtered)
+        }
+        
+      }
+    })
+
+    console.log(this.filteredList);
+    
+  } 
 }
-function collectionWithCount(arg0: (string[] | undefined)[]) {
-  throw new Error("Function not implemented.");
-}
+
 

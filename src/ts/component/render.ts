@@ -36,24 +36,24 @@ export class Render {
     );
   };
 
-  private _renderFilterCategory = (name: string, values: ICollectionWithCount) => {
+  private _renderFilterCategory = (filterCategoryName: string, filterCategoryEntries: ICollectionWithCount) => {
     this.sidebar.insertAdjacentHTML(
       'beforeend',
       `
-      <h3 class="sidebar__title">${name}</h3>
-      <ul class="sidebar__filter-list" id="categoriesList${name}">
-        <li class="sidebar__filter-item">All</li>
+      <h3 class="sidebar__title">${filterCategoryName}</h3>
+      <ul class="sidebar__filter-list" id="categoriesList${filterCategoryName}">
+        <li class="sidebar__filter-item sidebar__first-list-item" data-filter="${filterCategoryName}_all">All</li>
       </ul>
       `
     );
 
-    const listFilter = this.sidebar.querySelector(`#categoriesList${name}`);
+    const listFilter = this.sidebar.querySelector(`#categoriesList${filterCategoryName}`);
 
-    Object.entries(values).forEach(([value,quantity]) => {
+    Object.entries(filterCategoryEntries).forEach(([value,quantity]) => {
       listFilter?.insertAdjacentHTML(
         'beforeend',
         `
-      <li class="sidebar__filter-item" data-filter="${name}_${value}">${value} 
+      <li class="sidebar__filter-item" data-filter="${filterCategoryName}_${value}">${value} 
         <div class="sidebar__elem-counter">${quantity}</div>
       </li>`
       );
@@ -79,10 +79,11 @@ export class Render {
   renderSideBar = (data: ShopData) => {
     this._renderSearch();
 
-    Object.entries(data.filters).forEach((prop) => {
-      const [name, value] = prop;
-      this._renderFilterCategory(name, value);
+    Object.entries(data.filters).forEach((filter) => {
+      const [filterType, filterValue] = filter;
+      this._renderFilterCategory(filterType, filterValue);
     });
+    
     this._renderPriceRange(data.priceRange);
   };
 
