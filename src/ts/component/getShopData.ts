@@ -186,6 +186,7 @@ export class ShopData {
     this.filteredList = this._filterByMaxPrice(this.filteredList)
     this._getFilteredCategories()
     this._getFilteredBrands()
+    console.log(this);
     
   } 
 }

@@ -92,7 +92,37 @@ export class Render {
     });
     
     this._renderPriceRange(data.priceRange);
-
   };
+
+  reRenderCountersQuantities = (brands:ICollectionWithCount, categories:ICollectionWithCount)=>{
+    const nodeListOfCounters = this.sidebar.querySelectorAll('.sidebar__elem-counter')
+    nodeListOfCounters.forEach(counter=>{
+      const [filterType, filterValue] = counter.parentElement?.dataset.filter?.split('_')!
+      if (filterType==='category') {
+        const filterTypeAndCount = Object.entries(categories).find(category=>category[0]===filterValue)
+        if (filterTypeAndCount) {
+          counter.textContent=filterTypeAndCount[1].toString()
+          counter.parentElement!.classList.remove('deactivated')
+        } else {
+          counter.textContent='0'
+          counter.parentElement!.classList.add('deactivated')
+          
+        }
+      } 
+      if (filterType==='brand') {
+        const filterTypeAndCount = Object.entries(brands).find(brand=>brand[0]===filterValue)
+        if (filterTypeAndCount) {
+          counter.textContent=filterTypeAndCount[1].toString()
+          counter.parentElement!.classList.remove('deactivated')
+        } else {
+          counter.textContent='0'
+          counter.parentElement!.classList.add('deactivated')
+        }
+      } 
+      
+    })
+    console.log();
+    
+  }
 
 }

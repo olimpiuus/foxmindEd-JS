@@ -107,6 +107,7 @@ import { Render } from './render';
           data.activeFilters.maxPrice = maxPrice
           data.priceRange.max = maxPrice
           this.updateDataAndRenderList()
+          new Render().reRenderCountersQuantities(data.filteredBrands,data.filteredCategories)
       }
           ,500)
       })
@@ -120,7 +121,7 @@ import { Render } from './render';
         if (target.closest('.sidebar__filter-item')) {
           new FilterClickHandler(target)
           this.updateDataAndRenderList()
-         
+          new Render().reRenderCountersQuantities(data.filteredBrands,data.filteredCategories)
         }
       })
       
