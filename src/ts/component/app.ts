@@ -82,6 +82,8 @@ import { Render } from './render';
           this._handleClickOnFilterElement(this.target)
         } 
         
+        
+        
     }
 
   }
@@ -90,16 +92,40 @@ import { Render } from './render';
     constructor(){
       this.initialize()
     }
-    
+    updateDataAndRenderList = ()=>{
+      data.filterList()
+      new Render().renderHtmlProductsList(data.filteredList)
+    }
+
+    listenerForMaxPrice=()=>{
+      let delay:any
+      const input:HTMLInputElement = document.querySelector('.sidebar__price-range')!
+      input.addEventListener('change', ()=>{
+        if (delay) {clearTimeout(delay)}
+        delay = setTimeout(()=>{
+          const maxPrice = parseInt(input.value)
+          data.activeFilters.maxPrice = maxPrice
+          data.priceRange.max = maxPrice
+          this.updateDataAndRenderList()
+      }
+          ,500)
+      })
+    }
+
     initialize = ()=>{
+      this.listenerForMaxPrice()
       document.addEventListener('click', (e)=>{
         const target = e.target
         if (!(target instanceof HTMLElement)) {return}
         if (target.closest('.sidebar__filter-item')) {
           new FilterClickHandler(target)
-          data.filterList()
+          this.updateDataAndRenderList()
+         
         }
       })
+      
+
+      
     }
   
   }

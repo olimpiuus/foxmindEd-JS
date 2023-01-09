@@ -10,6 +10,8 @@ export class Render {
     this.sidebar = document.querySelector('.sidebar')!;
   }
 
+
+
   renderHtmlProductsList = (productArray: IProduct[]) => {
     this.list.innerHTML = '';
     productArray.forEach((elem) => {
@@ -26,6 +28,8 @@ export class Render {
       );
     });
   };
+
+
 
   private _renderSearch = () => {
     this.sidebar.insertAdjacentHTML(
@@ -71,9 +75,12 @@ export class Render {
     );
     const priceRangeINput:HTMLInputElement|null = this.sidebar.querySelector('.sidebar__price-range')
     const priceRangeData = this.sidebar.querySelector('.sidebar__filter-max-price')!
+    
     priceRangeINput?.addEventListener('mousemove', ()=>{
       priceRangeData.textContent = `Max price: $${priceRangeINput.value} `
     })
+
+    
   };
 
   renderSideBar = (data: ShopData) => {
@@ -85,6 +92,7 @@ export class Render {
     });
     
     this._renderPriceRange(data.priceRange);
+
   };
 
 }
