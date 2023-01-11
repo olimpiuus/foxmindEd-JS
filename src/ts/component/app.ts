@@ -116,13 +116,27 @@ import { Render } from './render';
     initialize = ()=>{
       this.listenerForMaxPrice()
       document.addEventListener('click', (e)=>{
+
         const target = e.target
-        if (!(target instanceof HTMLElement)) {return}
+
+        if (!(target instanceof Element)) {return}
+
+        if (target.closest('.header__btn-cart')) {
+          console.log('a');
+          const cart = document.querySelector('.shopping-cart__wrapper')!
+          cart.classList.remove('hidden')
+          document.addEventListener('click', ()=>{
+            cart.classList.add('hidden')
+          })
+        }
+        
         if (target.closest('.sidebar__filter-item')) {
-          new FilterClickHandler(target)
+
+          new FilterClickHandler(target as HTMLElement)
           this.updateDataAndRenderList()
           new Render().reRenderCountersQuantities(data.filteredBrands,data.filteredCategories)
         }
+        
       })
       
 
