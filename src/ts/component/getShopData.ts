@@ -1,4 +1,5 @@
-import { ICollectionWithCount,countQuantitiesUniqEntries } from "./countQuantitiesUniqEntries";
+import { ICollectionWithCount, countQuantitiesUniqEntries } from './countQuantitiesUniqEntries';
+import { ICartItemStored } from './shopping-cart';
 
 export interface IProduct {
   id: number;
@@ -11,7 +12,7 @@ export interface IProduct {
   brand: string;
   category: string;
   thumbnail: URL;
-  images: URL[];
+  images: string[];
 }
 
 export interface IMinMaxObj {
@@ -34,19 +35,18 @@ export const getDataArr = async () => {
 };
 
 export class ShopData {
-
   public filters: {
     category: ICollectionWithCount;
     brand: ICollectionWithCount;
-  }= {
+  } = {
     category: {},
-    brand: {},
-  }
+    brand: {}
+  };
   priceRange!: IMinMaxObj;
 
-  filteredList: IProduct[]
-  filteredCategories:ICollectionWithCount={}
-  filteredBrands:ICollectionWithCount={}
+  filteredList: IProduct[];
+  filteredCategories: ICollectionWithCount = {};
+  filteredBrands: ICollectionWithCount = {};
 
   private _activeFilters: {
     category: string[];
@@ -55,11 +55,9 @@ export class ShopData {
   } = {
     category: [],
     brand: [],
-    maxPrice: 0,
+    maxPrice: 0
   };
 
-
-  
   public get activeFilters(): {
     category: string[];
     brand: string[];
@@ -67,45 +65,48 @@ export class ShopData {
   } {
     return this._activeFilters;
   }
-  
-  public addActiveFilter(string:string) {
-    const [filterType,value] = string.split('_')
 
-    if ((filterType==='brand'|| filterType==='category') && typeof value==='string') {
-      this._activeFilters[filterType].push(value)
-    } 
+  public addActiveFilter(string: string) {
+    const [filterType, value] = string.split('_');
 
-    if (filterType==='maxPrice' && typeof value==='number') {
-      this._activeFilters[filterType]=value
+    if ((filterType === 'brand' || filterType === 'category') && typeof value === 'string') {
+      this._activeFilters[filterType].push(value);
+    }
+
+    if (filterType === 'maxPrice' && typeof value === 'number') {
+      this._activeFilters[filterType] = value;
     }
   }
 
-  public removeElementFromActiveFilter(string:string) {
+  public removeElementFromActiveFilter(string: string) {
+    const [filterType, value] = string.split('_');
 
-    const [filterType,value] = string.split('_')
-    
-    if ((filterType==='brand'|| filterType==='category') && typeof value==='string') {
-      const arr = this.activeFilters[filterType]
-      arr.splice(arr.findIndex(filter=>filter===value),1)
-      this.activeFilters[filterType] = arr
+    if ((filterType === 'brand' || filterType === 'category') && typeof value === 'string') {
+      const arr = this.activeFilters[filterType];
+      arr.splice(
+        arr.findIndex((filter) => filter === value),
+        1
+      );
+      this.activeFilters[filterType] = arr;
     }
-
   }
 
   constructor(public list: IProduct[] | undefined) {
-    this.filteredList = Array.from(this.list!)
+    this.filteredList = Array.from(this.list!);
 
     if (list) {
       this.filters.brand = this._getQuantityBrands();
       this.filters.category = this._getQuantityCategories();
       this.priceRange = this._getPriceRange()!;
-      this.activeFilters.maxPrice = this.priceRange.max
+      this.activeFilters.maxPrice = this.priceRange.max;
     }
   }
 
-  private _getQuantityBrands = () => countQuantitiesUniqEntries(this.list?.map(product => product.brand)!);
+  private _getQuantityBrands = () =>
+    countQuantitiesUniqEntries(this.list!.map((product) => product.brand)!);
 
-  private _getQuantityCategories = () => countQuantitiesUniqEntries(this.list?.map((product) => product.category)!);
+  private _getQuantityCategories = () =>
+    countQuantitiesUniqEntries(this.list!.map((product) => product.category)!);
 
   private _getPriceRange = () => {
     const prices = this.list?.map((product) => product.price);
@@ -116,79 +117,92 @@ export class ShopData {
       };
     }
   };
-  private _deepCloneArray<T> (arr:T):T {
-    return JSON.parse(JSON.stringify(arr))
+  private _deepCloneArray<T>(arr: T): T {
+    return JSON.parse(JSON.stringify(arr));
   }
-  private _cloneArray<T> (arr:T[]):T[] {
-    return [...arr]
+  private _cloneArray<T>(arr: T[]): T[] {
+    return [...arr];
   }
-  private _filterByMaxPrice = (arr:IProduct[])=>{
+  private _filterByMaxPrice = (arr: IProduct[]) => {
+    const bufferArr = this._cloneArray(arr);
 
-    const bufferArr = this._cloneArray(arr)
-    
-    arr.length=0
-    
-    const filtered = [...bufferArr]!.filter(elem=>elem.price<=this.activeFilters.maxPrice)
-    
-    arr.push(...filtered)
+    arr.length = 0;
 
-    return arr
-  }
+    const filtered = [...bufferArr]!.filter((elem) => elem.price <= this.activeFilters.maxPrice);
 
-  private _filterByBrands = (arr:IProduct[])=>{
-    if ( this.activeFilters.brand.length!==0) {
-      const bufferArr = this._cloneArray(arr)
-    
-      arr.length=0
-      
-      this.activeFilters.brand.forEach(filterValue=>{
-        const filtered = [...bufferArr].filter(elem=>elem.brand===filterValue)
-        arr.push(...filtered)
-      })
-      return arr
+    arr.push(...filtered);
+
+    return arr;
+  };
+
+  private _filterByBrands = (arr: IProduct[]) => {
+    if (this.activeFilters.brand.length !== 0) {
+      const bufferArr = this._cloneArray(arr);
+
+      arr.length = 0;
+
+      this.activeFilters.brand.forEach((filterValue) => {
+        const filtered = [...bufferArr].filter((elem) => elem.brand === filterValue);
+        arr.push(...filtered);
+      });
+      return arr;
     } else {
-      return arr
+      return arr;
     }
-  }
+  };
 
-  private _filterByCategories = (arr:IProduct[])=>{
-    if ( this.activeFilters.category.length!==0) {
-      const bufferArr = this._cloneArray(arr)
-    
-      arr.length=0
-      
-      this.activeFilters.category.forEach(filterValue=>{
-        const filtered = [...bufferArr].filter(elem=>elem.category===filterValue)
-        arr.push(...filtered)
-      })
-      return arr
-    } else {return this._cloneArray(arr)}
-  }
+  private _filterByCategories = (arr: IProduct[]) => {
+    if (this.activeFilters.category.length !== 0) {
+      const bufferArr = this._cloneArray(arr);
 
-  private _getFilteredCategories = ()=>{
-    let arr = this._cloneArray(this.list!)
-    arr = this._cloneArray(this._filterByBrands(arr))
-    arr = this._cloneArray(this._filterByMaxPrice(arr))
-    this.filteredCategories = countQuantitiesUniqEntries(arr.map(product=>product.category))
-  }
+      arr.length = 0;
 
-  private _getFilteredBrands = ()=>{
-    let arr = this._cloneArray(this.list!)
-    arr = this._cloneArray(this._filterByCategories(arr))
-    arr = this._cloneArray(this._filterByMaxPrice(arr))
-    this.filteredBrands = countQuantitiesUniqEntries(arr.map(product=>product.brand))
-  }
+      this.activeFilters.category.forEach((filterValue) => {
+        const filtered = [...bufferArr].filter((elem) => elem.category === filterValue);
+        arr.push(...filtered);
+      });
+      return arr;
+    } else {
+      return this._cloneArray(arr);
+    }
+  };
 
-  public filterList = ()=> {
-    this.filteredList = [...this.list!]
-    this.filteredList= [...this._filterByBrands(this.filteredList)]
-    this.filteredList = [...this._filterByCategories(this.filteredList)]
-    this.filteredList = this._filterByMaxPrice(this.filteredList)
-    this._getFilteredCategories()
-    this._getFilteredBrands()
-    console.log(this);
-    
-  } 
+  private _getFilteredCategories = () => {
+    let arr = this._cloneArray(this.list!);
+    arr = this._cloneArray(this._filterByBrands(arr));
+    arr = this._cloneArray(this._filterByMaxPrice(arr));
+    this.filteredCategories = countQuantitiesUniqEntries(arr.map((product) => product.category));
+  };
+
+  private _getFilteredBrands = () => {
+    let arr = this._cloneArray(this.list!);
+    arr = this._cloneArray(this._filterByCategories(arr));
+    arr = this._cloneArray(this._filterByMaxPrice(arr));
+    this.filteredBrands = countQuantitiesUniqEntries(arr.map((product) => product.brand));
+  };
+
+  public filterList = () => {
+    this.filteredList = [...this.list!];
+    this.filteredList = [...this._filterByBrands(this.filteredList)];
+    this.filteredList = [...this._filterByCategories(this.filteredList)];
+    this.filteredList = this._filterByMaxPrice(this.filteredList);
+    this._getFilteredCategories();
+    this._getFilteredBrands();
+  };
+
+  public getItemById = (searchingId: number): ICartItemStored => {
+    const {
+      id,
+      title,
+      price,
+      images: [image]
+    } = this.filteredList.find((item) => item.id === searchingId)!;
+    return {
+      id: id,
+      title: title,
+      price: price,
+      image: image,
+      quantity: 1
+    };
+  };
 }
-
-

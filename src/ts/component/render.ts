@@ -1,5 +1,5 @@
-import { ICollectionWithCount } from "./countQuantitiesUniqEntries";
-import { IProduct, IMinMaxObj, ShopData } from "./getShopData";
+import { ICollectionWithCount } from './countQuantitiesUniqEntries';
+import { IProduct, IMinMaxObj, ShopData } from './getShopData';
 
 export class Render {
   list: HTMLUListElement;
@@ -9,8 +9,6 @@ export class Render {
     this.list = document.querySelector('.products')!;
     this.sidebar = document.querySelector('.sidebar')!;
   }
-
-
 
   renderHtmlProductsList = (productArray: IProduct[]) => {
     this.list.innerHTML = '';
@@ -43,7 +41,10 @@ export class Render {
     );
   };
 
-  private _renderFilterCategory = (filterCategoryName: string, filterCategoryEntries: ICollectionWithCount) => {
+  private _renderFilterCategory = (
+    filterCategoryName: string,
+    filterCategoryEntries: ICollectionWithCount
+  ) => {
     this.sidebar.insertAdjacentHTML(
       'beforeend',
       `
@@ -56,7 +57,7 @@ export class Render {
 
     const listFilter = this.sidebar.querySelector(`#categoriesList${filterCategoryName}`);
 
-    Object.entries(filterCategoryEntries).forEach(([value,quantity]) => {
+    Object.entries(filterCategoryEntries).forEach(([value, quantity]) => {
       listFilter?.insertAdjacentHTML(
         'beforeend',
         `
@@ -76,14 +77,13 @@ export class Render {
       <data class="sidebar__filter-max-price">Max price: $${arr.max}</data>
       `
     );
-    const priceRangeINput:HTMLInputElement|null = this.sidebar.querySelector('.sidebar__price-range')
-    const priceRangeData = this.sidebar.querySelector('.sidebar__filter-max-price')!
-    
-    priceRangeINput?.addEventListener('mousemove', ()=>{
-      priceRangeData.textContent = `Max price: $${priceRangeINput.value} `
-    })
+    const priceRangeINput: HTMLInputElement | null =
+      this.sidebar.querySelector('.sidebar__price-range');
+    const priceRangeData = this.sidebar.querySelector('.sidebar__filter-max-price')!;
 
-    
+    priceRangeINput?.addEventListener('mousemove', () => {
+      priceRangeData.textContent = `Max price: $${priceRangeINput.value} `;
+    });
   };
 
   renderSideBar = (data: ShopData) => {
@@ -93,39 +93,36 @@ export class Render {
       const [filterType, filterValue] = filter;
       this._renderFilterCategory(filterType, filterValue);
     });
-    
+
     this._renderPriceRange(data.priceRange);
   };
 
-  reRenderCountersQuantities = (brands:ICollectionWithCount, categories:ICollectionWithCount)=>{
-    const nodeListOfCounters = this.sidebar.querySelectorAll('.sidebar__elem-counter')
-    nodeListOfCounters.forEach(counter=>{
-      const [filterType, filterValue] = counter.parentElement?.dataset.filter?.split('_')!
-      if (filterType==='category') {
-        const filterTypeAndCount = Object.entries(categories).find(category=>category[0]===filterValue)
+  reRenderCountersQuantities = (brands: ICollectionWithCount, categories: ICollectionWithCount) => {
+    const nodeListOfCounters = this.sidebar.querySelectorAll('.sidebar__elem-counter');
+    nodeListOfCounters.forEach((counter) => {
+      const [filterType, filterValue] = counter.parentElement!.dataset.filter!.split('_')!;
+      if (filterType === 'category') {
+        const filterTypeAndCount = Object.entries(categories).find(
+          (category) => category[0] === filterValue
+        );
         if (filterTypeAndCount) {
-          counter.textContent=filterTypeAndCount[1].toString()
-          counter.parentElement!.classList.remove('deactivated')
+          counter.textContent = filterTypeAndCount[1].toString();
+          counter.parentElement!.classList.remove('deactivated');
         } else {
-          counter.textContent='0'
-          counter.parentElement!.classList.add('deactivated')
-          
+          counter.textContent = '0';
+          counter.parentElement!.classList.add('deactivated');
         }
-      } 
-      if (filterType==='brand') {
-        const filterTypeAndCount = Object.entries(brands).find(brand=>brand[0]===filterValue)
+      }
+      if (filterType === 'brand') {
+        const filterTypeAndCount = Object.entries(brands).find((brand) => brand[0] === filterValue);
         if (filterTypeAndCount) {
-          counter.textContent=filterTypeAndCount[1].toString()
-          counter.parentElement!.classList.remove('deactivated')
+          counter.textContent = filterTypeAndCount[1].toString();
+          counter.parentElement!.classList.remove('deactivated');
         } else {
-          counter.textContent='0'
-          counter.parentElement!.classList.add('deactivated')
+          counter.textContent = '0';
+          counter.parentElement!.classList.add('deactivated');
         }
-      } 
-      
-    })
-    console.log();
-    
-  }
-
+      }
+    });
+  };
 }

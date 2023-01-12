@@ -44,16 +44,6 @@ module.exports = {
         ],
       },
       {
-        test: /\.scss$/,
-        use: [
-          {
-            loader: MiniCssExtractPlugin.loader,
-          },
-          "css-loader",
-          "sass-loader",
-        ],
-      },
-      {
         test: /\.(woff|woff2|eot|ttf|otf)$/i,
         type: 'asset/resource',
         generator: {
@@ -68,12 +58,18 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
+      filename: "about.html",
+      template: "./src/about.html",
+    }),
+    new HtmlWebpackPlugin({
       filename: "products.html",
       template: "./src/products.html",
     }),
+
     new HtmlWebpackPlugin({
       template: "./src/index.html",
     }),
+
     new MiniCssExtractPlugin({
       filename: 'css/[name].css',
       chunkFilename: '[id].css',
