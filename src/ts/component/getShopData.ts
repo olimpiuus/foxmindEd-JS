@@ -35,7 +35,6 @@ export const getData = async () => {
 };
 
 export class ShopData {
-
   public filters: {
     category: ICollectionWithCount;
     brand: ICollectionWithCount;
@@ -50,14 +49,13 @@ export class ShopData {
     category: string[];
     brand: string[];
     maxPrice: number;
-    search:string;
+    search: string;
   } = {
     category: [],
     brand: [],
     maxPrice: 0,
-    search:'',
+    search: ''
   };
-  
 
   filteredList: IProduct[];
   filteredCategories: ICollectionWithCount = {};
@@ -99,18 +97,18 @@ export class ShopData {
     }
   }
 
-  public getFeaturedItems = ()=>{
-    const featuredArr = []
-    const getRandomElement = ()=>{
-      const length = this.list!.length
-      const randomINdex = Math.floor(Math.random()*length)
-      return this.list![randomINdex]
-    }
-    featuredArr.push(getRandomElement()) 
-    featuredArr.push(getRandomElement()) 
-    featuredArr.push(getRandomElement()) 
-    return featuredArr
-  }
+  public getFeaturedItems = () => {
+    const featuredArr = [];
+    const getRandomElement = () => {
+      const length = this.list!.length;
+      const randomINdex = Math.floor(Math.random() * length);
+      return this.list![randomINdex];
+    };
+    featuredArr.push(getRandomElement());
+    featuredArr.push(getRandomElement());
+    featuredArr.push(getRandomElement());
+    return featuredArr;
+  };
 
   private _getQuantityBrands = () =>
     countQuantitiesUniqEntries(this.list!.map((product) => product.brand)!);
@@ -142,14 +140,16 @@ export class ShopData {
 
   private _filterBySearchValue = (arr: IProduct[]) => {
     const bufferArr = this._cloneArray(arr);
-    const filtered = [...bufferArr].filter((elem) => elem.title.toLowerCase().includes(this.activeFilters.search.toLowerCase()));
+    const filtered = [...bufferArr].filter((elem) =>
+      elem.title.toLowerCase().includes(this.activeFilters.search.toLowerCase())
+    );
     return filtered;
   };
 
   private _filterByBrands = (arr: IProduct[]) => {
     if (this.activeFilters.brand.length !== 0) {
       const bufferArr = this._cloneArray(arr);
-      const returnArr:IProduct[]=[]
+      const returnArr: IProduct[] = [];
 
       this.activeFilters.brand.forEach((filterValue) => {
         const filtered = [...bufferArr].filter((elem) => elem.brand === filterValue);
@@ -164,7 +164,7 @@ export class ShopData {
   private _filterByCategories = (arr: IProduct[]) => {
     if (this.activeFilters.category.length !== 0) {
       const bufferArr = this._cloneArray(arr);
-      const returnArr:IProduct[]=[]
+      const returnArr: IProduct[] = [];
 
       this.activeFilters.category.forEach((filterValue) => {
         const filtered = [...bufferArr].filter((elem) => elem.category === filterValue);
@@ -178,7 +178,7 @@ export class ShopData {
 
   private _getFilteredCategories = () => {
     let arr = this._cloneArray(this.list!);
-    arr = this._cloneArray(this._filterBySearchValue(arr))
+    arr = this._cloneArray(this._filterBySearchValue(arr));
     arr = this._cloneArray(this._filterByMaxPrice(arr));
     arr = this._cloneArray(this._filterByBrands(arr));
     this.filteredCategories = countQuantitiesUniqEntries(arr.map((product) => product.category));
@@ -186,7 +186,7 @@ export class ShopData {
 
   private _getFilteredBrands = () => {
     let arr = this._cloneArray(this.list!);
-    arr = this._cloneArray(this._filterBySearchValue(arr))
+    arr = this._cloneArray(this._filterBySearchValue(arr));
     arr = this._cloneArray(this._filterByCategories(arr));
     arr = this._cloneArray(this._filterByMaxPrice(arr));
     this.filteredBrands = countQuantitiesUniqEntries(arr.map((product) => product.brand));
@@ -195,7 +195,7 @@ export class ShopData {
   public filterList = () => {
     this.filteredList = [...this.list!];
     this.filteredList = this._filterByMaxPrice(this.filteredList);
-    this.filteredList=this._filterBySearchValue(this.filteredList)
+    this.filteredList = this._filterBySearchValue(this.filteredList);
     this.filteredList = [...this._filterByBrands(this.filteredList)];
     this.filteredList = [...this._filterByCategories(this.filteredList)];
     this._getFilteredCategories();

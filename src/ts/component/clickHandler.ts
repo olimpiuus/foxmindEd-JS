@@ -1,8 +1,6 @@
 import { ShopData } from './getShopData';
-import {renderFn } from './render';
+import { renderFn } from './render';
 import shoppingCart from './shoppingCart';
-
-
 
 class FilterClickHandler {
   constructor(public target: HTMLElement, public data: ShopData) {
@@ -31,7 +29,6 @@ class FilterClickHandler {
       this.data.removeElementFromActiveFilter(btnFilter);
     }
   };
-
 
   private _activateFilterList = (array: Element[]) => {
     array.forEach((listItem) => {
@@ -102,7 +99,7 @@ export class ClickHandler {
     });
   };
 
-  listenerForSearch =()=>{
+  listenerForSearch = () => {
     let delay: NodeJS.Timeout;
     const input: HTMLInputElement = document.querySelector('.sidebar__search')!;
     input.addEventListener('keydown', () => {
@@ -119,13 +116,12 @@ export class ClickHandler {
         );
       }, 500);
     });
-  }
+  };
 
   initialize = () => {
-
-    if (document.title==='Products') {
+    if (document.title === 'Products') {
       this.listenerForMaxPrice();
-      this.listenerForSearch()
+      this.listenerForSearch();
     }
 
     document.addEventListener('click', (e) => {

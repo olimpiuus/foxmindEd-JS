@@ -1,5 +1,5 @@
-import { renderFn } from "./render";
-import { memoryFn } from "./saveAndRestoreLocalStorage";
+import { renderFn } from './render';
+import { memoryFn } from './saveAndRestoreLocalStorage';
 
 export interface ICartItemStored {
   id: number;
@@ -10,33 +10,34 @@ export interface ICartItemStored {
 }
 
 class DOMShoppingCart {
-  public cartWrapper: HTMLElement = document.querySelector('.shopping-cart__wrapper')!
-  public list: HTMLUListElement=this.cartWrapper.querySelector('.shopping-cart__list')!
-  public sumAmountHTML: HTMLElement=this.cartWrapper.querySelector('.shopping-cart__total_amount')!
-  public cartBody: HTMLElement=this.cartWrapper.querySelector('.shopping-cart')!
-  public btnExit: HTMLButtonElement =this.cartBody.querySelector('.shopping-cart__btn_exit')!
-  public headerCartIcon: HTMLElement=document.querySelector('.btn-cart__quantity')!
+  public cartWrapper: HTMLElement = document.querySelector('.shopping-cart__wrapper')!;
+  public list: HTMLUListElement = this.cartWrapper.querySelector('.shopping-cart__list')!;
+  public sumAmountHTML: HTMLElement = this.cartWrapper.querySelector(
+    '.shopping-cart__total_amount'
+  )!;
+  public cartBody: HTMLElement = this.cartWrapper.querySelector('.shopping-cart')!;
+  public btnExit: HTMLButtonElement = this.cartBody.querySelector('.shopping-cart__btn_exit')!;
+  public headerCartIcon: HTMLElement = document.querySelector('.btn-cart__quantity')!;
 }
 
 export class ShoppingCart {
-
   public items: ICartItemStored[] = [];
-  _sum!: number
+  _sum!: number;
   private _DOM: DOMShoppingCart;
 
   constructor() {
-    renderFn.renderTemplateShoppingCart()
-    this._DOM = new DOMShoppingCart()
-    this._restoreCart()
+    renderFn.renderTemplateShoppingCart();
+    this._DOM = new DOMShoppingCart();
+    this._restoreCart();
     this.reRenderCart();
     this._changeHeaderIcon();
   }
-  private _saveCart = ()=>{
-    memoryFn.saveCartItems(this.items)
-  }
-  private _restoreCart = ()=>{
-    this.items = memoryFn.restoreCartItems()
-  }
+  private _saveCart = () => {
+    memoryFn.saveCartItems(this.items);
+  };
+  private _restoreCart = () => {
+    this.items = memoryFn.restoreCartItems();
+  };
 
   reRenderCart = () => {
     this._getTotalSum();
@@ -47,7 +48,7 @@ export class ShoppingCart {
       }
     });
     this._changeSum();
-    this._saveCart()
+    this._saveCart();
   };
 
   private _changeHeaderIcon = () => {
@@ -87,7 +88,7 @@ export class ShoppingCart {
     if (indexOfItem !== -1) {
       this.items[indexOfItem].quantity += 1;
       this.reRenderCart();
-      
+
       return true;
     } else {
       return false;
@@ -120,7 +121,7 @@ export class ShoppingCart {
   addItemToCart = (item: ICartItemStored) => {
     this.items.push(item);
     this._changeHeaderIcon();
-    this._saveCart()
+    this._saveCart();
   };
 
   removeAll = () => {

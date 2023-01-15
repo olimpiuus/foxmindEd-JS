@@ -3,11 +3,11 @@ import { IProduct, IMinMaxObj, ShopData } from './getShopData';
 import { ICartItemStored } from './shoppingCart';
 
 export class Render {
-  renderSideBar!:RenderSideBar
-  
-  constructor(){
-    if (document.title==='Products') {
-    this.renderSideBar = new RenderSideBar()  
+  renderSideBar!: RenderSideBar;
+
+  constructor() {
+    if (document.title === 'Products') {
+      this.renderSideBar = new RenderSideBar();
     }
   }
 
@@ -44,10 +44,9 @@ export class Render {
     `;
   };
 
-  renderFeaturedList = (featuredArray: IProduct[])=>{
-
-    if (document.title==='Shop') {
-      const list = document.querySelector('.footer__featured-list')!
+  renderFeaturedList = (featuredArray: IProduct[]) => {
+    if (document.title === 'Shop') {
+      const list = document.querySelector('.footer__featured-list')!;
       list.innerHTML = '';
       featuredArray.forEach((elem) => {
         const { title, price, images, id } = elem;
@@ -64,14 +63,15 @@ export class Render {
             </svg>
           </div>
         </li>
-      `);
+      `
+        );
       });
-  }
-  }
+    }
+  };
 
   renderHtmlProductsList = (productArray: IProduct[]) => {
-    if (document.title==='Products') {
-      const list = document.querySelector('.products')!
+    if (document.title === 'Products') {
+      const list = document.querySelector('.products')!;
       list.innerHTML = '';
       productArray.forEach((elem) => {
         const { title, price, images, id } = elem;
@@ -88,13 +88,16 @@ export class Render {
             </svg>
           </div>
         </li>
-      `);
+      `
+        );
       });
-  }
+    }
   };
 
-  renderTemplateShoppingCart = ()=>{
-    document.body.insertAdjacentHTML('beforeend', `
+  renderTemplateShoppingCart = () => {
+    document.body.insertAdjacentHTML(
+      'beforeend',
+      `
     <div class="shopping-cart__wrapper hidden">
       <section class="shopping-cart">
         <button class="shopping-cart__btn_exit">
@@ -116,12 +119,12 @@ export class Render {
         <button class="shopping-cart__btn_checkout">checkout</button>
       </section>
     </div>
-    `)
-  }
+    `
+    );
+  };
 }
 
-
-class RenderSideBar{
+class RenderSideBar {
   sidebar: HTMLElement;
 
   constructor() {
@@ -130,7 +133,8 @@ class RenderSideBar{
 
   private _renderSearch = () => {
     this.sidebar.insertAdjacentHTML(
-    'afterbegin', `
+      'afterbegin',
+      `
       <input class="sidebar__search" type="text" name="search" placeholder="Search..." />
     `
     );
@@ -222,4 +226,4 @@ class RenderSideBar{
   };
 }
 
-export const renderFn = new Render()
+export const renderFn = new Render();
