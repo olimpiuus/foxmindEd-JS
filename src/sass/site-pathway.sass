@@ -6,6 +6,8 @@
   color: var(--color-path)
   &__container
     @include container
+  &__filter
+    display: none
 
 .main 
   padding-top: 50px
@@ -23,4 +25,16 @@
   gap: 20px
   &__item
 
-
+@media (max-width: 500px) 
+  .site-location
+    padding: 20px
+    margin-top: 65px
+    width: 100%
+    display: flex
+    align-items: center
+    justify-content: space-between
+    &__container
+      margin: 0
+    &__filter
+      display: initial
+      

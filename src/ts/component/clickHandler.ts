@@ -1,4 +1,5 @@
 import { burgerHandler } from './burgerHandler';
+import { filterHandler } from './filterHandler';
 import { ShopData } from './getShopData';
 import { renderFn } from './render';
 import shoppingCart from './shoppingCart';
@@ -137,6 +138,10 @@ export class ClickHandler {
 
       if (target.closest('.header__burger')) {
         burgerHandler.show()
+      }
+
+      if (target.closest('.site-location__filter')) {
+        filterHandler.show()
       }
 
       if (target.closest('.sidebar__filter-item')) {
