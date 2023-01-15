@@ -14,9 +14,13 @@
     @include gap-sidebar
 
   &__filter-list
-    
+    display: grid
     height: 150px
     overflow: scroll
+
+  &__first-list-item
+    order: -50
+
   &__filter-item
     font-size: 0.8rem
 
@@ -35,3 +39,15 @@
     border-radius: 100%
     width: 1rem
     background-color: #7f7f7f73
+
+.active
+  color:  blue
+  font-weight: bold
+  order: -1
+
+.deactivated 
+  color: #aeaeae
+  order: 1
+  pointer-events: none
+
+  

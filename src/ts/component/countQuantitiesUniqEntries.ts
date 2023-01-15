@@ -2,11 +2,8 @@ export interface ICollectionWithCount {
   [index: string]: number;
 }
 
-
-export const countQuantitiesUniqEntries = (arr:string[]):ICollectionWithCount=>{
-  
-  const collectionWithCount:ICollectionWithCount = {
-  };
+export const countQuantitiesUniqEntries = (arr: string[]): ICollectionWithCount => {
+  const collectionWithCount: ICollectionWithCount = {};
 
   for (const element of arr) {
     if (collectionWithCount[element]) {
@@ -16,5 +13,5 @@ export const countQuantitiesUniqEntries = (arr:string[]):ICollectionWithCount=>{
     }
   }
 
-  return collectionWithCount
-}
+  return collectionWithCount;
+};
