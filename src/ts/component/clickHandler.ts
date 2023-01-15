@@ -1,8 +1,8 @@
 import { ShopData } from './getShopData';
-import { Render } from './render';
-import shoppingCart from './shopping-cart';
+import {renderFn } from './render';
+import shoppingCart from './shoppingCart';
 
-// not refactored
+
 
 class FilterClickHandler {
   constructor(public target: HTMLElement, public data: ShopData) {
@@ -22,7 +22,7 @@ class FilterClickHandler {
     element.classList.remove('active');
     this.data.removeElementFromActiveFilter(filter);
 
-    // remove active from "All" filter element
+    // remove active from "All" value filter element
     const allBtnFilterList = element.parentElement?.firstElementChild as HTMLElement;
     const btnFilter = allBtnFilterList.dataset.filter!;
 
@@ -32,8 +32,6 @@ class FilterClickHandler {
     }
   };
 
-  
-  
 
   private _activateFilterList = (array: Element[]) => {
     array.forEach((listItem) => {
@@ -81,7 +79,7 @@ export class ClickHandler {
   }
   updateDataAndRenderList = () => {
     this.data.filterList();
-    new Render().renderHtmlProductsList(this.data.filteredList);
+    renderFn.renderHtmlProductsList(this.data.filteredList);
   };
 
   listenerForMaxPrice = () => {
@@ -96,7 +94,7 @@ export class ClickHandler {
         this.data.activeFilters.maxPrice = maxPrice;
         this.data.priceRange.max = maxPrice;
         this.updateDataAndRenderList();
-        new Render().reRenderCountersQuantities(
+        renderFn.renderSideBar.reRenderCountersQuantities(
           this.data.filteredBrands,
           this.data.filteredCategories
         );
@@ -104,8 +102,32 @@ export class ClickHandler {
     });
   };
 
+  listenerForSearch =()=>{
+    let delay: NodeJS.Timeout;
+    const input: HTMLInputElement = document.querySelector('.sidebar__search')!;
+    input.addEventListener('keydown', () => {
+      if (delay) {
+        clearTimeout(delay);
+      }
+      delay = setTimeout(() => {
+        const search = input.value;
+        this.data.activeFilters.search = search;
+        this.updateDataAndRenderList();
+        renderFn.renderSideBar.reRenderCountersQuantities(
+          this.data.filteredBrands,
+          this.data.filteredCategories
+        );
+      }, 500);
+    });
+  }
+
   initialize = () => {
-    if (document.title==='Products') {this.listenerForMaxPrice();}
+
+    if (document.title==='Products') {
+      this.listenerForMaxPrice();
+      this.listenerForSearch()
+    }
+
     document.addEventListener('click', (e) => {
       const target = e.target;
       console.log(target);
@@ -120,7 +142,7 @@ export class ClickHandler {
       if (target.closest('.sidebar__filter-item')) {
         new FilterClickHandler(target as HTMLElement, this.data);
         this.updateDataAndRenderList();
-        new Render().reRenderCountersQuantities(
+        renderFn.renderSideBar.reRenderCountersQuantities(
           this.data.filteredBrands,
           this.data.filteredCategories
         );
@@ -137,7 +159,7 @@ export class ClickHandler {
         const parentElement = target.closest('.products__item')! as HTMLElement;
         const id = parseInt(parentElement.dataset.id!);
         // if item not found in cart add return false, and add item
-        if (!shoppingCart.addToItemInCart(id)) {
+        if (!shoppingCart.addQuantityToItem(id)) {
           const itemPropsForCart = this.data.getItemById(id);
           shoppingCart.addItemToCart(itemPropsForCart);
         }
@@ -145,7 +167,7 @@ export class ClickHandler {
 
       if (target.closest('.shopping-item__btn_add-item')) {
         const id = getShoppingCartItemId();
-        shoppingCart.addToItemInCart(id);
+        shoppingCart.addQuantityToItem(id);
       }
 
       if (target.closest('.shopping-item__btn_reduce-item')) {
