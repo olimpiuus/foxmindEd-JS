@@ -1,3 +1,4 @@
+import { burgerHandler } from './burgerHandler';
 import { ShopData } from './getShopData';
 import { renderFn } from './render';
 import shoppingCart from './shoppingCart';
@@ -132,6 +133,10 @@ export class ClickHandler {
 
       if (target.closest('.header__btn-cart')) {
         shoppingCart.showShoppingCart();
+      }
+
+      if (target.closest('.header__burger')) {
+        burgerHandler.show()
       }
 
       if (target.closest('.sidebar__filter-item')) {

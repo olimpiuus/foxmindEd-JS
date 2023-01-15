@@ -18,6 +18,7 @@
   &__nav-link-item
   &__burger
     display: none
+    cursor: pointer
   &__nav-link
     letter-spacing: 0.05rem  
   &__logo
@@ -30,5 +31,18 @@
   .header
     &__burger
       display: block
-    &__nav-links-list
-      display: none
+    &__nav-links-list 
+      visibility: hidden
+      position: absolute
+      top: 70px
+      left: 0
+      width: 100vw
+      display: flex
+      padding: 15px 10px
+      background-color: var(--header-background) 
+
+.visible 
+  visibility: visible
+
+
+
