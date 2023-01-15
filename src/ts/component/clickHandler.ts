@@ -126,7 +126,6 @@ export class ClickHandler {
 
     document.addEventListener('click', (e) => {
       const target = e.target;
-      console.log(target);
       if (!(target instanceof Element)) {
         return;
       }

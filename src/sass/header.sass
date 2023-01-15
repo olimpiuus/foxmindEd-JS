@@ -16,7 +16,8 @@
     @include flex-row-center-spbtw-g20
 
   &__nav-link-item
-
+  &__burger
+    display: none
   &__nav-link
     letter-spacing: 0.05rem  
   &__logo
@@ -24,3 +25,10 @@
     font-family: 'Kaushan Script'
   &__btn-cart
 
+
+@media (max-width: 500px) 
+  .header
+    &__burger
+      display: block
+    &__nav-links-list
+      display: none
