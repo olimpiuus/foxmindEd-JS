@@ -1,0 +1,202 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+ * v2.0 | 20110126
+ * License: none (public domain) */
+* {
+  box-sizing: border-box;
+}
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
+body {
+  line-height: 1;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+blockquote, q {
+  quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: "";
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+button {
+  background-color: transparent;
+  border: none;
+}
+
+/* roboto-regular - latin */
+@font-face {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  src: local("");
+  src: url("../fonts/roboto-v30-latin-regular.woff2") format("woff2");
+  src: url("../fonts/roboto-v30-latin-regular.woff") format("woff");
+}
+/* roboto-900 - latin */
+@font-face {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 900;
+  src: local("");
+  src: url("../fonts/roboto-v30-latin-900.woff2") format("woff2");
+  src: url("../fonts/roboto-v30-latin-900.woff") format("woff");
+}
+body {
+  background-color: #d0dbe2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  min-height: 100vh;
+}
+
+.todo__container {
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;
+}
+.todo__list {
+  padding: 10px;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+.todo__item {
+  min-height: 300px;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px 2px #b9b9b9;
+}
+.todo__item_add-new {
+  min-height: 300px;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px 2px #b9b9b9;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 50px 20px 30px;
+}
+
+.item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 50px 20px 30px;
+  gap: 20px;
+  text-align: center;
+}
+.item__title {
+  font-size: 20px;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
+}
+.item__input-block {
+  display: flex;
+  width: 100%;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.item__input {
+  border: none;
+  padding: 5px 7px;
+  flex-grow: 1;
+  background-color: #e2eff8;
+}
+.item__btn-add-note {
+  border: none;
+  padding: 5px 7px;
+  background-color: #bed5e6;
+}
+.item__btn-add-note:hover {
+  background-color: #a7cbe7;
+}
+.item__tasks-list {
+  display: grid;
+  gap: 10px;
+}
+.item__delete-list {
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 5px 10px;
+  opacity: 0.5;
+}
+.item__delete-list:hover {
+  background-color: #bed5e6;
+}
+.item__clear-list {
+  color: red;
+  letter-spacing: 0.2rem;
+}
+.item__clear-list:hover {
+  text-decoration: underline;
+}
+
+.task {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+.task__btn-group {
+  min-width: 44px;
+}
+.task__btn_edit {
+  width: 20px;
+  height: 20px;
+  background: url("../img/square-edit-outline.svg");
+}
+.task__btn_edit:hover {
+  background: url("../img/pencil-box-outline.svg");
+}
+.task__btn_delete {
+  width: 20px;
+  height: 20px;
+  color: red;
+  background: url("../img/delete-close.svg");
+}
+.task__btn_delete:hover {
+  background: url("../img/delete-empty.svg");
+}/*# sourceMappingURL=style.css.map */
