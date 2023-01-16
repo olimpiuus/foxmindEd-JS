@@ -1,0 +1,48 @@
+//================= Header======================================
+
+.header
+  @include body-sections
+  padding-top: 20px
+  position: absolute
+  top: 0
+  z-index: 5
+  @include background-hero-header
+  background-color: transparent
+  &__container
+    @include container
+  &_nav
+    @include flex-row-center-spbtw-g20
+  &__nav-links-list
+    @include flex-row-center-spbtw-g20
+
+  &__nav-link-item
+  &__burger
+    display: none
+    cursor: pointer
+  &__nav-link
+    letter-spacing: 0.05rem  
+  &__logo
+    font-size: 1.5rem
+    font-family: 'Kaushan Script'
+  &__btn-cart
+
+
+@media (max-width: 500px) 
+  .header
+    &__burger
+      display: block
+    &__nav-links-list 
+      visibility: hidden
+      position: absolute
+      top: 65px
+      left: 0
+      width: 100vw
+      display: flex
+      padding: 20px 10px
+      background-color: var(--header-background) 
+
+.visible 
+  visibility: visible
+
+
+
