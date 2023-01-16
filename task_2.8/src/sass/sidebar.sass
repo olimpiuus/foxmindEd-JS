@@ -1,0 +1,72 @@
+.sidebar
+  @mixin gap-sidebar
+    margin-top: 5px
+    @media (max-width: 500px) 
+      padding: 5px
+      font-size: 1rem
+
+  color: var(--color-path)
+  &__search
+    padding: 5px
+    background-color: var(--background-path)
+    border: none
+    border-radius: 3px
+
+  &__title
+    font-weight: bold
+    padding: 10px 0
+    @include gap-sidebar
+
+  &__filter-list
+    display: grid
+    height: 200px
+    overflow: scroll
+
+  &__first-list-item
+    order: -50
+
+  &__filter-item
+    font-size: 0.8rem
+
+    @include gap-sidebar
+  &__price-range
+    @include gap-sidebar
+
+  &__filter-max-price
+    @include gap-sidebar
+    display: block
+
+  &__elem-counter
+    display: inline-block
+    text-align: center
+    margin-left: 5px
+    border-radius: 100%
+    width: 1rem
+    background-color: #7f7f7f73
+
+.active
+  color:  blue
+  font-weight: bold
+  order: -1
+
+.deactivated 
+  color: #aeaeae
+  order: 1
+  pointer-events: none
+
+@media (max-width: 500px) 
+  .sidebar
+    text-align: center
+    width: 100%
+    &__title
+      font-size: 1.2rem
+    &__search
+      padding: 10px
+      width: 80%
+  .mobile-visible
+    display: initial 
+
+  .mobile-hidden
+    display: none
+
+  
