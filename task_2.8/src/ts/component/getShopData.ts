@@ -75,7 +75,7 @@ export class ShopData {
   public addActiveFilter(string: string) {
     const [filterType, value] = string.split('_');
 
-    if ((filterType === 'brand' || filterType === 'category') && typeof value === 'string') {
+    if (typeof value === 'string' && (filterType === 'brand' || filterType === 'category')) {
       this.activeFilters[filterType].push(value);
     }
 
@@ -134,13 +134,13 @@ export class ShopData {
 
   private _filterByMaxPrice = (arr: IProduct[]) => {
     const bufferArr = this._cloneArray(arr);
-    const filtered = [...bufferArr]!.filter((elem) => elem.price <= this.activeFilters.maxPrice);
+    const filtered = bufferArr!.filter((elem) => elem.price <= this.activeFilters.maxPrice);
     return filtered;
   };
 
   private _filterBySearchValue = (arr: IProduct[]) => {
     const bufferArr = this._cloneArray(arr);
-    const filtered = [...bufferArr].filter((elem) =>
+    const filtered = bufferArr.filter((elem) =>
       elem.title.toLowerCase().includes(this.activeFilters.search.toLowerCase())
     );
     return filtered;
@@ -152,7 +152,7 @@ export class ShopData {
       const returnArr: IProduct[] = [];
 
       this.activeFilters.brand.forEach((filterValue) => {
-        const filtered = [...bufferArr].filter((elem) => elem.brand === filterValue);
+        const filtered = bufferArr.filter((elem) => elem.brand === filterValue);
         returnArr.push(...filtered);
       });
       return returnArr;
@@ -167,7 +167,7 @@ export class ShopData {
       const returnArr: IProduct[] = [];
 
       this.activeFilters.category.forEach((filterValue) => {
-        const filtered = [...bufferArr].filter((elem) => elem.category === filterValue);
+        const filtered = bufferArr.filter((elem) => elem.category === filterValue);
         returnArr.push(...filtered);
       });
       return returnArr;

@@ -4,7 +4,10 @@ class SaveLocalStorage {
   saveCartItems = (data: ICartItemStored[]) => {
     window.localStorage.setItem('cart', JSON.stringify(data));
   };
-  restoreCartItems = () => JSON.parse(window.localStorage.getItem('cart')!);
+  restoreCartItems = () => {
+    const items = window.localStorage.getItem('cart');
+    return items ? JSON.parse(items) : [];
+  };
 }
 
 export const memoryFn = new SaveLocalStorage();

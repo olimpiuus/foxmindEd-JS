@@ -29,8 +29,8 @@ export class ShoppingCart {
     renderFn.renderTemplateShoppingCart();
     this._DOM = new DOMShoppingCart();
     this._restoreCart();
-    this.reRenderCart();
     this._changeHeaderIcon();
+    this.reRenderCart();
   }
   private _saveCart = () => {
     memoryFn.saveCartItems(this.items);
@@ -51,10 +51,7 @@ export class ShoppingCart {
     this._saveCart();
   };
 
-  private _changeHeaderIcon = () => {
-    const quantityOfItems = this.items.length;
-    this._DOM.headerCartIcon.innerHTML = `${quantityOfItems}`;
-  };
+  private _changeHeaderIcon = () => (this._DOM.headerCartIcon.innerHTML = `${this.items.length}`);
 
   private _changeSum = () => {
     this._getTotalSum();
@@ -62,11 +59,9 @@ export class ShoppingCart {
   };
 
   private _getTotalSum = () => {
-    if (this.items.length !== 0) {
-      this._sum = this.items.reduce((sum: number, elem) => sum + elem.price, 0);
-    } else {
-      this._sum = 0;
-    }
+    this._sum = !this.items.length
+      ? this.items.reduce((sum: number, elem) => sum + elem.price, 0)
+      : 0;
   };
 
   private _hideShoppingCart = (e: Event) => {
@@ -90,16 +85,16 @@ export class ShoppingCart {
       this.reRenderCart();
 
       return true;
-    } else {
-      return false;
     }
+
+    return false;
   };
 
   private _getItemById = (id: number) => this.items.find((elem) => elem.id === id);
 
   reduceItemFromCartByID = (id: number) => {
     const item = this._getItemById(id)!;
-    if (item.quantity == 1) {
+    if (item.quantity === 1) {
       this.deleteItemById(id);
     } else {
       item.quantity -= 1;

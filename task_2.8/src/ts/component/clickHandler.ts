@@ -137,11 +137,11 @@ export class ClickHandler {
       }
 
       if (target.closest('.header__burger')) {
-        burgerHandler.show()
+        burgerHandler.show();
       }
 
       if (target.closest('.site-location__filter')) {
-        filterHandler.show()
+        filterHandler.show();
       }
 
       if (target.closest('.sidebar__filter-item')) {
