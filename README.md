@@ -75,6 +75,7 @@ Create a restaurant menu page. Some of the content can be modified such as the r
 
 Task 2.1
 Random color BTN
+
 [Live](https://olimpiuus.github.io/foxmindEd-JS/task_2.1/)
 
 [Code](https://github.com/olimpiuus/foxmindEd-JS/tree/task_2.1)
