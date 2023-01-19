@@ -1,0 +1,108 @@
+{
+    "Breakfast": [{
+            "name": "Pankecakes",
+            "price": 15.99,
+            "description": "Any day that begins with three pancakes drizzled in golden, delicious syrup is gearing up to be a pretty good one.\n            Nutrition and allergen information do not include condiments.",
+            "img": "https://s7d1.scene7.com/is/image/mcdonalds/mcdonalds-Pancakes-Syrup-2:product-header-desktop?wid=829&hei=455&dpr=off"
+        },
+        {
+            "name": "Bacon Roll with Brown Sauce",
+            "price": 18.99,
+            "description": "It’s a classic – delicious bacon with a choice of ketchup or brown sauce, served on a soft, white roll.",
+            "img": "https://s7d1.scene7.com/is/image/mcdonalds/mcdonalds-New-Bacon-Roll-with-Brown-Sauce-2:product-header-desktop?wid=829&hei=455&dpr=off"
+        },
+        {
+            "name": "Muffin with Jam",
+            "price": 10.99,
+            "description": "Muffin with Jam",
+            "img": "https://s7d1.scene7.com/is/image/mcdonalds/mcdonalds-Muffin-With-Jam:product-header-desktop?wid=829&hei=455&dpr=off"
+        },
+        {
+            "name": "Pankecakes",
+            "price": 15.99,
+            "description": "Any day that begins with three pancakes drizzled in golden, delicious syrup is gearing up to be a pretty good one.\n            Nutrition and allergen information do not include condiments.",
+            "img": "https://s7d1.scene7.com/is/image/mcdonalds/mcdonalds-Pancakes-Syrup-2:product-header-desktop?wid=829&hei=455&dpr=off"
+        },
+        {
+            "name": "Bacon Roll with Brown Sauce",
+            "price": 18.99,
+            "description": "It’s a classic – delicious bacon with a choice of ketchup or brown sauce, served on a soft, white roll.",
+            "img": "https://s7d1.scene7.com/is/image/mcdonalds/mcdonalds-New-Bacon-Roll-with-Brown-Sauce-2:product-header-desktop?wid=829&hei=455&dpr=off"
+        },
+        {
+            "name": "Muffin with Jam",
+            "price": 10.99,
+            "description": "Muffin with Jam",
+            "img": "https://s7d1.scene7.com/is/image/mcdonalds/mcdonalds-Muffin-With-Jam:product-header-desktop?wid=829&hei=455&dpr=off"
+        }
+    ],
+    "Lunch": [{
+            "name": "BBQ Bacon Stack",
+            "price": 8.99,
+            "description": "Two succulent beef patties with a creamy BBQ sauce, Pepper Jack cheese, bacon, onion, tomato and lettuce served in a poppy and sesame topped bun.",
+            "img": "https://s7d1.scene7.com/is/image/mcdonalds/mcdonalds-bbqbaconstack:product-header-desktop?wid=829&hei=455&dpr=off"
+        },
+        {
+            "name": "Big Mac®",
+            "price": 18.99,
+            "description": "Two 100% beef patties, a slice of cheese, lettuce, onion and pickles. And the sauce. That unbeatable, tasty Big Mac® sauce. You know you want to.",
+            "img": "https://s7d1.scene7.com/is/image/mcdonalds/mcdonalds-Big-Mac-2:product-header-desktop?wid=829&hei=455&dpr=off"
+        },
+        {
+            "name": "McChicken® Sandwich",
+            "price": 18.99,
+            "description": "Crispy coated chicken with lettuce and our sandwich sauce, in a soft, sesame-topped bun. A true classic.",
+            "img": "https://s7d1.scene7.com/is/image/mcdonalds/mcdonalds-McChicken-Sandwich-2:product-header-desktop?wid=829&hei=455&dpr=off"
+        },
+        {
+            "name": "BBQ Bacon Stack",
+            "price": 8.99,
+            "description": "Two succulent beef patties with a creamy BBQ sauce, Pepper Jack cheese, bacon, onion, tomato and lettuce served in a poppy and sesame topped bun.",
+            "img": "https://s7d1.scene7.com/is/image/mcdonalds/mcdonalds-bbqbaconstack:product-header-desktop?wid=829&hei=455&dpr=off"
+        },
+        {
+            "name": "Big Mac®",
+            "price": 18.99,
+            "description": "Two 100% beef patties, a slice of cheese, lettuce, onion and pickles. And the sauce. That unbeatable, tasty Big Mac® sauce. You know you want to.",
+            "img": "https://s7d1.scene7.com/is/image/mcdonalds/mcdonalds-Big-Mac-2:product-header-desktop?wid=829&hei=455&dpr=off"
+        },
+        {
+            "name": "McChicken® Sandwich",
+            "price": 18.99,
+            "description": "Crispy coated chicken with lettuce and our sandwich sauce, in a soft, sesame-topped bun. A true classic.",
+            "img": "https://s7d1.scene7.com/is/image/mcdonalds/mcdonalds-McChicken-Sandwich-2:product-header-desktop?wid=829&hei=455&dpr=off"
+        }
+    ],
+    "Shakes": [{
+            "name": "Mango & Pineapple Smoothie",
+            "price": 4.99,
+            "description": "Deliciously refreshing smoothie blended with ice.",
+            "img": "https://s7d1.scene7.com/is/image/mcdonalds/mcdonalds-regular-mangopineapplesmoothie:product-header-desktop?wid=829&hei=455&dpr=off"
+        },
+        {
+            "name": "Frozen Strawberry Lemonade",
+            "price": 3.99,
+            "description": "Tangy frozen lemonade with a deliciously sweet strawberry flavoured swirl.",
+            "img": "https://s7d1.scene7.com/is/image/mcdonalds/mcdonalds-Frozen-Strawberry-Lemonade-Regular-2:product-header-desktop?wid=829&hei=455&dpr=off"
+        },
+        {
+            "name": "Big Mac®",
+            "price": 18.99,
+            "description": "Two 100% beef patties, a slice of cheese, lettuce, onion and pickles. And the sauce. That unbeatable, tasty Big Mac® sauce. You know you want to.",
+            "img": "https://s7d1.scene7.com/is/image/mcdonalds/mcdonalds-Big-Mac-2:product-header-desktop?wid=829&hei=455&dpr=off"
+        }
+    ],
+    "Dinner": [{
+            "name": "Chicken & chorizo ragu",
+            "price": 21.99,
+            "description": "Serve this delicious chicken and chorizo ragu over rice or pasta as an easy midweek dinner for the family. You can freeze any leftovers for another day",
+            "img": "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chicken-chorizo-ragu-95dc274.jpg?quality=90&webp=true&resize=300,272"
+        },
+        {
+            "name": "Pork chops & mustardy butter beans",
+            "price": 8.99,
+            "description": "Serve up dinner for two with these easy pork chops, mustardy butter beans and spinach. It makes a great midweek meal and delivers three of your 5-a-day",
+            "img": "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/pork-chops-mustardy-butter-beans-77dd252.jpg?quality=90&webp=true&resize=300,272"
+        }
+    ]
+}

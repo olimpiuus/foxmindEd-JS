@@ -1,0 +1,157 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+ * v2.0 | 20110126
+ * License: none (public domain) */
+* {
+  box-sizing: content-box;
+}
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
+body {
+  line-height: 1;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+blockquote, q {
+  quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: "";
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+:root {
+  --color-main:#a16014;
+}
+
+body {
+  min-height: 100vh;
+  background: linear-gradient(180deg, white, rgba(207, 207, 207, 0.4784313725));
+}
+
+.container {
+  max-width: 1180px;
+  padding: 0 10px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.title {
+  margin-top: 100px;
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: 0.2rem;
+}
+
+.categories-list {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.catogorie-btn {
+  font-size: 20px;
+  background-color: white;
+  border-radius: 5px;
+  border: 1px solid var(--color-main);
+  color: var(--color-main);
+  padding: 5px 20px;
+}
+.catogorie-btn:hover {
+  background-color: var(--color-main);
+  color: white;
+  cursor: pointer;
+}
+
+.dishes-list {
+  margin-top: 50px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+}
+
+.dish {
+  display: flex;
+  height: 200px;
+  align-items: center;
+  gap: 20px;
+  padding: 10px;
+  height: 150px;
+}
+.dish__image-wrapper {
+  height: 100%;
+  border: 4px solid var(--color-main);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.dish__img {
+  width: 100%;
+  height: 100%;
+}
+.dish__info {
+  flex: 1 1 60%;
+  min-width: 200px;
+  display: grid;
+  height: 100%;
+  overflow-y: scroll;
+}
+.dish__info::-webkit-scrollbar {
+  display: none;
+}
+.dish__title-and-price {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3764705882);
+  padding-bottom: 5px;
+  letter-spacing: 0.2rem;
+  font-weight: 700;
+}
+.dish__price {
+  color: var(--color-main);
+}
+.dish__price::before {
+  display: inline;
+  content: "$";
+}
+.dish__description {
+  margin-top: 20px;
+}/*# sourceMappingURL=style.css.map */
