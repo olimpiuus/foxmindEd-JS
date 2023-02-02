@@ -40,7 +40,6 @@ export class ShoppingCart {
   };
 
   reRenderCart = () => {
-    this._getTotalSum();
     this._DOM.list.innerHTML = '';
     this.items.forEach((item) => {
       if (item.quantity > 0) {
@@ -59,7 +58,9 @@ export class ShoppingCart {
   };
 
   private _getTotalSum = () => {
-    this._sum = !this.items.length
+    console.log(this.items.length);
+    
+    this._sum = this.items.length
       ? this.items.reduce((sum: number, elem) => sum + elem.price, 0)
       : 0;
   };
